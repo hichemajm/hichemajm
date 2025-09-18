@@ -52,7 +52,7 @@
         }
 
         /* Enable cursor in donation modal */
-        .donation-modal *, .open-link-btn {
+        .donation-modal *, .open-link-btn, .coffee-modal * {
             cursor: auto !important;
         }
         
@@ -675,6 +675,97 @@
             vertical-align: middle;
         }
         
+        /* Coffee Modal Styles */
+        .coffee-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .coffee-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .coffee-content {
+            background: rgba(10, 15, 30, 0.95);
+            border-radius: 12px;
+            padding: 25px;
+            width: 400px;
+            max-width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(255, 100, 100, 0.3);
+            border: 1px solid rgba(255, 100, 100, 0.4);
+            transform: scale(0.9);
+            transition: all 0.3s ease;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .coffee-modal.active .coffee-content {
+            transform: scale(1);
+        }
+
+        .coffee-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 100, 100, 0.3);
+            width: 100%;
+        }
+
+        .coffee-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            color: #ff6464;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .close-coffee {
+            background: transparent;
+            border: none;
+            color: #e0e0e0;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close-coffee:hover {
+            color: #ff6b6b;
+        }
+
+        .kofi-container {
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .coffee-message {
+            text-align: center;
+            color: #e0e0e0;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+        }
+        
         @media (max-width: 750px) {
             .container {
                 width: 95%;
@@ -733,6 +824,14 @@
 
             .copy-btn {
                 width: 100%;
+            }
+            
+            .coffee-content {
+                padding: 20px;
+            }
+
+            .coffee-title {
+                font-size: 1.3rem;
             }
         }
     </style>
@@ -802,6 +901,28 @@
             </div>
         </div>
     </div>
+    
+    <!-- Coffee Modal -->
+    <div class="coffee-modal" id="coffeeModal">
+        <div class="coffee-content">
+            <div class="coffee-header">
+                <h2 class="coffee-title">Buy Me a Coffee</h2>
+                <button class="close-coffee" id="closeCoffee">&times;</button>
+            </div>
+            
+            <div class="kofi-container">
+                <a href='https://ko-fi.com/C0C61C5S48' target='_blank'>
+                    <img height='36' style='border:0px;height:36px;' src='https://storage.ko-fi.com/cdn/kofi2.png?v=6' border='0' alt='Buy Me a Coffee at ko-fi.com' />
+                </a>
+            </div>
+            
+            <p class="coffee-message">Your support helps me create more amazing content and projects. Thank you!</p>
+            
+            <button class="support-btn" onclick="hideCoffeeModal(); showDonationModal()">
+                <i class="fas fa-donate"></i> Other Donation Options
+            </button>
+        </div>
+    </div>
 
     <div class="copy-notification" id="copyNotification">
         Address copied to clipboard!
@@ -819,9 +940,9 @@
                     <h1 class="gamer-name" id="typing-name"></h1>
                     <p class="gamer-tag">Gamer | Developer | Tech Enthusiast</p>
                     
-                    <a href="https://ko-fi.com/yourusername" target="_blank" class="coffee-btn">
+                    <button class="coffee-btn" onclick="showCoffeeModal()">
                         <i class="fas fa-coffee"></i> Buy Me a Coffee
-                    </a>
+                    </button>
                 </div>
                 
                 <div class="profile-right">
@@ -1175,6 +1296,17 @@
             const modal = document.getElementById('donationModal');
             modal.classList.remove('active');
         }
+        
+        // Coffee Modal Functions
+        function showCoffeeModal() {
+            const modal = document.getElementById('coffeeModal');
+            modal.classList.add('active');
+        }
+
+        function hideCoffeeModal() {
+            const modal = document.getElementById('coffeeModal');
+            modal.classList.remove('active');
+        }
 
         function copyToClipboard(text) {
             navigator.clipboard.writeText(text).then(() => {
@@ -1242,6 +1374,14 @@
                     hideDonationModal();
                 }
             });
+            
+            // Setup coffee modal events
+            document.getElementById('closeCoffee').addEventListener('click', hideCoffeeModal);
+            document.getElementById('coffeeModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    hideCoffeeModal();
+                }
+            });
         };
         
         document.addEventListener('selectstart', function(e) {
@@ -1252,5 +1392,6 @@
             e.preventDefault();
         });
     </script>
+
 </body>
 </html>
