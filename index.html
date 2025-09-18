@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@Hichemajm</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
@@ -225,6 +225,17 @@
             max-height: 150px;
             scrollbar-width: thin;
             scrollbar-color: rgba(100, 150, 255, 0.3) transparent;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .profile-description p {
+            text-align: center;
+            color: #e0e0e0;
+            font-size: 1rem;
+            line-height: 1.5;
         }
         
         .profile-description::-webkit-scrollbar {
@@ -240,64 +251,37 @@
             border-radius: 3px;
         }
 
-        /* --- NEW TEMPLATE LINK STYLES START --- */
-        .template-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 5px;
-            margin-bottom: 5px;
-            border-radius: 6px;
-            transition: background-color 0.3s ease;
-        }
-
-        .template-item:hover {
-            background-color: rgba(100, 150, 255, 0.1);
-        }
-
-        .template-name {
-            font-weight: 600;
-            color: #e0e0e0;
-            transition: color 0.3s ease;
-            user-select: none; /* Prevent text selection */
-        }
-
-        .template-item:hover .template-name {
-            color: #64b5f6;
-        }
-
-        .open-link-btn {
-            background: rgba(100, 150, 255, 0.2);
+        /* Coffee Button Styles */
+        .coffee-btn {
+            background: linear-gradient(135deg, rgba(255, 100, 100, 0.9), rgba(255, 100, 100, 0.7));
+            color: white;
             border: none;
-            color: #64b5f6;
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 0.8rem;
-            transition: all 0.3s ease;
-            text-decoration: none;
+            border-radius: 8px;
+            padding: 10px 20px;
             font-family: 'Rajdhani', sans-serif;
             font-weight: 600;
-            white-space: nowrap;
-            opacity: 0;
-            visibility: hidden;
-            transform: translateX(10px);
+            font-size: 0.9rem;
+            box-shadow: 0 4px 15px rgba(255, 100, 100, 0.3);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+            width: 100%;
+            text-decoration: none;
         }
 
-        .open-link-btn.visible {
-            opacity: 1;
-            visibility: visible;
-            transform: translateX(0);
+        .coffee-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 100, 100, 0.4);
+            background: linear-gradient(135deg, rgba(255, 100, 100, 0.95), rgba(255, 100, 100, 0.8));
         }
 
-        .open-link-btn:hover {
-            background: rgba(100, 150, 255, 0.3);
-            color: #ffffff;
+        .coffee-btn i {
+            margin-right: 8px;
         }
-
-        .open-link-btn i {
-            margin-right: 5px;
-        }
-        /* --- NEW TEMPLATE LINK STYLES END --- */
         
         .social-links {
             display: flex;
@@ -835,9 +819,9 @@
                     <h1 class="gamer-name" id="typing-name"></h1>
                     <p class="gamer-tag">Gamer | Developer | Tech Enthusiast</p>
                     
-                    <button class="support-btn" onclick="showDonationModal()">
-                        <i class="fas fa-donate"></i> Support Me
-                    </button>
+                    <a href="https://ko-fi.com/yourusername" target="_blank" class="coffee-btn">
+                        <i class="fas fa-coffee"></i> Buy Me a Coffee
+                    </a>
                 </div>
                 
                 <div class="profile-right">
@@ -857,31 +841,8 @@
                     </div>
                     
                     <div class="profile-description">
-                        <div class="template-item">
-                            <span class="template-name">Template 1: Gumroad</span>
-                            <a href="https://your-link-here.com" target="_blank" class="open-link-btn">
-                                <i class="fas fa-external-link-alt"></i> Open
-                            </a>
-                        </div>
-                        <div class="template-item">
-                            <span class="template-name">Template 2: E-commerce Site</span>
-                            <a href="https://your-link-here.com" target="_blank" class="open-link-btn">
-                                <i class="fas fa-external-link-alt"></i> Open
-                            </a>
-                        </div>
-                        <div class="template-item">
-                            <span class="template-name">Template 3: Interactive Gallery</span>
-                            <a href="https://your-link-here.com" target="_blank" class="open-link-btn">
-                                <i class="fas fa-external-link-alt"></i> Open
-                            </a>
-                        </div>
-                         <div class="template-item">
-                            <span class="template-name">Template 4: Coming Soon...</span>
-                            <a href="#" target="_blank" class="open-link-btn">
-                                <i class="fas fa-external-link-alt"></i> Open
-                            </a>
-                        </div>
-                        <p style="text-align:center; font-size: 0.8rem; color: #aaa; margin-top: 10px;">Click a name to reveal the link.</p>
+                        <p>Passionate about gaming, technology, and creating amazing digital experiences. Always exploring new frontiers in the digital world.</p>
+                        <p style="margin-top: 10px;">Feel free to connect with me through my social links below!</p>
                     </div>
                     <div class="social-links">
                         <a href="https://www.facebook.com/hichem.adjimi.2025/" class="social-link facebook" target="_blank">
@@ -1275,40 +1236,12 @@
             });
 
             // Setup donation modal events
-            document.querySelector('.support-btn').addEventListener('click', showDonationModal);
             document.getElementById('closeDonation').addEventListener('click', hideDonationModal);
             document.getElementById('donationModal').addEventListener('click', function(e) {
                 if (e.target === this) {
                     hideDonationModal();
                 }
             });
-
-            // --- NEW TEMPLATE LINK SCRIPT START ---
-            function setupTemplateLinks() {
-                const templateItems = document.querySelectorAll('.template-item');
-
-                templateItems.forEach(item => {
-                    const name = item.querySelector('.template-name');
-                    const button = item.querySelector('.open-link-btn');
-
-                    name.addEventListener('click', () => {
-                        // Check if the current button is already visible
-                        const isAlreadyVisible = button.classList.contains('visible');
-
-                        // Hide all other buttons
-                        document.querySelectorAll('.open-link-btn').forEach(btn => {
-                            btn.classList.remove('visible');
-                        });
-
-                        // If it wasn't already visible, show it. Otherwise, clicking again hides it.
-                        if (!isAlreadyVisible) {
-                            button.classList.add('visible');
-                        }
-                    });
-                });
-            }
-            setupTemplateLinks();
-            // --- NEW TEMPLATE LINK SCRIPT END ---
         };
         
         document.addEventListener('selectstart', function(e) {
@@ -1319,17 +1252,5 @@
             e.preventDefault();
         });
     </script>
-
- <script type="text/javascript">
-var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-(function(){
-var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-s1.async=true;
-s1.src='https://embed.tawk.to/686c6639be8a1b1910b85ed4/1ivjmul2s';
-s1.charset='UTF-8';
-s1.setAttribute('crossorigin','*');
-s0.parentNode.insertBefore(s1,s0);
-})();
-</script>
 </body>
 </html>
