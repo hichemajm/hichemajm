@@ -3,1396 +3,597 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@Hichemajm</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="manifest" href="/site.webmanifest">
-    <link rel="icon" href="https://i.ibb.co/0RY3skJD/img-icons8.png" type="image/png">
-    <link rel="icon" href="https://i.ibb.co/0RY3skJD/img-icons8.png" type="image/svg+xml">
+    <title>S</title>
+    <meta name="description" content="HichemAjm">
+    <meta name="author" content="Hichemajm">
+    <meta property="og:title" content="Hichemajm | Gamer">
+    <meta property="og:description" content="HichemAjm">
+    <meta property="og:image" content="https://i.ibb.co/KtRsbPp/icons8-star-windows-11-color-16.png">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Hichemajm | Gamer">
+    <meta name="twitter:description" content="HichemAjm">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="https://i.ibb.co/KtRsbPp/icons8-star-windows-11-color-16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://i.ibb.co/KtRsbPp/icons8-star-windows-11-color-16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://i.ibb.co/dJtcPNst/icons8-star-windows-11-color-32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://i.ibb.co/KtRsbPp/icons8-star-windows-11-color-16.png">
+    <link rel="manifest" href="data:application/manifest+json,{}">
+    <meta name="theme-color" content="#000000">
+    
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Rajdhani:wght@500;600&display=swap');
-        
+        /* Reset and Base Styles */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            cursor: none !important;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            cursor: url('https://i.ibb.co/sdP5hsNP/d2cbee5b-d3cf-465e-9e08-a3902d38ce36.webp') 16 16, auto !important;
         }
+        
+        html, body {
+            height: 100%;
+            overflow: hidden;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        
+        ::-moz-selection { background: #ffffff; color: #000000; }
+        ::selection { background: #ffffff; color: #000000; }
         
         body {
-            font-family: 'Rajdhani', sans-serif;
-            background-color: #0a0a0a;
+            background-color: #000000;
             color: #ffffff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
             position: relative;
-            overflow: hidden;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
         }
         
-        /* Custom scope cursor */
-        .custom-cursor {
+        /* Video Background */
+        #bgVideo {
             position: fixed;
-            pointer-events: none;
-            z-index: 9999;
-            font-size: 24px;
-            color: #64b5f6;
-            text-shadow: 0 0 8px rgba(100, 181, 246, 0.6), 0 0 15px rgba(100, 181, 246, 0.4);
-            transform: translate(-50%, -50%);
-            transition: transform 0.1s ease, color 0.3s ease;
-            animation: scope-scan 2s infinite linear;
-        }
-
-        @keyframes scope-scan {
-            0% { transform: translate(-50%, -50%) rotate(0deg); }
-            100% { transform: translate(-50%, -50%) rotate(360deg); }
-        }
-
-        /* Enable cursor in donation modal */
-        .donation-modal *, .open-link-btn, .coffee-modal * {
-            cursor: auto !important;
-        }
-        
-        #video-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            transform: translateX(-50%) translateY(-50%);
             object-fit: cover;
             z-index: -2;
         }
         
-        .video-overlay {
+        /* Overlay */
+        .overlay {
             position: fixed;
             top: 0;
             left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: linear-gradient(135deg, rgba(0, 20, 40, 0.4) 0%, rgba(10, 10, 20, 0.5) 100%);
+            width: 100%;
+            height: 100%;
+            background-color: #000000;
+            opacity: 0.5;
             z-index: -1;
+        }
+        
+        /* Welcome Screen */
+        .welcome-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            transition: opacity 0.8s ease-out;
+            cursor: pointer;
+        }
+        
+        .welcome-title {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 0 0 20px rgba(173, 216, 230, 0.7);
+            animation: pulse 2s infinite;
+        }
+        
+        .welcome-subtitle {
+            font-size: 24px;
+            font-weight: 400;
+            opacity: 0.8;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); text-shadow: 0 0 20px rgba(173, 216, 230, 0.7); }
+            50% { transform: scale(1.05); text-shadow: 0 0 30px rgba(173, 216, 230, 1); }
+            100% { transform: scale(1); text-shadow: 0 0 20px rgba(173, 216, 230, 0.7); }
+        }
+        
+        /* Music Toggle Button - Outside Profile */
+        .music-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 10;
+            background: rgba(68, 108, 179, 0.7);
+            border: 2px solid rgba(68, 108, 179, 0.9);
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            opacity: 0;
+            box-shadow: 0 0 15px rgba(0, 98, 255, 0.5);
+        }
+        
+        .music-toggle:hover {
+            background: rgba(68, 108, 179, 0.9);
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(0, 98, 255, 0.7);
+        }
+        
+        .music-toggle svg {
+            width: 28px;
+            height: 28px;
+            filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.7));
+        }
+        
+        /* Main Container */
+        .main-container {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            z-index: 2;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+        
+        /* Profile Card */
+        .profile-card {
+            background: rgba(20, 30, 48, 0.7);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(0, 98, 255, 0.4);
+            border-radius: 20px;
+            padding: 25px;
+            max-width: 380px;
+            width: 100%;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            transform: translateY(20px);
+            transition: transform 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        
+        .main-container.visible .profile-card {
+            transform: translateY(0);
+        }
+
+        /* Staggered fade-in for card content */
+        .profile-card > * {
+            opacity: 0;
+            animation: fadeIn 0.8s 0.5s forwards;
+        }
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+        
+        /* Profile Header */
+        .profile-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .avatar-container {
+            position: relative;
+            width: 140px;
+            height: 140px;
+            transition: transform 0.5s ease;
+        }
+        
+        .avatar-container:hover { transform: scale(1.05) rotate(2deg); }
+        .avatar-decoration { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; }
+        .avatar { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 50%; object-fit: cover; z-index: 1; border: 2px solid rgba(0, 98, 255, 0.45); }
+        .profile-info { text-align: center; }
+        
+        .username {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            text-shadow: 0px 0px 16.5px #ffffff;
+            min-height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .description { font-weight: 500; font-size: 16px; color: rgba(255, 255, 255, 0.9); margin-bottom: 5px; }
+        .status { font-size: 14px; color: rgba(255, 255, 255, 0.7); margin-bottom: 15px; }
+        
+        /* Server Info */
+        .server-info {
+            background: rgba(68, 108, 179, 0.2);
+            border: 2px solid rgba(68, 108, 179, 0.1);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            animation-delay: 0.6s;
+        }
+        
+        .server-stats { display: flex; justify-content: space-between; margin-bottom: 15px; font-size: 14px; color: rgba(255, 255, 255, 0.8); }
+        
+        .join-button {
+            background: rgba(0, 98, 255, 0.4);
+            border: 2px solid rgba(0, 98, 255, 0.2);
+            border-radius: 12px;
+            color: #ffffff;
+            padding: 10px 15px;
+            text-decoration: none;
+            display: block;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            text-align: center;
+        }
+        
+        .join-button:hover { background: rgba(0, 98, 255, 0.6); border-color: rgba(0, 98, 255, 0.4); }
+        
+        /* Rating */
+        .rating { display: flex; align-items: center; justify-content: center; gap: 5px; margin-bottom: 15px; font-size: 14px; color: rgba(255, 255, 255, 0.8); animation-delay: 0.7s; }
+        .stars { color: gold; }
+        
+        /* Social Links - Enlarged */
+        .social-links { display: flex; justify-content: center; gap: 20px; margin-top: 15px; animation-delay: 0.8s; }
+        
+        .social-link { 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            width: 50px; 
+            height: 50px; 
+            transition: all 0.3s ease; 
+            text-decoration: none; 
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .social-link:hover { 
+            transform: translateY(-5px) scale(1.15); 
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.9));
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .social-link img { 
+            width: 35px; 
+            height: 35px; 
+            filter: drop-shadow(#ffffff 1px 0 5px); 
+            border-radius: 8px;
         }
         
         /* Snowflakes */
-        .snow {
-            position: absolute;
-            top: -10px;
-            z-index: 0;
-            color: rgba(255, 255, 255, 0.7);
+        .snowflake { 
+            position: fixed; 
+            color: #ffffff; 
+            font-size: 20px; 
+            opacity: 0; 
+            z-index: 0; 
+            pointer-events: none; 
+            user-select: none; 
+            animation: fall 10s linear infinite, fadeIn 1s forwards; 
+        }
+        
+        @keyframes fall { 
+            to { transform: translateY(100vh); } 
+        }
+        
+        /* Hidden class */
+        .hidden { display: none !important; }
+        
+        /* Anti-inspect overlay */
+        .inspect-shield {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            z-index: 99999;
             pointer-events: none;
-            user-select: none;
-            animation: fall linear infinite;
-            font-size: 8px;
-        }
-        
-        @keyframes fall {
-            to {
-                transform: translateY(100vh) rotate(360deg);
-            }
-        }
-        
-        .container {
-            position: relative;
-            z-index: 1;
-            width: 713px;
-            height: 500px;
-            perspective: 1000px;
-        }
-        
-        .profile-card {
-            background: rgba(5, 5, 10, 0.25);
-            border-radius: 16px;
-            padding: 30px;
-            width: 100%;
-            height: 100%;
-            box-shadow: 0 10px 30px rgba(0, 89, 255, 0.1);
-            border: 1px solid rgba(100, 150, 255, 0.2);
-            backdrop-filter: blur(5px);
-            display: flex;
-            flex-direction: column;
-            transform-style: preserve-3d;
-            transition: all 0.5s ease;
-        }
-        
-        .profile-card:hover {
-            transform: translateY(-5px) rotateX(1deg) rotateY(1deg);
-            box-shadow: 0 15px 40px rgba(0, 89, 255, 0.15);
-            background: rgba(10, 10, 20, 0.35);
-        }
-        
-        .profile-content {
-            display: flex;
-            flex: 1;
-            gap: 30px;
-        }
-        
-        .profile-left {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 200px;
-        }
-        
-        .profile-pic {
-            width: 140px;
-            height: 140px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-bottom: 20px;
-            border: 3px solid rgba(100, 150, 255, 0.4);
-            box-shadow: 0 5px 20px rgba(100, 150, 255, 0.2);
-            transition: all 0.5s ease;
-            background: rgba(10, 10, 20, 0.2);
-            transform: translateZ(20px);
-        }
-        
-        .profile-pic:hover {
-            transform: scale(1.05) translateZ(30px);
-            box-shadow: 0 8px 25px rgba(100, 150, 255, 0.3);
-        }
-        
-        .profile-right {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .gamer-name {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 8px;
-            color: #ffffff;
-            letter-spacing: 1px;
-            background: linear-gradient(90deg, #64b5f6, #1976d2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-            transform: translateZ(10px);
-            height: 40px;
-            overflow: hidden;
-        }
-        
-        .gamer-tag {
-            font-size: 1rem;
-            color: #e0e0e0;
-            margin-bottom: 20px;
-            font-weight: 500;
-            letter-spacing: 0.5px;
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-        }
-        
-        .stats {
-            display: flex;
-            justify-content: space-around;
-            margin: 20px 0;
-        }
-        
-        .stat {
-            text-align: center;
-            padding: 0 15px;
-        }
-        
-        .stat-value {
-            font-size: 1.8rem;
-            font-weight: 600;
-            color: #64b5f6;
-            font-family: 'Orbitron', sans-serif;
-            margin-bottom: 5px;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-        }
-        
-        .stat-label {
-            font-size: 0.75rem;
-            color: #e0e0e0;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: 500;
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-        }
-        
-        .profile-description {
-            background: rgba(10, 15, 25, 0.3);
-            border-radius: 10px;
-            padding: 15px;
-            margin-top: 15px;
-            border: 1px solid rgba(100, 150, 255, 0.1);
-            flex-grow: 1;
-            overflow-y: auto;
-            max-height: 150px;
-            scrollbar-width: thin;
-            scrollbar-color: rgba(100, 150, 255, 0.3) transparent;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .profile-description p {
-            text-align: center;
-            color: #e0e0e0;
-            font-size: 1rem;
-            line-height: 1.5;
-        }
-        
-        .profile-description::-webkit-scrollbar {
-            width: 6px;
-        }
-        
-        .profile-description::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        
-        .profile-description::-webkit-scrollbar-thumb {
-            background-color: rgba(100, 150, 255, 0.3);
-            border-radius: 3px;
-        }
-
-        /* Coffee Button Styles */
-        .coffee-btn {
-            background: linear-gradient(135deg, rgba(255, 100, 100, 0.9), rgba(255, 100, 100, 0.7));
-            color: white;
-            border: none;
-            border-radius: 8px;
-            padding: 10px 20px;
-            font-family: 'Rajdhani', sans-serif;
-            font-weight: 600;
-            font-size: 0.9rem;
-            box-shadow: 0 4px 15px rgba(255, 100, 100, 0.3);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-top: 15px;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(5px);
-            width: 100%;
-            text-decoration: none;
-        }
-
-        .coffee-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(255, 100, 100, 0.4);
-            background: linear-gradient(135deg, rgba(255, 100, 100, 0.95), rgba(255, 100, 100, 0.8));
-        }
-
-        .coffee-btn i {
-            margin-right: 8px;
-        }
-        
-        .social-links {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 12px;
-            margin-top: 20px;
-            padding-top: 20px;
-        }
-        
-        .social-link {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 44px;
-            height: 44px;
-            border-radius: 12px;
-            background: rgba(100, 150, 255, 0.1);
-            color: #64b5f6;
-            font-size: 1.2rem;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            border: 1px solid rgba(100, 150, 255, 0.2);
-            backdrop-filter: blur(2px);
-            transform: translateZ(10px);
-        }
-        
-        .social-link:hover {
-            background: rgba(100, 150, 255, 0.2);
-            transform: translateY(-3px) translateZ(20px);
-            box-shadow: 0 5px 15px rgba(100, 150, 255, 0.15);
-            color: #ffffff;
-        }
-        
-        .social-link.facebook:hover {
-            background: rgba(59, 89, 152, 0.2);
-            color: #3b5998;
-        }
-        
-        .social-link.instagram:hover {
-            background: rgba(225, 48, 108, 0.2);
-            color: #E1306C;
-        }
-        
-        .social-link.twitter:hover {
-            background: rgba(29, 161, 242, 0.2);
-            color: #1DA1F2;
-        }
-        
-        .social-link.discord:hover {
-            background: rgba(114, 137, 218, 0.2);
-            color: #7289DA;
-        }
-        
-        .social-link.teamspeak:hover {
-            background: rgba(74, 111, 165, 0.2);
-            color: #4A6FA5;
-        }
-
-        .social-link.donate:hover {
-            background: rgba(247, 147, 26, 0.2);
-            color: #F7931A;
-        }
-        
-        .audio-control {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            background: rgba(10, 10, 20, 0.4);
-            border: 1px solid rgba(100, 150, 255, 0.3);
-            border-radius: 50%;
-            width: 44px;
-            height: 44px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #64b5f6;
-            z-index: 100;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(2px);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
-        
-        .audio-control:hover {
-            background: rgba(100, 150, 255, 0.15);
-            color: #ffffff;
-            transform: scale(1.1);
-        }
-        
-        .particle {
-            position: absolute;
-            background: rgba(100, 150, 255, 0.2);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: -1;
-        }
-        
-        .click-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #000000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
-        }
-        
-        .click-overlay.hidden {
-            opacity: 0;
-            visibility: hidden;
-        }
-        
-        .click-content {
-            text-align: center;
-            transform: scale(1);
-            transition: transform 0.3s ease;
-        }
-        
-        .click-text {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 3rem;
-            color: #ffffff;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-            margin-bottom: 20px;
-            background: linear-gradient(90deg, #64b5f6, #1976d2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: zoomIn 0.5s ease-out forwards;
-        }
-        
-        .click-subtext {
-            font-family: 'Rajdhani', sans-serif;
-            font-size: 1.2rem;
-            color: #e0e0e0;
-            letter-spacing: 1px;
-            margin-bottom: 30px;
-            opacity: 0;
-            animation: fadeIn 0.5s ease-out 0.3s forwards;
-        }
-        
-        .click-icon {
-            font-size: 2rem;
-            color: #64b5f6;
-            opacity: 0;
-            animation: bounceIn 0.5s ease-out 0.6s forwards, bounce 2s infinite 1.1s;
-        }
-        
-        @keyframes zoomIn {
-            0% { transform: scale(0.5); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-        
-        @keyframes fadeIn {
-            0% { opacity: 0; transform: translateY(10px); }
-            100% { opacity: 0.8; transform: translateY(0); }
-        }
-        
-        @keyframes bounceIn {
-            0% { opacity: 0; transform: scale(0.3); }
-            50% { opacity: 1; transform: scale(1.1); }
-            100% { opacity: 1; transform: scale(1); }
-        }
-        
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-20px); }
-            60% { transform: translateY(-10px); }
-        }
-        
-        .typing-cursor {
-            display: inline-block;
-            width: 2px;
-            height: 1.5rem;
-            background: #64b5f6;
-            margin-left: 2px;
-            animation: blink 0.7s infinite;
-            vertical-align: middle;
-        }
-        
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
-        }
-
-        /* Donation Modal Styles - 500x300 without QR codes */
-        .donation-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 2000;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-        }
-
-        .donation-modal.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .donation-content {
-            background: rgba(10, 15, 30, 0.95);
-            border-radius: 12px;
-            padding: 25px;
-            width: 500px;
-            height: 300px;
-            max-width: 90%;
-            max-height: 90vh;
-            overflow-y: auto;
-            box-shadow: 0 10px 30px rgba(0, 89, 255, 0.3);
-            border: 1px solid rgba(100, 150, 255, 0.4);
-            transform: scale(0.9);
-            transition: all 0.3s ease;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .donation-modal.active .donation-content {
-            transform: scale(1);
-        }
-
-        .donation-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid rgba(100, 150, 255, 0.3);
-        }
-
-        .donation-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.5rem;
-            color: #64b5f6;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-        }
-
-        .close-donation {
-            background: transparent;
-            border: none;
-            color: #e0e0e0;
-            font-size: 1.5rem;
-            cursor: pointer;
-            transition: color 0.3s ease;
-        }
-
-        .close-donation:hover {
-            color: #ff6b6b;
-        }
-
-        .donation-options {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            flex-grow: 1;
-            overflow-y: auto;
-            padding-right: 5px;
-        }
-
-        .donation-option {
-            background: rgba(10, 20, 40, 0.6);
-            padding: 15px;
-            border-radius: 8px;
-            border-left: 3px solid #64b5f6;
-            transition: all 0.3s ease;
-        }
-
-        .donation-option:hover {
-            background: rgba(10, 20, 40, 0.7);
-            transform: translateY(-2px);
-        }
-
-        .donation-option h3 {
-            display: flex;
-            align-items: center;
-            font-family: 'Rajdhani', sans-serif;
-            font-size: 1.1rem;
-            color: #ffffff;
-            margin-bottom: 10px;
-        }
-
-        .donation-option h3 i {
-            margin-right: 10px;
-            color: #64b5f6;
-        }
-
-        .donation-address-container {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .donation-address {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 10px;
-            border-radius: 6px;
-            font-family: monospace;
-            word-break: break-all;
-            color: #e0e0e0;
-            font-size: 0.9rem;
-            flex-grow: 1;
-        }
-
-        .copy-btn {
-            background: rgba(100, 150, 255, 0.2);
-            border: none;
-            color: #64b5f6;
-            padding: 8px 12px;
-            border-radius: 6px;
-            font-size: 0.8rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            white-space: nowrap;
-        }
-
-        .copy-btn:hover {
-            background: rgba(100, 150, 255, 0.3);
-            color: #ffffff;
-        }
-
-        .copy-notification {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: rgba(20, 30, 50, 0.9);
-            color: white;
-            padding: 12px 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            transform: translateY(30px);
-            opacity: 0;
-            transition: all 0.3s ease;
-            z-index: 2100;
-        }
-
-        .copy-notification.active {
-            transform: translateY(0);
-            opacity: 1;
-        }
-
-        /* Support Button in Profile */
-        .support-btn {
-            background: linear-gradient(135deg, rgba(247, 147, 26, 0.9), rgba(247, 147, 26, 0.7));
-            color: white;
-            border: none;
-            border-radius: 8px;
-            padding: 10px 20px;
-            font-family: 'Rajdhani', sans-serif;
-            font-weight: 600;
-            font-size: 0.9rem;
-            box-shadow: 0 4px 15px rgba(247, 147, 26, 0.3);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-top: 15px;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(5px);
-            width: 100%;
-        }
-
-        .support-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(247, 147, 26, 0.4);
-            background: linear-gradient(135deg, rgba(247, 147, 26, 0.95), rgba(247, 147, 26, 0.8));
-        }
-
-        .support-btn i {
-            margin-right: 8px;
-        }
-
-        /* Binance icon style */
-        .binance-icon {
-            width: 20px;
-            height: 20px;
-            margin-right: 10px;
-            filter: brightness(0) saturate(100%) invert(68%) sepia(80%) saturate(300%) hue-rotate(180deg) brightness(90%) contrast(90%);
-            vertical-align: middle;
-        }
-        
-        /* Coffee Modal Styles */
-        .coffee-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 2000;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-        }
-
-        .coffee-modal.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .coffee-content {
-            background: rgba(10, 15, 30, 0.95);
-            border-radius: 12px;
-            padding: 25px;
-            width: 400px;
-            max-width: 90%;
-            max-height: 90vh;
-            overflow-y: auto;
-            box-shadow: 0 10px 30px rgba(255, 100, 100, 0.3);
-            border: 1px solid rgba(255, 100, 100, 0.4);
-            transform: scale(0.9);
-            transition: all 0.3s ease;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .coffee-modal.active .coffee-content {
-            transform: scale(1);
-        }
-
-        .coffee-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid rgba(255, 100, 100, 0.3);
-            width: 100%;
-        }
-
-        .coffee-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.5rem;
-            color: #ff6464;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-        }
-
-        .close-coffee {
-            background: transparent;
-            border: none;
-            color: #e0e0e0;
-            font-size: 1.5rem;
-            cursor: pointer;
-            transition: color 0.3s ease;
-        }
-
-        .close-coffee:hover {
-            color: #ff6b6b;
-        }
-
-        .kofi-container {
-            padding: 15px;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 8px;
-            margin-bottom: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .coffee-message {
-            text-align: center;
-            color: #e0e0e0;
-            margin-bottom: 20px;
-            font-size: 0.9rem;
-        }
-        
-        @media (max-width: 750px) {
-            .container {
-                width: 95%;
-                height: auto;
-                min-height: 500px;
-            }
-            
-            .profile-content {
-                flex-direction: column;
-                gap: 20px;
-            }
-            
-            .profile-left {
-                width: 100%;
-            }
-            
-            .gamer-name {
-                text-align: center;
-            }
-            
-            .gamer-tag {
-                text-align: center;
-            }
-            
-            .audio-control {
-                top: 15px;
-                left: 15px;
-                width: 38px;
-                height: 38px;
-            }
-            
-            .click-text {
-                font-size: 2rem;
-            }
-            
-            .click-subtext {
-                font-size: 1rem;
-            }
-            
-            .profile-description {
-                max-height: 120px;
-            }
-
-            .donation-content {
-                padding: 20px;
-            }
-
-            .donation-title {
-                font-size: 1.3rem;
-            }
-
-            .donation-address-container {
-                flex-direction: column;
-                gap: 10px;
-            }
-
-            .copy-btn {
-                width: 100%;
-            }
-            
-            .coffee-content {
-                padding: 20px;
-            }
-
-            .coffee-title {
-                font-size: 1.3rem;
-            }
         }
     </style>
 </head>
 <body>
-    <video id="video-bg" autoplay muted loop playsinline>
-        <source src="https://hichemajm.github.io/hichemajm/hichemajm.mp4" type="video/mp4">
-        Your browser does not support HTML5 video.
+    <!-- Anti-inspect shield -->
+    <div class="inspect-shield" id="inspectShield"></div>
+    
+    <video id="bgVideo" loop playsinline muted>
+        <source src="https://r2.guns.lol/3e808370-7e96-48f0-a928-8d563707c267.mp4" type="video/mp4">
+        Your browser does not support the video tag.
     </video>
-    <div class="video-overlay"></div>
     
-    <div class="custom-cursor" id="customCursor">
-        <i class="fas fa-crosshairs"></i> 
+    <div class="overlay"></div>
+    
+    <div class="welcome-screen" id="welcomeScreen">
+        <h1 class="welcome-title">Welcome</h1>
+        <p class="welcome-subtitle">Click to See my Profile</p>
     </div>
     
-    <div class="click-overlay" id="clickOverlay">
-        <div class="click-content">
-            <div class="click-text">WELCOME</div>
-            <div class="click-subtext">TO MY PROFILE</div>
-            <div class="click-icon">
-                <i class="fas fa-chevron-down"></i>
-            </div>
-        </div>
+    <!-- Music Toggle Button - Outside Profile Card -->
+    <div class="music-toggle" id="musicToggle">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+            <path fill="currentColor" d="M14,19H18V5H14M6,19H10V5H6V19Z"/>
+        </svg>
     </div>
     
-    <div class="audio-control" id="audioControl">
-        <i class="fas fa-volume-mute"></i>
-    </div>
+    <div id="snowflakes-container"></div>
     
-    <div class="donation-modal" id="donationModal">
-        <div class="donation-content">
-            <div class="donation-header">
-                <h2 class="donation-title">Support My Work</h2>
-                <button class="close-donation" id="closeDonation">&times;</button>
-            </div>
-            
-            <div class="donation-options">
-                <div class="donation-option">
-                    <h3><i class="fab fa-bitcoin"></i> Bitcoin</h3>
-                    <div class="donation-address-container">
-                        <div class="donation-address">
-                            13o2P9cukYs5hqRGdoC9EWh9aNZHPduv8F
-                        </div>
-                        <button class="copy-btn" onclick="copyToClipboard('13o2P9cukYs5hqRGdoC9EWh9aNZHPduv8F')">Copy</button>
-                    </div>
+    <div class="main-container" id="mainContainer">
+        <div class="profile-card">
+            <div class="profile-header">
+                <div class="avatar-container">
+                    <img alt="Avatar Decoration" class="avatar-decoration" src="https://cdn.discordapp.com/avatar-decoration-presets/a_1005898c6acf56a9ac5010baf444f6fd.png">
+                    <img alt="Avatar" class="avatar" src="https://i.ibb.co/tSPnX9x/527319270-17877597078383012-1653772465490875112-n.jpg">
                 </div>
                 
-                <div class="donation-option">
-                    <h3><i class="fas fa-coins"></i> USDT (TRC20)</h3>
-                    <div class="donation-address-container">
-                        <div class="donation-address">
-                            TRYEFLbV45C4W2FSr5YUkcF8Wrs15xMTWi
-                        </div>
-                        <button class="copy-btn" onclick="copyToClipboard('TRYEFLbV45C4W2FSr5YUkcF8Wrs15xMTWi')">Copy</button>
+                <div class="profile-info">
+                    <div class="username-container">
+                        <span class="username">s</span>
                     </div>
+                    <div class="description">Gamer</div>
+                    <div class="status">Just seven unknown</div>
                 </div>
-                
-                <div class="donation-option">
-                    <h3><i class="fab fa-btc"></i> Binance Pay ID</h3>
-                    <div class="donation-address-container">
-                        <div class="donation-address">
-                            567160545
-                        </div>
-                        <button class="copy-btn" onclick="copyToClipboard('567160545')">Copy</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Coffee Modal -->
-    <div class="coffee-modal" id="coffeeModal">
-        <div class="coffee-content">
-            <div class="coffee-header">
-                <h2 class="coffee-title">Buy Me a Coffee</h2>
-                <button class="close-coffee" id="closeCoffee">&times;</button>
             </div>
             
-            <div class="kofi-container">
-                <a href='https://ko-fi.com/hichemajm' target='_blank'>
-                    <img height='36' style='border:0px;height:36px;' src='https://storage.ko-fi.com/cdn/kofi2.png?v=6' border='0' alt='Buy Me a Coffee at ko-fi.com' />
+            <div class="server-info">
+                <div class="server-stats">
+                    <span> </span>
+                    <span> </span>
+                </div>
+                <a href="#" class="join-button">Buy Me Coffee</a>            
+            <div class="rating">
+                <span class="stars">★★★★☆</span>
+                <span> </span>
+            </div>
+            
+            <div class="social-links">
+                <a href="https://steamcommunity.com/id/Skynessdz/" class="social-link" target="_blank" title="Steam">
+                    <img src="https://i.ibb.co/SDwg8G8F/027e4c15-09f3-468f-bf50-dd60f412188a.webp" alt="Steam">
+                </a>
+                <a href="https://www.instagram.com/hichemajm22" class="social-link" target="_blank" title="Instagram">
+                    <img src="https://i.ibb.co/1t04vT9r/unnamed0.png" alt="Instagram">
+                </a>
+                <a href="https://www.paypal.com/ncp/payment/UHG94FPMNBRSJ" class="social-link" target="_blank" title="PayPal">
+                    <img src="https://i.ibb.co/F4Ndz8ZD/08084f2c-30ff-4ca6-bc4d-0e8b5ea808d7.webp" alt="PayPal">
+                </a>
+                <a href="https://www.facebook.com/hichem.adjimi.2025/" class="social-link" target="_blank" title="Facebook">
+                    <img src="https://i.ibb.co/Fqn2cZhJ/unnamed-1-1.png" alt="Facebook">
                 </a>
             </div>
-            
-            <p class="coffee-message">Your support helps me create more amazing content and projects. Thank you!</p>
-            
-            <button class="support-btn" onclick="hideCoffeeModal(); showDonationModal()">
-                <i class="fas fa-donate"></i> Other Donation Options
-            </button>
         </div>
     </div>
 
-    <div class="copy-notification" id="copyNotification">
-        Address copied to clipboard!
-    </div>
-    
-    <div id="snow-container"></div>
-    
-    <div id="particles"></div>
-    
-    <div class="container">
-        <div class="profile-card">
-            <div class="profile-content">
-                <div class="profile-left">
-                    <img src="https://i.ibb.co/N26mhgdH/527319270-17877597078383012-1653772465490875112-n.jpg" alt="Profile Picture" class="profile-pic">
-                    <h1 class="gamer-name" id="typing-name"></h1>
-                    <p class="gamer-tag">Gamer | Developer | Tech Enthusiast</p>
-                    
-                    <button class="coffee-btn" onclick="showCoffeeModal()">
-                        <i class="fas fa-coffee"></i> Buy Me a Coffee
-                    </button>
-                </div>
-                
-                <div class="profile-right">
-                    <div class="stats">
-                        <div class="stat">
-                            <div class="stat-value">10+</div>
-                            <div class="stat-label">Years Gaming</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-value">100%</div>
-                            <div class="stat-label">Dedication</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-value">24/7</div>
-                            <div class="stat-label">Availability</div>
-                        </div>
-                    </div>
-                    
-                    <div class="profile-description">
-                        <p>Passionate about gaming, technology, and creating amazing digital experiences. Always exploring new frontiers in the digital world.</p>
-                        <p style="margin-top: 10px;">Feel free to connect with me through my social links below!</p>
-                    </div>
-                    <div class="social-links">
-                        <a href="https://www.facebook.com/hichem.adjimi.2025/" class="social-link facebook" target="_blank">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                        <a href="https://www.instagram.com/hichemajm22/" class="social-link instagram" target="_blank">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="#" class="social-link twitter" target="_blank">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                        <a href="https://discordapp.com/users/604491708780249109" class="social-link discord" target="_blank">
-                            <i class="fab fa-discord"></i>
-                        </a>
-                        <a href="javascript:void(0)" class="social-link teamspeak" onclick="connectTeamSpeak()">
-                            <i class="fab fa-teamspeak"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    
     <script>
-        // Anti-inspect code
-        function preventInspect() {
-            document.addEventListener('contextmenu', function(e) {
-                e.preventDefault();
-                showAntiInspectMessage();
-            });
+        // Enhanced Anti-Inspect Protection
+        (function() {
+            'use strict';
             
+            // Block F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U
             document.addEventListener('keydown', function(e) {
                 if (e.key === 'F12' || 
                     (e.ctrlKey && e.shiftKey && e.key === 'I') || 
                     (e.ctrlKey && e.shiftKey && e.key === 'J') || 
-                    (e.ctrlKey && e.shiftKey && e.key === 'C') || 
-                    (e.ctrlKey && e.key === 'U')) {
+                    (e.ctrlKey && e.key === 'u') ||
+                    e.key === 'F10') {
                     e.preventDefault();
-                    showAntiInspectMessage();
+                    return false;
                 }
             });
             
-            function detectDevTools() {
+            // Block right-click context menu
+            document.addEventListener('contextmenu', function(e) {
+                e.preventDefault();
+                return false;
+            });
+            
+            // Block text selection
+            document.addEventListener('selectstart', function(e) {
+                e.preventDefault();
+                return false;
+            });
+            
+            // Block drag and drop
+            document.addEventListener('dragstart', function(e) {
+                e.preventDefault();
+                return false;
+            });
+            
+            // Block copy
+            document.addEventListener('copy', function(e) {
+                e.preventDefault();
+                return false;
+            });
+            
+            // Block cut
+            document.addEventListener('cut', function(e) {
+                e.preventDefault();
+                return false;
+            });
+            
+            // Block paste
+            document.addEventListener('paste', function(e) {
+                e.preventDefault();
+                return false;
+            });
+            
+            // Detect dev tools opening
+            let devToolsOpen = false;
+            const devToolsCheck = setInterval(function() {
                 const widthThreshold = window.outerWidth - window.innerWidth > 160;
                 const heightThreshold = window.outerHeight - window.innerHeight > 160;
                 
-                if ((widthThreshold || heightThreshold) && !window.debugging) {
-                    showAntiInspectMessage();
-                    document.body.innerHTML = '<div style="display:flex;justify-content:center;align-items:center;height:100vh;background:#000;color:#fff;font-family:Arial;"><h1>Developer Tools Detected</h1></div>';
-                    window.location.reload();
+                if (widthThreshold || heightThreshold) {
+                    devToolsOpen = true;
+                    document.body.innerHTML = '<div style="display:flex;justify-content:center;align-items:center;height:100vh;background:#000;color:#fff;font-size:24px;">Developer Tools Detected</div>';
+                    clearInterval(devToolsCheck);
                 }
-            }
+            }, 1000);
             
-            setInterval(detectDevTools, 1000);
-        }
-        
-        function showAntiInspectMessage() {
-            const notification = document.createElement('div');
-            notification.style.position = 'fixed';
-            notification.style.bottom = '20px';
-            notification.style.right = '20px';
-            notification.style.background = 'rgba(255, 0, 0, 0.8)';
-            notification.style.color = 'white';
-            notification.style.padding = '15px';
-            notification.style.borderRadius = '8px';
-            notification.style.zIndex = '10000';
-            notification.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.3)';
-            notification.style.transform = 'translateY(30px)';
-            notification.style.opacity = '0';
-            notification.style.transition = 'all 0.3s ease';
-            notification.innerHTML = '<i class="fas fa-lock"></i> Developer tools are disabled for this page';
-            document.body.appendChild(notification);
+            // Clear console attempts
+            console.clear = function() {};
+            console.log = function() {};
+            console.warn = function() {};
+            console.error = function() {};
+            console.info = function() {};
             
-            setTimeout(() => {
-                notification.style.transform = 'translateY(0)';
-                notification.style.opacity = '1';
-            }, 10);
-            
-            setTimeout(() => {
-                notification.style.transform = 'translateY(30px)';
-                notification.style.opacity = '0';
-                setTimeout(() => notification.remove(), 300);
-            }, 3000);
-        }
-        
-        // Enhanced snow effect
-        function createSnow() {
-            const snowContainer = document.getElementById('snow-container');
-            const snowflakes = ['❄', '❅', '❆', '✻', '✼', '✽', '✾', '❄', '❅', '❆'];
-            
-            for (let i = 0; i < 60; i++) {
-                const snow = document.createElement('div');
-                snow.className = 'snow';
-                snow.innerHTML = snowflakes[Math.floor(Math.random() * snowflakes.length)];
-                
-                snow.style.left = Math.random() * 100 + 'vw';
-                snow.style.opacity = Math.random() * 0.7 + 0.3;
-                snow.style.fontSize = (Math.random() * 6 + 4) + 'px';
-                
-                const animationDuration = Math.random() * 15 + 10;
-                snow.style.animationDuration = `${animationDuration}s`;
-                snow.style.animationDelay = Math.random() * 5 + 's';
-                
-                const horizontalMovement = Math.random() * 100 - 50;
-                snow.style.transform = `translateX(${horizontalMovement}px)`;
-                
-                snowContainer.appendChild(snow);
-            }
-        }
-        
-        // Floating particles effect
-        function createParticles() {
-            const particlesContainer = document.getElementById('particles');
-            const colors = ['rgba(100, 150, 255, 0.1)', 'rgba(100, 200, 255, 0.08)', 'rgba(150, 100, 255, 0.08)'];
-            
-            for (let i = 0; i < 15; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                
-                const size = Math.random() * 6 + 3;
-                particle.style.width = `${size}px`;
-                particle.style.height = `${size}px`;
-                particle.style.background = colors[Math.floor(Math.random() * colors.length)];
-                particle.style.opacity = Math.random() * 0.5 + 0.3;
-                
-                particle.style.left = Math.random() * 100 + 'vw';
-                particle.style.top = Math.random() * 100 + 'vh';
-                
-                const duration = Math.random() * 30 + 15;
-                particle.style.animation = `float ${duration}s linear infinite`;
-                particle.style.animationDelay = Math.random() * 10 + 's';
-                
-                particlesContainer.appendChild(particle);
-            }
-            
-            const style = document.createElement('style');
-            style.innerHTML = `
-                @keyframes float {
-                    0% {
-                        transform: translate(0, 0) rotate(0deg);
-                        opacity: 0.5;
-                    }
-                    50% {
-                        transform: translate(${Math.random() * 40 - 20}px, ${Math.random() * 40 - 20}px) rotate(180deg);
-                        opacity: 0.3;
-                    }
-                    100% {
-                        transform: translate(0, 0) rotate(360deg);
-                        opacity: 0.5;
-                    }
-                }
-            `;
-            document.head.appendChild(style);
-        }
-        
-        // Custom scope cursor setup
-        function setupCustomCursor() {
-            const cursor = document.getElementById('customCursor');
-            
-            document.addEventListener('mousemove', (e) => {
-                cursor.style.left = `${e.clientX}px`;
-                cursor.style.top = `${e.clientY}px`;
-            });
-        }
-        
-        // TeamSpeak connection function
-        function connectTeamSpeak() {
-            const tsAddress = "ts3server://sgx";
-            window.location.href = tsAddress;
-            
-            setTimeout(() => {
-                window.location.href = `teamspeak://sgx?port=9987`;
-            }, 100);
-            
-            setTimeout(() => {
-                window.open(`https://www.teamspeak.com/en/download/`, '_blank');
-            }, 500);
-            
-            const notification = document.createElement('div');
-            notification.style.position = 'fixed';
-            notification.style.bottom = '20px';
-            notification.style.right = '20px';
-            notification.style.background = 'rgba(20, 30, 50, 0.8)';
-            notification.style.color = 'white';
-            notification.style.padding = '15px';
-            notification.style.borderRadius = '8px';
-            notification.style.borderLeft = '4px solid rgba(74, 111, 165, 0.7)';
-            notification.style.zIndex = '1000';
-            notification.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.15)';
-            notification.style.transform = 'translateY(30px)';
-            notification.style.opacity = '0';
-            notification.style.transition = 'all 0.3s ease';
-            notification.innerHTML = `
-                <p style="margin-bottom: 8px; font-weight: 600;">Connecting to TeamSpeak server:</p>
-                <p style="font-family: monospace;">StarGamerX</p>
-            `;
-            document.body.appendChild(notification);
-            
-            setTimeout(() => {
-                notification.style.transform = 'translateY(0)';
-                notification.style.opacity = '1';
-            }, 10);
-            
-            setTimeout(() => {
-                notification.style.transform = 'translateY(30px)';
-                notification.style.opacity = '0';
-                setTimeout(() => notification.remove(), 300);
-            }, 3000);
-        }
-        
-        // Audio control for video background
-        const videoBg = document.getElementById('video-bg');
-        const audioControl = document.getElementById('audioControl');
-        let isMuted = true;
-        
-        videoBg.muted = true;
-        
-        audioControl.addEventListener('click', () => {
-            if (isMuted) {
-                videoBg.muted = false;
-                audioControl.innerHTML = '<i class="fas fa-volume-up"></i>';
-                audioControl.style.color = '#64b5f6';
-                videoBg.play().catch(e => {
-                    console.log("Video playback failed:", e);
+        })();
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Elements ---
+            const welcomeScreen = document.getElementById('welcomeScreen');
+            const mainContainer = document.getElementById('mainContainer');
+            const musicToggle = document.getElementById('musicToggle');
+            const bgVideo = document.getElementById('bgVideo');
+            const usernameElement = document.querySelector('.username');
+            let isMusicPlaying = true; // Start with music playing
+
+            // --- Site Entry ---
+            welcomeScreen.addEventListener('click', () => {
+                // Start playing the video with sound (unmuted)
+                bgVideo.muted = false;
+                bgVideo.play().catch(error => {
+                    console.error("Video playback failed:", error);
                 });
-            } else {
-                videoBg.muted = true;
-                audioControl.innerHTML = '<i class="fas fa-volume-mute"></i>';
-                audioControl.style.color = '#ff6b6b';
-            }
-            isMuted = !isMuted;
-            
-            audioControl.style.animation = 'pulse 0.5s ease';
-            setTimeout(() => {
-                audioControl.style.animation = '';
-            }, 500);
-        });
-        
-        const pulseStyle = document.createElement('style');
-        pulseStyle.innerHTML = `
-            @keyframes pulse {
-                0% { transform: scale(1); }
-                50% { transform: scale(1.2); }
-                100% { transform: scale(1); }
-            }
-        `;
-        document.head.appendChild(pulseStyle);
-        
-        // Enhanced 3D parallax effect
-        document.addEventListener('mousemove', (e) => {
-            const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
-            const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
-            const card = document.querySelector('.profile-card');
-            card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg) translateY(-5px)`;
-        });
-        
-        document.querySelector('.container').addEventListener('mouseleave', () => {
-            const card = document.querySelector('.profile-card');
-            card.style.transform = 'rotateY(0deg) rotateX(0deg)';
-        });
-        
-        // Click overlay handler
-        const clickOverlay = document.getElementById('clickOverlay');
-        clickOverlay.addEventListener('click', () => {
-            clickOverlay.querySelector('.click-content').style.transform = 'scale(0.9)';
-            
-            setTimeout(() => {
-                clickOverlay.classList.add('hidden');
-                videoBg.muted = false;
-                isMuted = false;
-                audioControl.innerHTML = '<i class="fas fa-volume-up"></i>';
-                audioControl.style.color = '#64b5f6';
+
+                // Fade out welcome screen
+                welcomeScreen.style.opacity = '0';
                 
-                videoBg.play().then(() => {
-                    audioControl.style.animation = 'pulse 0.5s ease';
+                // Show the main content after a delay
+                setTimeout(() => {
+                    welcomeScreen.classList.add('hidden');
+                    mainContainer.style.opacity = '1';
+                    mainContainer.classList.add('visible');
+                    
+                    // Show music toggle button
                     setTimeout(() => {
-                        audioControl.style.animation = '';
+                        musicToggle.style.opacity = '1';
                     }, 500);
-                }).catch(e => {
-                    console.log("Video playback failed:", e);
-                    audioControl.innerHTML = '<i class="fas fa-volume-mute"></i>';
-                    audioControl.style.color = '#ff6b6b';
-                    isMuted = true;
-                    videoBg.muted = true;
-                });
-            }, 150);
-        });
-        
-        // Typing animation for the name
-        function typeWriter(element, text, speed, delay = 0) {
-            let i = 0;
-            let isDeleting = false;
-            let typingSpeed = speed;
+                    
+                    // Start typewriter effects
+                    startTypewriterEffects();
+                }, 800);
+            }, { once: true });
             
-            setTimeout(() => {
-                function type() {
-                    const currentText = text.substring(0, i);
-                    element.innerHTML = currentText + '<span class="typing-cursor"></span>';
+            // --- Music Toggle Functionality ---
+            musicToggle.addEventListener('click', () => {
+                if (isMusicPlaying) {
+                    // Mute
+                    bgVideo.muted = true;
+                    isMusicPlaying = false;
                     
-                    if (!isDeleting) {
-                        i++;
-                        if (i > text.length) {
-                            isDeleting = true;
-                            typingSpeed = speed * 2;
-                            setTimeout(type, 1000);
-                            return;
-                        }
+                    // Change to play icon
+                    musicToggle.innerHTML = `
+                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                            <path fill="currentColor" d="M14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77M16.5 12c0-1.77-1-3.29-2.5-4.03V16c1.5-.71 2.5-2.24 2.5-4M3 9v6h4l5 5V4L7 9H3Z"/>
+                        </svg>
+                    `;
+                } else {
+                    // Unmute and play
+                    bgVideo.muted = false;
+                    isMusicPlaying = true;
+                    
+                    // Change to pause icon
+                    musicToggle.innerHTML = `
+                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                            <path fill="currentColor" d="M14,19H18V5H14M6,19H10V5H6V19Z"/>
+                        </svg>
+                    `;
+                }
+            });
+            
+            // --- Typewriter Effects ---
+            function startTypewriterEffects() {
+                // Username typewriter effect
+                const usernameText = "Hichemajm";
+                let usernameIndex = 0;
+                let isUsernameTyping = true;
+                
+                function typeUsername() {
+                    if (isUsernameTyping && usernameIndex < usernameText.length) {
+                        usernameElement.textContent = '@' + usernameText.substring(0, usernameIndex + 1);
+                        usernameIndex++;
+                        setTimeout(typeUsername, 150);
+                    } else if (!isUsernameTyping && usernameIndex > 0) {
+                        usernameElement.textContent = '@' + usernameText.substring(0, usernameIndex - 1);
+                        usernameIndex--;
+                        setTimeout(typeUsername, 100);
                     } else {
-                        i--;
-                        if (i === 0) {
-                            isDeleting = false;
-                            typingSpeed = speed;
-                        }
+                        isUsernameTyping = !isUsernameTyping;
+                        setTimeout(typeUsername, isUsernameTyping ? 500 : 2000);
                     }
-                    
-                    setTimeout(type, typingSpeed);
                 }
                 
-                type();
-            }, delay);
-        }
-
-        // Donation Modal Functions
-        function showDonationModal() {
-            const modal = document.getElementById('donationModal');
-            modal.classList.add('active');
-        }
-
-        function hideDonationModal() {
-            const modal = document.getElementById('donationModal');
-            modal.classList.remove('active');
-        }
-        
-        // Coffee Modal Functions
-        function showCoffeeModal() {
-            const modal = document.getElementById('coffeeModal');
-            modal.classList.add('active');
-        }
-
-        function hideCoffeeModal() {
-            const modal = document.getElementById('coffeeModal');
-            modal.classList.remove('active');
-        }
-
-        function copyToClipboard(text) {
-            navigator.clipboard.writeText(text).then(() => {
-                showCopyNotification();
-            }).catch(err => {
-                console.error('Could not copy text: ', err);
-                const textarea = document.createElement('textarea');
-                textarea.value = text;
-                document.body.appendChild(textarea);
-                textarea.select();
-                document.execCommand('copy');
-                document.body.removeChild(textarea);
-                showCopyNotification();
-            });
-        }
-
-        function showCopyNotification() {
-            const notification = document.getElementById('copyNotification');
-            notification.classList.add('active');
-            
-            setTimeout(() => {
-                notification.classList.remove('active');
-            }, 2000);
-        }
-        
-        // Initialize effects when page loads
-        window.onload = function() {
-            preventInspect();
-            
-            createSnow();
-            createParticles();
-            setupCustomCursor();
-            
-            const nameElement = document.getElementById('typing-name');
-            typeWriter(nameElement, "Hichemajm", 100, 300);
-            
-            function resizeVideo() {
-                const video = document.getElementById('video-bg');
-                const videoRatio = video.videoWidth / video.videoHeight;
-                const windowRatio = window.innerWidth / window.innerHeight;
+                // Tab title typewriter effect
+                const titleText = "Hichemajm | Gamer";
+                const baseTitle = "@";
+                let titleIndex = 0;
+                let isTitleTyping = true;
                 
-                if (windowRatio > videoRatio) {
-                    video.style.width = '100vw';
-                    video.style.height = 'auto';
-                } else {
-                    video.style.width = 'auto';
-                    video.style.height = '100vh';
+                function typeTitle() {
+                    if (isTitleTyping && titleIndex < titleText.length) {
+                        document.title = baseTitle + titleText.substring(0, titleIndex + 1);
+                        titleIndex++;
+                        setTimeout(typeTitle, 150);
+                    } else if (!isTitleTyping && titleIndex > 0) {
+                        document.title = baseTitle + titleText.substring(0, titleIndex - 1);
+                        titleIndex--;
+                        setTimeout(typeTitle, 100);
+                    } else {
+                        isTitleTyping = !isTitleTyping;
+                        setTimeout(typeTitle, isTitleTyping ? 500 : 2000);
+                    }
+                }
+                
+                // Start both effects
+                typeUsername();
+                typeTitle();
+            }
+            
+            // --- Snow Effect ---
+            function createSnowflakes() {
+                const container = document.getElementById('snowflakes-container');
+                const snowflakes = ['❄', '❅', '❆', '•'];
+                for (let i = 0; i < 70; i++) {
+                    const flake = document.createElement('div');
+                    flake.className = 'snowflake';
+                    flake.textContent = snowflakes[Math.floor(Math.random() * snowflakes.length)];
+                    flake.style.left = Math.random() * 100 + 'vw';
+                    flake.style.top = Math.random() * -20 + 'vh';
+                    flake.style.opacity = Math.random() * 0.5 + 0.3;
+                    flake.style.fontSize = `${Math.random() * 15 + 10}px`;
+                    const duration = Math.random() * 10 + 8;
+                    flake.style.animationDuration = `${duration}s`;
+                    flake.style.animationDelay = `${Math.random() * 5}s`;
+                    container.appendChild(flake);
                 }
             }
             
-            videoBg.addEventListener('loadedmetadata', resizeVideo);
-            window.addEventListener('resize', resizeVideo);
-            
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'u' && e.ctrlKey) {
-                    e.preventDefault();
-                    showAntiInspectMessage();
-                }
-            });
-
-            // Setup donation modal events
-            document.getElementById('closeDonation').addEventListener('click', hideDonationModal);
-            document.getElementById('donationModal').addEventListener('click', function(e) {
-                if (e.target === this) {
-                    hideDonationModal();
-                }
-            });
-            
-            // Setup coffee modal events
-            document.getElementById('closeCoffee').addEventListener('click', hideCoffeeModal);
-            document.getElementById('coffeeModal').addEventListener('click', function(e) {
-                if (e.target === this) {
-                    hideCoffeeModal();
-                }
-            });
-        };
-        
-        document.addEventListener('selectstart', function(e) {
-            e.preventDefault();
-        });
-        
-        document.addEventListener('dragstart', function(e) {
-            e.preventDefault();
+            // --- Initializations ---
+            createSnowflakes();
         });
     </script>
-
 </body>
 </html>
-
