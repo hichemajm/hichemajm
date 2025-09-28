@@ -12,7 +12,8 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            cursor: url('https://i.ibb.co/sdP5hsNP/d2cbee5b-d3cf-465e-9e08-a3902d38ce36.webp') 16 16, auto !important;
+            /* Fixed cursor with fallback */
+            cursor: url('https://i.ibb.co/sdP5hsNP/d2cbee5b-d3cf-465e-9e08-a3902d38ce36.webp'), auto !important;
         }
         
         body {
@@ -21,6 +22,18 @@
             overflow: hidden;
             height: 100vh;
             position: relative;
+        }
+        
+        /* Protection Overlay */
+        .protection-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            z-index: 9999;
+            pointer-events: none;
         }
         
         /* Split Screen Animation */
@@ -367,9 +380,17 @@
         .hidden { 
             display: none !important; 
         }
+        
+        /* Custom cursor fallback */
+        .custom-cursor {
+            cursor: url('https://i.ibb.co/sdP5hsNP/d2cbee5b-d3cf-465e-9e08-a3902d38ce36.webp'), auto;
+        }
     </style>
 </head>
-<body>
+<body class="custom-cursor">
+    <!-- Protection Overlay -->
+    <div class="protection-overlay" id="protectionOverlay"></div>
+    
     <!-- Split Screen Animation -->
     <div class="split-screen" id="splitScreen">
         <div class="split-half split-top"></div>
@@ -423,7 +444,7 @@
                     <span> </span>
                     <span> </span>
                 </div>
-                <a href="https://ko-fi.com/hichemajm" class="join-button">Buy Me a Coffee</a>
+                <a href="https://ko-fi.com/hichemajm" class="join-button" target="_blank">Buy Me a Coffee</a>
             </div>
             
             <div class="rating">
@@ -449,6 +470,177 @@
     </div>
 
     <script>
+        // Enhanced Anti-Inspect Protection System
+        (function() {
+            'use strict';
+            
+            // Multiple layers of protection
+            let protectionActive = true;
+            
+            // Layer 1: Global keydown listener (catches most cases)
+            document.addEventListener('keydown', function(e) {
+                if (!protectionActive) return;
+                
+                // F12 key
+                if (e.keyCode === 123) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    e.stopImmediatePropagation();
+                    return false;
+                }
+                
+                // F10 key
+                if (e.keyCode === 121) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    e.stopImmediatePropagation();
+                    return false;
+                }
+                
+                // Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U
+                if (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74)) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    e.stopImmediatePropagation();
+                    return false;
+                }
+                
+                // Ctrl+U (View Source)
+                if (e.ctrlKey && e.keyCode === 85) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    e.stopImmediatePropagation();
+                    return false;
+                }
+            }, true); // Use capture phase to catch events earlier
+            
+            // Layer 2: Window level keydown listener
+            window.addEventListener('keydown', function(e) {
+                if (!protectionActive) return;
+                
+                if (e.keyCode === 123 || e.keyCode === 121 || 
+                    (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74)) ||
+                    (e.ctrlKey && e.keyCode === 85)) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return false;
+                }
+            }, true);
+            
+            // Layer 3: Disable right-click context menu
+            document.addEventListener('contextmenu', function(e) {
+                if (!protectionActive) return;
+                e.preventDefault();
+                e.stopPropagation();
+                return false;
+            }, true);
+            
+            // Layer 4: Input focus protection
+            document.addEventListener('focusin', function(e) {
+                if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+                    // Add keydown listener specifically for this input
+                    const inputKeyHandler = function(inputEvent) {
+                        if (inputEvent.keyCode === 123 || inputEvent.keyCode === 121 || 
+                            (inputEvent.ctrlKey && inputEvent.shiftKey && (inputEvent.keyCode === 73 || inputEvent.keyCode === 74)) ||
+                            (inputEvent.ctrlKey && inputEvent.keyCode === 85)) {
+                            inputEvent.preventDefault();
+                            inputEvent.stopPropagation();
+                            inputEvent.stopImmediatePropagation();
+                            return false;
+                        }
+                    };
+                    
+                    e.target.addEventListener('keydown', inputKeyHandler, true);
+                    
+                    // Remove the listener when input loses focus
+                    e.target.addEventListener('focusout', function() {
+                        e.target.removeEventListener('keydown', inputKeyHandler, true);
+                    }, { once: true });
+                }
+            }, true);
+            
+            // Layer 5: Make it difficult to select text
+            document.addEventListener('selectstart', function(e) {
+                if (!protectionActive) return;
+                e.preventDefault();
+                return false;
+            }, true);
+            
+            // Layer 6: Disable drag and drop
+            document.addEventListener('dragstart', function(e) {
+                if (!protectionActive) return;
+                e.preventDefault();
+                return false;
+            }, true);
+            
+            // Layer 7: Disable image dragging
+            document.addEventListener('mousedown', function(e) {
+                if (!protectionActive) return;
+                if (e.target.tagName === 'IMG') {
+                    e.preventDefault();
+                    return false;
+                }
+            }, true);
+            
+            // Layer 8: Override and block console methods
+            ['log', 'warn', 'error', 'info', 'debug', 'clear', 'table', 'dir', 'group', 'groupEnd'].forEach(function(method) {
+                if (console[method]) {
+                    console[method] = function() {
+                        // Silently block all console output
+                    };
+                }
+            });
+            
+            // Layer 9: Clear console immediately
+            if (console.clear) {
+                console.clear();
+            }
+            
+            // Layer 10: Detect and prevent dev tools opening via resize
+            let lastWidth = window.innerWidth;
+            let lastHeight = window.innerHeight;
+            
+            window.addEventListener('resize', function() {
+                if (!protectionActive) return;
+                
+                // If window size changes significantly, it might be dev tools
+                if (Math.abs(window.innerWidth - lastWidth) > 100 || 
+                    Math.abs(window.innerHeight - lastHeight) > 100) {
+                    // Force focus back to body
+                    document.activeElement.blur();
+                    document.body.focus();
+                }
+                
+                lastWidth = window.innerWidth;
+                lastHeight = window.innerHeight;
+            });
+            
+            // Layer 11: Periodically check for dev tools using debugger
+            function checkDevTools() {
+                if (!protectionActive) return;
+                
+                const start = Date.now();
+                debugger;
+                if (Date.now() - start > 100) {
+                    // Dev tools detected, blur any focused elements
+                    document.activeElement.blur();
+                    document.body.focus();
+                }
+            }
+            
+            setInterval(checkDevTools, 1000);
+            
+            // Layer 12: Prevent tab switching to dev tools
+            window.addEventListener('blur', function() {
+                if (!protectionActive) return;
+                setTimeout(function() {
+                    window.focus();
+                }, 10);
+            });
+            
+        })();
+
+        // Original site functionality
         document.addEventListener('DOMContentLoaded', () => {
             // Elements
             const welcomeScreen = document.getElementById('welcomeScreen');
@@ -464,7 +656,7 @@
                 // Start playing the video with sound
                 bgVideo.muted = false;
                 bgVideo.play().catch(error => {
-                    console.error("Video playback failed:", error);
+                    // Silent error handling
                 });
 
                 // Activate split screen animation
