@@ -3,27 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>S</title>
-    <meta name="description" content="HichemAjm">
+    <title>Hichemajm | Gamer</title>
+    <meta name="description" content="HichemAjm - Gamer Profile">
     <meta name="author" content="Hichemajm">
-    <meta property="og:title" content="Hichemajm | Gamer">
-    <meta property="og:description" content="HichemAjm">
-    <meta property="og:image" content="https://i.ibb.co/KtRsbPp/icons8-star-windows-11-color-16.png">
-    <meta property="og:type" content="website">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Hichemajm | Gamer">
-    <meta name="twitter:description" content="HichemAjm">
-    
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="https://i.ibb.co/KtRsbPp/icons8-star-windows-11-color-16.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="https://i.ibb.co/KtRsbPp/icons8-star-windows-11-color-16.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="https://i.ibb.co/dJtcPNst/icons8-star-windows-11-color-32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="https://i.ibb.co/KtRsbPp/icons8-star-windows-11-color-16.png">
-    <link rel="manifest" href="data:application/manifest+json,{}">
-    <meta name="theme-color" content="#000000">
-    
     <style>
-        /* Reset and Base Styles */
         * {
             margin: 0;
             padding: 0;
@@ -32,31 +15,60 @@
             cursor: url('https://i.ibb.co/sdP5hsNP/d2cbee5b-d3cf-465e-9e08-a3902d38ce36.webp') 16 16, auto !important;
         }
         
-        html, body {
-            height: 100%;
-            overflow: hidden;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-        }
-        
-        ::-moz-selection { background: #ffffff; color: #000000; }
-        ::selection { background: #ffffff; color: #000000; }
-        
         body {
-            background-color: #000000;
-            color: #ffffff;
+            background-color: #000;
+            color: #fff;
+            overflow: hidden;
+            height: 100vh;
             position: relative;
-            -webkit-touch-callout: none;
-            -webkit-user-select: none;
-            -khtml-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
         }
         
-        /* Video Background */
+        /* Split Screen Animation */
+        .split-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 100;
+            pointer-events: none;
+        }
+        
+        .split-half {
+            position: absolute;
+            width: 100%;
+            height: 50%;
+            background-color: #000;
+            transition: transform 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+        }
+        
+        .split-top {
+            top: 0;
+            transform: translateY(-100%);
+        }
+        
+        .split-bottom {
+            bottom: 0;
+            transform: translateY(100%);
+        }
+        
+        .split-screen.active .split-top {
+            transform: translateY(0);
+        }
+        
+        .split-screen.active .split-bottom {
+            transform: translateY(0);
+        }
+        
+        .split-screen.hiding .split-top {
+            transform: translateY(-100%);
+        }
+        
+        .split-screen.hiding .split-bottom {
+            transform: translateY(100%);
+        }
+        
+        /* Background Video */
         #bgVideo {
             position: fixed;
             top: 50%;
@@ -70,15 +82,13 @@
             z-index: -2;
         }
         
-        /* Overlay */
         .overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: #000000;
-            opacity: 0.5;
+            background-color: rgba(0, 0, 0, 0.6);
             z-index: -1;
         }
         
@@ -94,9 +104,9 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            z-index: 100;
-            transition: opacity 0.8s ease-out;
+            z-index: 90;
             cursor: pointer;
+            transition: opacity 0.3s ease;
         }
         
         .welcome-title {
@@ -119,7 +129,193 @@
             100% { transform: scale(1); text-shadow: 0 0 20px rgba(173, 216, 230, 0.7); }
         }
         
-        /* Music Toggle Button - Outside Profile */
+        /* Main Content */
+        .main-container {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            z-index: 2;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .main-container.visible {
+            opacity: 1;
+        }
+        
+        /* Profile Card */
+        .profile-card {
+            background: rgba(20, 30, 48, 0.8);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(0, 98, 255, 0.4);
+            border-radius: 20px;
+            padding: 25px;
+            max-width: 380px;
+            width: 100%;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            transform: translateY(20px);
+            transition: transform 0.5s ease;
+        }
+        
+        .main-container.visible .profile-card {
+            transform: translateY(0);
+        }
+        
+        /* Profile Header */
+        .profile-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .avatar-container {
+            position: relative;
+            width: 140px;
+            height: 140px;
+            transition: transform 0.3s ease;
+        }
+        
+        .avatar-container:hover { 
+            transform: scale(1.05) rotate(2deg); 
+        }
+        
+        .avatar-decoration { 
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            z-index: 2; 
+        }
+        
+        .avatar { 
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            border-radius: 50%; 
+            object-fit: cover; 
+            z-index: 1; 
+            border: 2px solid rgba(0, 98, 255, 0.45); 
+        }
+        
+        .profile-info { 
+            text-align: center; 
+        }
+        
+        .username {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            text-shadow: 0px 0px 16.5px #ffffff;
+            min-height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .description { 
+            font-weight: 500; 
+            font-size: 16px; 
+            color: rgba(255, 255, 255, 0.9); 
+            margin-bottom: 5px; 
+        }
+        
+        .status { 
+            font-size: 14px; 
+            color: rgba(255, 255, 255, 0.7); 
+            margin-bottom: 15px; 
+        }
+        
+        /* Server Info */
+        .server-info {
+            background: rgba(68, 108, 179, 0.2);
+            border: 2px solid rgba(68, 108, 179, 0.1);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .server-stats { 
+            display: flex; 
+            justify-content: space-between; 
+            margin-bottom: 15px; 
+            font-size: 14px; 
+            color: rgba(255, 255, 255, 0.8); 
+        }
+        
+        .join-button {
+            background: rgba(0, 98, 255, 0.4);
+            border: 2px solid rgba(0, 98, 255, 0.2);
+            border-radius: 12px;
+            color: #ffffff;
+            padding: 10px 15px;
+            text-decoration: none;
+            display: block;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            text-align: center;
+        }
+        
+        .join-button:hover { 
+            background: rgba(0, 98, 255, 0.6); 
+            border-color: rgba(0, 98, 255, 0.4); 
+        }
+        
+        /* Rating */
+        .rating { 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 5px; 
+            margin-bottom: 15px; 
+            font-size: 14px; 
+            color: rgba(255, 255, 255, 0.8); 
+        }
+        
+        .stars { 
+            color: gold; 
+        }
+        
+        /* Social Links */
+        .social-links { 
+            display: flex; 
+            justify-content: center; 
+            gap: 20px; 
+            margin-top: 15px; 
+        }
+        
+        .social-link { 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            width: 50px; 
+            height: 50px; 
+            transition: all 0.3s ease; 
+            text-decoration: none; 
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .social-link:hover { 
+            transform: translateY(-5px) scale(1.15); 
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.9));
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .social-link img { 
+            width: 35px; 
+            height: 35px; 
+            filter: drop-shadow(#ffffff 1px 0 5px); 
+            border-radius: 8px;
+        }
+        
+        /* Music Toggle */
         .music-toggle {
             position: fixed;
             top: 20px;
@@ -151,139 +347,6 @@
             filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.7));
         }
         
-        /* Main Container */
-        .main-container {
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            z-index: 2;
-            opacity: 0;
-            transition: opacity 1s ease-in-out;
-        }
-        
-        /* Profile Card */
-        .profile-card {
-            background: rgba(20, 30, 48, 0.7);
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(0, 98, 255, 0.4);
-            border-radius: 20px;
-            padding: 25px;
-            max-width: 380px;
-            width: 100%;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
-            transform: translateY(20px);
-            transition: transform 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
-        }
-        
-        .main-container.visible .profile-card {
-            transform: translateY(0);
-        }
-
-        /* Staggered fade-in for card content */
-        .profile-card > * {
-            opacity: 0;
-            animation: fadeIn 0.8s 0.5s forwards;
-        }
-        @keyframes fadeIn {
-            to { opacity: 1; }
-        }
-        
-        /* Profile Header */
-        .profile-header {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-        
-        .avatar-container {
-            position: relative;
-            width: 140px;
-            height: 140px;
-            transition: transform 0.5s ease;
-        }
-        
-        .avatar-container:hover { transform: scale(1.05) rotate(2deg); }
-        .avatar-decoration { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; }
-        .avatar { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 50%; object-fit: cover; z-index: 1; border: 2px solid rgba(0, 98, 255, 0.45); }
-        .profile-info { text-align: center; }
-        
-        .username {
-            font-size: 28px;
-            font-weight: 600;
-            margin-bottom: 5px;
-            text-shadow: 0px 0px 16.5px #ffffff;
-            min-height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .description { font-weight: 500; font-size: 16px; color: rgba(255, 255, 255, 0.9); margin-bottom: 5px; }
-        .status { font-size: 14px; color: rgba(255, 255, 255, 0.7); margin-bottom: 15px; }
-        
-        /* Server Info */
-        .server-info {
-            background: rgba(68, 108, 179, 0.2);
-            border: 2px solid rgba(68, 108, 179, 0.1);
-            border-radius: 12px;
-            padding: 15px;
-            margin-bottom: 15px;
-            animation-delay: 0.6s;
-        }
-        
-        .server-stats { display: flex; justify-content: space-between; margin-bottom: 15px; font-size: 14px; color: rgba(255, 255, 255, 0.8); }
-        
-        .join-button {
-            background: rgba(0, 98, 255, 0.4);
-            border: 2px solid rgba(0, 98, 255, 0.2);
-            border-radius: 12px;
-            color: #ffffff;
-            padding: 10px 15px;
-            text-decoration: none;
-            display: block;
-            transition: all 0.3s ease;
-            font-weight: 500;
-            text-align: center;
-        }
-        
-        .join-button:hover { background: rgba(0, 98, 255, 0.6); border-color: rgba(0, 98, 255, 0.4); }
-        
-        /* Rating */
-        .rating { display: flex; align-items: center; justify-content: center; gap: 5px; margin-bottom: 15px; font-size: 14px; color: rgba(255, 255, 255, 0.8); animation-delay: 0.7s; }
-        .stars { color: gold; }
-        
-        /* Social Links - Enlarged */
-        .social-links { display: flex; justify-content: center; gap: 20px; margin-top: 15px; animation-delay: 0.8s; }
-        
-        .social-link { 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            width: 50px; 
-            height: 50px; 
-            transition: all 0.3s ease; 
-            text-decoration: none; 
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.1);
-        }
-        
-        .social-link:hover { 
-            transform: translateY(-5px) scale(1.15); 
-            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.9));
-            background: rgba(255, 255, 255, 0.2);
-        }
-        
-        .social-link img { 
-            width: 35px; 
-            height: 35px; 
-            filter: drop-shadow(#ffffff 1px 0 5px); 
-            border-radius: 8px;
-        }
-        
         /* Snowflakes */
         .snowflake { 
             position: fixed; 
@@ -301,25 +364,19 @@
         }
         
         /* Hidden class */
-        .hidden { display: none !important; }
-        
-        /* Anti-inspect overlay */
-        .inspect-shield {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: transparent;
-            z-index: 99999;
-            pointer-events: none;
+        .hidden { 
+            display: none !important; 
         }
     </style>
 </head>
 <body>
-    <!-- Anti-inspect shield -->
-    <div class="inspect-shield" id="inspectShield"></div>
+    <!-- Split Screen Animation -->
+    <div class="split-screen" id="splitScreen">
+        <div class="split-half split-top"></div>
+        <div class="split-half split-bottom"></div>
+    </div>
     
+    <!-- Background Video -->
     <video id="bgVideo" loop playsinline muted>
         <source src="https://r2.guns.lol/3e808370-7e96-48f0-a928-8d563707c267.mp4" type="video/mp4">
         Your browser does not support the video tag.
@@ -327,20 +384,23 @@
     
     <div class="overlay"></div>
     
+    <!-- Welcome Screen -->
     <div class="welcome-screen" id="welcomeScreen">
         <h1 class="welcome-title">Welcome</h1>
         <p class="welcome-subtitle">Click to See my Profile</p>
     </div>
     
-    <!-- Music Toggle Button - Outside Profile Card -->
+    <!-- Music Toggle Button -->
     <div class="music-toggle" id="musicToggle">
         <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
             <path fill="currentColor" d="M14,19H18V5H14M6,19H10V5H6V19Z"/>
         </svg>
     </div>
     
+    <!-- Snowflakes Container -->
     <div id="snowflakes-container"></div>
     
+    <!-- Main Content -->
     <div class="main-container" id="mainContainer">
         <div class="profile-card">
             <div class="profile-header">
@@ -363,7 +423,9 @@
                     <span> </span>
                     <span> </span>
                 </div>
-                <a href="#" class="join-button">Buy Me Coffee</a>            
+                <a href="https://ko-fi.com/hichemajm" class="join-button">Buy Me a Coffee</a>
+            </div>
+            
             <div class="rating">
                 <span class="stars">★★★★☆</span>
                 <span> </span>
@@ -387,117 +449,58 @@
     </div>
 
     <script>
-        // Enhanced Anti-Inspect Protection
-        (function() {
-            'use strict';
-            
-            // Block F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'F12' || 
-                    (e.ctrlKey && e.shiftKey && e.key === 'I') || 
-                    (e.ctrlKey && e.shiftKey && e.key === 'J') || 
-                    (e.ctrlKey && e.key === 'u') ||
-                    e.key === 'F10') {
-                    e.preventDefault();
-                    return false;
-                }
-            });
-            
-            // Block right-click context menu
-            document.addEventListener('contextmenu', function(e) {
-                e.preventDefault();
-                return false;
-            });
-            
-            // Block text selection
-            document.addEventListener('selectstart', function(e) {
-                e.preventDefault();
-                return false;
-            });
-            
-            // Block drag and drop
-            document.addEventListener('dragstart', function(e) {
-                e.preventDefault();
-                return false;
-            });
-            
-            // Block copy
-            document.addEventListener('copy', function(e) {
-                e.preventDefault();
-                return false;
-            });
-            
-            // Block cut
-            document.addEventListener('cut', function(e) {
-                e.preventDefault();
-                return false;
-            });
-            
-            // Block paste
-            document.addEventListener('paste', function(e) {
-                e.preventDefault();
-                return false;
-            });
-            
-            // Detect dev tools opening
-            let devToolsOpen = false;
-            const devToolsCheck = setInterval(function() {
-                const widthThreshold = window.outerWidth - window.innerWidth > 160;
-                const heightThreshold = window.outerHeight - window.innerHeight > 160;
-                
-                if (widthThreshold || heightThreshold) {
-                    devToolsOpen = true;
-                    document.body.innerHTML = '<div style="display:flex;justify-content:center;align-items:center;height:100vh;background:#000;color:#fff;font-size:24px;">Developer Tools Detected</div>';
-                    clearInterval(devToolsCheck);
-                }
-            }, 1000);
-            
-            // Clear console attempts
-            console.clear = function() {};
-            console.log = function() {};
-            console.warn = function() {};
-            console.error = function() {};
-            console.info = function() {};
-            
-        })();
-
         document.addEventListener('DOMContentLoaded', () => {
-            // --- Elements ---
+            // Elements
             const welcomeScreen = document.getElementById('welcomeScreen');
             const mainContainer = document.getElementById('mainContainer');
             const musicToggle = document.getElementById('musicToggle');
             const bgVideo = document.getElementById('bgVideo');
+            const splitScreen = document.getElementById('splitScreen');
             const usernameElement = document.querySelector('.username');
-            let isMusicPlaying = true; // Start with music playing
+            let isMusicPlaying = true;
 
-            // --- Site Entry ---
+            // Site Entry with Fast Split Animation
             welcomeScreen.addEventListener('click', () => {
-                // Start playing the video with sound (unmuted)
+                // Start playing the video with sound
                 bgVideo.muted = false;
                 bgVideo.play().catch(error => {
                     console.error("Video playback failed:", error);
                 });
 
-                // Fade out welcome screen
-                welcomeScreen.style.opacity = '0';
+                // Activate split screen animation
+                splitScreen.classList.add('active');
                 
-                // Show the main content after a delay
+                // Fast transition - show main content quickly
                 setTimeout(() => {
-                    welcomeScreen.classList.add('hidden');
-                    mainContainer.style.opacity = '1';
-                    mainContainer.classList.add('visible');
+                    welcomeScreen.style.opacity = '0';
                     
-                    // Show music toggle button
                     setTimeout(() => {
-                        musicToggle.style.opacity = '1';
-                    }, 500);
-                    
-                    // Start typewriter effects
-                    startTypewriterEffects();
-                }, 800);
+                        welcomeScreen.classList.add('hidden');
+                        mainContainer.style.opacity = '1';
+                        mainContainer.classList.add('visible');
+                        
+                        // Hide split screen quickly
+                        setTimeout(() => {
+                            splitScreen.classList.remove('active');
+                            splitScreen.classList.add('hiding');
+                            
+                            setTimeout(() => {
+                                splitScreen.classList.remove('hiding');
+                            }, 300);
+                        }, 100);
+                        
+                        // Show music toggle
+                        setTimeout(() => {
+                            musicToggle.style.opacity = '1';
+                        }, 200);
+                        
+                        // Start typewriter effects
+                        startTypewriterEffects();
+                    }, 150);
+                }, 300);
             }, { once: true });
             
-            // --- Music Toggle Functionality ---
+            // Music Toggle Functionality
             musicToggle.addEventListener('click', () => {
                 if (isMusicPlaying) {
                     // Mute
@@ -524,7 +527,7 @@
                 }
             });
             
-            // --- Typewriter Effects ---
+            // Typewriter Effects
             function startTypewriterEffects() {
                 // Username typewriter effect
                 const usernameText = "Hichemajm";
@@ -572,7 +575,7 @@
                 typeTitle();
             }
             
-            // --- Snow Effect ---
+            // Snow Effect
             function createSnowflakes() {
                 const container = document.getElementById('snowflakes-container');
                 const snowflakes = ['❄', '❅', '❆', '•'];
@@ -591,7 +594,7 @@
                 }
             }
             
-            // --- Initializations ---
+            // Initializations
             createSnowflakes();
         });
     </script>
