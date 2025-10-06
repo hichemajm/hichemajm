@@ -378,24 +378,45 @@
             border-radius: 8px;
         }
         
-        /* Music Toggle */
+        /* Circular Transparent Music Toggle - Perfect Circle */
         .music-toggle {
             position: fixed;
             top: 20px;
             right: 20px;
             z-index: 10;
-            background: rgba(68, 108, 179, 0.7);
-            border: 2px solid rgba(68, 108, 179, 0.9);
-            border-radius: 50%;
+            background: rgba(10, 15, 24, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%; /* Perfect circle */
             width: 60px;
             height: 60px;
             display: flex;
             justify-content: center;
             align-items: center;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.4s ease;
             opacity: 0;
-            box-shadow: 0 0 15px rgba(0, 98, 255, 0.5);
+            box-shadow: 
+                0 4px 15px rgba(0, 0, 0, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        /* Glass reflection effect for music toggle */
+        .music-toggle::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, 
+                rgba(255,255,255,0) 0%, 
+                rgba(255,255,255,0.3) 50%, 
+                rgba(255,255,255,0) 100%);
+            z-index: 1;
+            border-radius: 50%;
         }
         
         .music-toggle.visible {
@@ -403,15 +424,62 @@
         }
         
         .music-toggle:hover {
-            background: rgba(68, 108, 179, 0.9);
+            background: rgba(10, 15, 24, 0.5);
             transform: scale(1.1);
-            box-shadow: 0 0 20px rgba(0, 98, 255, 0.7);
+            box-shadow: 
+                0 6px 20px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        /* Sound wave animation when music is playing */
+        .music-toggle.playing::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            border: 2px solid rgba(0, 98, 255, 0.5);
+            border-radius: 50%;
+            animation: soundWave 2s infinite;
+            opacity: 0;
+        }
+
+        @keyframes soundWave {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1.3);
+                opacity: 0;
+            }
         }
         
         .music-toggle svg {
-            width: 28px;
-            height: 28px;
-            filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.7));
+            width: 24px;
+            height: 24px;
+            filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.8));
+            transition: all 0.3s ease;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .music-toggle:hover svg {
+            filter: drop-shadow(0 0 12px rgba(255, 255, 255, 1));
+            transform: scale(1.1);
+        }
+
+        /* Muted state styling */
+        .music-toggle.muted {
+            background: rgba(10, 15, 24, 0.2);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .music-toggle.muted svg {
+            color: rgba(255, 255, 255, 0.6);
+            filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
         }
         
         /* Snowflakes */
@@ -465,7 +533,7 @@
         <p class="welcome-subtitle">Click to See my Profile</p>
     </div>
     
-    <!-- Music Toggle Button -->
+    <!-- Circular Transparent Music Toggle Button -->
     <div class="music-toggle" id="musicToggle">
         <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
             <path fill="currentColor" d="M14,19H18V5H14M6,19H10V5H6V19Z"/>
@@ -597,7 +665,7 @@
                     const inputKeyHandler = function(inputEvent) {
                         if (inputEvent.keyCode === 123 || inputEvent.keyCode === 121 || 
                             (inputEvent.ctrlKey && inputEvent.shiftKey && (inputEvent.keyCode === 73 || inputEvent.keyCode === 74)) ||
-                            (inputEvent.ctrlKey && inputEvent.keyCode === 85)) {
+                            (inputInputEvent.ctrlKey && inputEvent.keyCode === 85)) {
                             inputEvent.preventDefault();
                             inputEvent.stopPropagation();
                             inputEvent.stopImmediatePropagation();
@@ -711,6 +779,9 @@
             welcomeScreen.addEventListener('click', () => {
                 // Start playing the video with sound
                 bgVideo.muted = false;
+                isMusicPlaying = true;
+                musicToggle.classList.remove('muted');
+                musicToggle.classList.add('playing');
                 bgVideo.play().catch(error => {
                     // Silent error handling
                 });
@@ -760,6 +831,8 @@
                     // Mute
                     bgVideo.muted = true;
                     isMusicPlaying = false;
+                    musicToggle.classList.add('muted');
+                    musicToggle.classList.remove('playing');
                     
                     // Change to play icon
                     musicToggle.innerHTML = `
@@ -771,6 +844,8 @@
                     // Unmute and play
                     bgVideo.muted = false;
                     isMusicPlaying = true;
+                    musicToggle.classList.remove('muted');
+                    musicToggle.classList.add('playing');
                     
                     // Change to pause icon
                     musicToggle.innerHTML = `
