@@ -334,7 +334,7 @@
             text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
         }
         
-        /* Social Links - Borderless */
+        /* Social Links - Drop Down Animation in Place */
         .social-links { 
             display: flex; 
             justify-content: center; 
@@ -342,6 +342,14 @@
             margin-top: 15px; 
             position: relative;
             z-index: 2;
+            opacity: 0;
+            transform: translateY(-50px);
+            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        
+        .social-links.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
         
         .social-link { 
@@ -354,7 +362,7 @@
             text-decoration: none; 
             border-radius: 50%;
             background: rgba(255, 255, 255, 0.1);
-            /* Border removed */
+            transform: translateY(0);
         }
         
         .social-link:hover { 
@@ -388,6 +396,10 @@
             transition: all 0.3s ease;
             opacity: 0;
             box-shadow: 0 0 15px rgba(0, 98, 255, 0.5);
+        }
+        
+        .music-toggle.visible {
+            opacity: 1;
         }
         
         .music-toggle:hover {
@@ -494,7 +506,8 @@
                 <span> </span>
             </div>
             
-            <div class="social-links">
+            <!-- Social Links in their original place -->
+            <div class="social-links" id="socialLinks">
                 <a href="https://steamcommunity.com/id/Skynessdz/" class="social-link" target="_blank" title="Steam">
                     <img src="https://i.ibb.co/SDwg8G8F/027e4c15-09f3-468f-bf50-dd60f412188a.webp" alt="Steam">
                 </a>
@@ -691,6 +704,7 @@
             const bgVideo = document.getElementById('bgVideo');
             const splitScreen = document.getElementById('splitScreen');
             const usernameElement = document.querySelector('.username');
+            const socialLinks = document.getElementById('socialLinks');
             let isMusicPlaying = true;
 
             // Site Entry with Fast Split Animation
@@ -726,7 +740,13 @@
                         // Show music toggle
                         setTimeout(() => {
                             musicToggle.style.opacity = '1';
+                            musicToggle.classList.add('visible');
                         }, 200);
+                        
+                        // Animate social icons to drop down in their place
+                        setTimeout(() => {
+                            socialLinks.classList.add('visible');
+                        }, 500);
                         
                         // Start typewriter effects
                         startTypewriterEffects();
