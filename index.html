@@ -158,18 +158,18 @@
             opacity: 1;
         }
         
-        /* Profile Card - Glass-like transparency */
+        /* Profile Card - Extremely Transparent */
         .profile-card {
-            background: rgba(10, 15, 24, 0.15); /* More transparent */
-            backdrop-filter: blur(12px); /* Glass effect */
-            border: 1px solid rgba(255, 255, 255, 0.3); /* Visible border */
+            background: rgba(255, 255, 255, 0.02); /* Near invisible background */
+            backdrop-filter: blur(3px); /* Minimal blur for max clarity */
+            border: 1px solid rgba(255, 255, 255, 0.08); /* Almost invisible border */
             border-radius: 20px;
             padding: 25px;
             max-width: 380px;
             width: 100%;
             box-shadow: 
-                0 8px 32px rgba(0, 0, 0, 0.2),
-                inset 0 1px 0 rgba(255, 255, 255, 0.2),
+                0 4px 20px rgba(0, 0, 0, 0.15), /* Softer shadow */
+                inset 0 1px 0 rgba(255, 255, 255, 0.15),
                 inset 0 -1px 0 rgba(0, 0, 0, 0.1);
             transform: translateY(20px);
             transition: transform 0.5s ease;
@@ -187,7 +187,7 @@
             height: 1px;
             background: linear-gradient(90deg, 
                 rgba(255,255,255,0) 0%, 
-                rgba(255,255,255,0.3) 50%, 
+                rgba(255,255,255,0.25) 50%, 
                 rgba(255,255,255,0) 100%);
             z-index: 1;
         }
@@ -278,8 +278,8 @@
         
         /* Server Info */
         .server-info {
-            background: rgba(68, 108, 179, 0.2); /* More transparent */
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(68, 108, 179, 0.05); /* Very transparent */
+            border: 1px solid rgba(255, 255, 255, 0.15);
             border-radius: 12px;
             padding: 15px;
             margin-bottom: 15px;
@@ -297,8 +297,8 @@
         }
         
         .join-button {
-            background: rgba(0, 98, 255, 0.3); /* More transparent */
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(0, 98, 255, 0.08); /* Very transparent */
+            border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 12px;
             color: #ffffff;
             padding: 10px 15px;
@@ -311,7 +311,7 @@
         }
         
         .join-button:hover { 
-            background: rgba(0, 98, 255, 0.5); 
+            background: rgba(0, 98, 255, 0.4); 
             border-color: rgba(255, 255, 255, 0.5); 
         }
         
@@ -352,30 +352,29 @@
             transform: translateY(0);
         }
         
+        /* Social Link - No circular background, bigger icons */
         .social-link { 
             display: flex; 
             justify-content: center; 
             align-items: center; 
-            width: 50px; 
-            height: 50px; 
             transition: all 0.3s ease; 
             text-decoration: none; 
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.1);
-            transform: translateY(0);
+            background: transparent; /* No background */
+            border-radius: 0; /* No circular shape */
+            padding: 5px; /* Small padding for hover area */
         }
         
         .social-link:hover { 
             transform: translateY(-5px) scale(1.15); 
             filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.9));
-            background: rgba(255, 255, 255, 0.2);
+            background: transparent; /* Keep background transparent on hover */
         }
         
         .social-link img { 
-            width: 35px; 
-            height: 35px; 
+            width: 40px; /* Increased size */
+            height: 40px; /* Increased size */
             filter: drop-shadow(#ffffff 1px 0 5px); 
-            border-radius: 8px;
+            border-radius: 0; /* Ensure no rounded corners on the image itself */
         }
         
         /* Circular Transparent Music Toggle - Perfect Circle */
@@ -384,7 +383,7 @@
             top: 20px;
             right: 20px;
             z-index: 10;
-            background: rgba(10, 15, 24, 0.3);
+            background: rgba(10, 15, 24, 0.1); 
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.3);
             border-radius: 50%; /* Perfect circle */
@@ -424,7 +423,7 @@
         }
         
         .music-toggle:hover {
-            background: rgba(10, 15, 24, 0.5);
+            background: rgba(10, 15, 24, 0.3);
             transform: scale(1.1);
             box-shadow: 
                 0 6px 20px rgba(0, 0, 0, 0.3),
@@ -473,7 +472,7 @@
 
         /* Muted state styling */
         .music-toggle.muted {
-            background: rgba(10, 15, 24, 0.2);
+            background: rgba(10, 15, 24, 0.1);
             border-color: rgba(255, 255, 255, 0.2);
         }
 
@@ -510,16 +509,13 @@
     </style>
 </head>
 <body class="custom-cursor">
-    <!-- Protection Overlay -->
     <div class="protection-overlay" id="protectionOverlay"></div>
     
-    <!-- Split Screen Animation -->
     <div class="split-screen" id="splitScreen">
         <div class="split-half split-top"></div>
         <div class="split-half split-bottom"></div>
     </div>
     
-    <!-- Background Video -->
     <video id="bgVideo" loop playsinline muted>
         <source src="https://r2.guns.lol/4d51734a-090a-4533-b481-35ce001c559f.mp4" type="video/mp4">
         Your browser does not support the video tag.
@@ -527,23 +523,19 @@
     
     <div class="overlay"></div>
     
-    <!-- Welcome Screen -->
     <div class="welcome-screen" id="welcomeScreen">
         <h1 class="welcome-title">Welcome</h1>
         <p class="welcome-subtitle">Click to See my Profile</p>
     </div>
     
-    <!-- Circular Transparent Music Toggle Button -->
     <div class="music-toggle" id="musicToggle">
         <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
             <path fill="currentColor" d="M14,19H18V5H14M6,19H10V5H6V19Z"/>
         </svg>
     </div>
     
-    <!-- Snowflakes Container -->
     <div id="snowflakes-container"></div>
     
-    <!-- Main Content -->
     <div class="main-container" id="mainContainer">
         <div class="profile-card">
             <div class="profile-header">
@@ -574,7 +566,6 @@
                 <span> </span>
             </div>
             
-            <!-- Social Links in their original place -->
             <div class="social-links" id="socialLinks">
                 <a href="https://steamcommunity.com/id/Skynessdz/" class="social-link" target="_blank" title="Steam">
                     <img src="https://i.ibb.co/SDwg8G8F/027e4c15-09f3-468f-bf50-dd60f412188a.webp" alt="Steam">
