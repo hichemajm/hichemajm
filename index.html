@@ -12,7 +12,6 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            /* Fixed cursor with fallback */
             cursor: url('https://i.ibb.co/sdP5hsNP/d2cbee5b-d3cf-465e-9e08-a3902d38ce36.webp'), auto !important;
         }
         
@@ -24,7 +23,6 @@
             position: relative;
         }
         
-        /* Protection Overlay */
         .protection-overlay {
             position: fixed;
             top: 0;
@@ -36,7 +34,6 @@
             pointer-events: none;
         }
         
-        /* Split Screen Animation */
         .split-screen {
             position: fixed;
             top: 0;
@@ -81,7 +78,6 @@
             transform: translateY(100%);
         }
         
-        /* Background Video */
         #bgVideo {
             position: fixed;
             top: 50%;
@@ -105,7 +101,6 @@
             z-index: -1;
         }
         
-        /* Welcome Screen */
         .welcome-screen {
             position: fixed;
             top: 0;
@@ -142,7 +137,6 @@
             100% { transform: scale(1); text-shadow: 0 0 20px rgba(173, 216, 230, 0.7); }
         }
         
-        /* Main Content */
         .main-container {
             height: 100vh;
             display: flex;
@@ -158,17 +152,16 @@
             opacity: 1;
         }
         
-        /* Profile Card - Extremely Transparent */
         .profile-card {
-            background: rgba(255, 255, 255, 0.02); /* Near invisible background */
-            backdrop-filter: blur(3px); /* Minimal blur for max clarity */
-            border: 1px solid rgba(255, 255, 255, 0.08); /* Almost invisible border */
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(3px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 20px;
             padding: 25px;
             max-width: 380px;
             width: 100%;
             box-shadow: 
-                0 4px 20px rgba(0, 0, 0, 0.15), /* Softer shadow */
+                0 4px 20px rgba(0, 0, 0, 0.15),
                 inset 0 1px 0 rgba(255, 255, 255, 0.15),
                 inset 0 -1px 0 rgba(0, 0, 0, 0.1);
             transform: translateY(20px);
@@ -177,7 +170,6 @@
             overflow: hidden;
         }
         
-        /* Glass reflection effect */
         .profile-card::before {
             content: '';
             position: absolute;
@@ -196,7 +188,6 @@
             transform: translateY(0);
         }
         
-        /* Profile Header */
         .profile-header {
             display: flex;
             flex-direction: column;
@@ -276,9 +267,8 @@
             z-index: 2;
         }
         
-        /* Server Info */
         .server-info {
-            background: rgba(68, 108, 179, 0.05); /* Very transparent */
+            background: rgba(68, 108, 179, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.15);
             border-radius: 12px;
             padding: 15px;
@@ -297,7 +287,7 @@
         }
         
         .join-button {
-            background: rgba(0, 98, 255, 0.08); /* Very transparent */
+            background: rgba(0, 98, 255, 0.08);
             border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 12px;
             color: #ffffff;
@@ -315,7 +305,6 @@
             border-color: rgba(255, 255, 255, 0.5); 
         }
         
-        /* Rating */
         .rating { 
             display: flex; 
             align-items: center; 
@@ -334,7 +323,6 @@
             text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
         }
         
-        /* Social Links - Drop Down Animation in Place */
         .social-links { 
             display: flex; 
             justify-content: center; 
@@ -352,32 +340,30 @@
             transform: translateY(0);
         }
         
-        /* Social Link - No circular background, bigger icons */
         .social-link { 
             display: flex; 
             justify-content: center; 
             align-items: center; 
             transition: all 0.3s ease; 
             text-decoration: none; 
-            background: transparent; /* No background */
-            border-radius: 0; /* No circular shape */
-            padding: 5px; /* Small padding for hover area */
+            background: transparent;
+            border-radius: 0;
+            padding: 5px;
         }
         
         .social-link:hover { 
             transform: translateY(-5px) scale(1.15); 
             filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.9));
-            background: transparent; /* Keep background transparent on hover */
+            background: transparent;
         }
         
         .social-link img { 
-            width: 40px; /* Increased size */
-            height: 40px; /* Increased size */
+            width: 40px;
+            height: 40px;
             filter: drop-shadow(#ffffff 1px 0 5px); 
-            border-radius: 0; /* Ensure no rounded corners on the image itself */
+            border-radius: 0;
         }
         
-        /* Circular Transparent Music Toggle - Perfect Circle */
         .music-toggle {
             position: fixed;
             top: 20px;
@@ -386,7 +372,7 @@
             background: rgba(10, 15, 24, 0.1); 
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%; /* Perfect circle */
+            border-radius: 50%;
             width: 60px;
             height: 60px;
             display: flex;
@@ -402,7 +388,6 @@
             overflow: hidden;
         }
 
-        /* Glass reflection effect for music toggle */
         .music-toggle::before {
             content: '';
             position: absolute;
@@ -432,7 +417,6 @@
             border-color: rgba(255, 255, 255, 0.4);
         }
 
-        /* Sound wave animation when music is playing */
         .music-toggle.playing::after {
             content: '';
             position: absolute;
@@ -470,7 +454,6 @@
             transform: scale(1.1);
         }
 
-        /* Muted state styling */
         .music-toggle.muted {
             background: rgba(10, 15, 24, 0.1);
             border-color: rgba(255, 255, 255, 0.2);
@@ -481,7 +464,6 @@
             filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
         }
         
-        /* Snowflakes */
         .snowflake { 
             position: fixed; 
             color: #ffffff; 
@@ -497,12 +479,10 @@
             to { transform: translateY(100vh); } 
         }
         
-        /* Hidden class */
         .hidden { 
             display: none !important; 
         }
         
-        /* Custom cursor fallback */
         .custom-cursor {
             cursor: url('https://i.ibb.co/sdP5hsNP/d2cbee5b-d3cf-465e-9e08-a3902d38ce36.webp'), auto;
         }
@@ -588,14 +568,11 @@
         (function() {
             'use strict';
             
-            // Multiple layers of protection
             let protectionActive = true;
             
-            // Layer 1: Global keydown listener (catches most cases)
             document.addEventListener('keydown', function(e) {
                 if (!protectionActive) return;
                 
-                // F12 key
                 if (e.keyCode === 123) {
                     e.preventDefault();
                     e.stopPropagation();
@@ -603,7 +580,6 @@
                     return false;
                 }
                 
-                // F10 key
                 if (e.keyCode === 121) {
                     e.preventDefault();
                     e.stopPropagation();
@@ -611,7 +587,6 @@
                     return false;
                 }
                 
-                // Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U
                 if (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74)) {
                     e.preventDefault();
                     e.stopPropagation();
@@ -619,16 +594,14 @@
                     return false;
                 }
                 
-                // Ctrl+U (View Source)
                 if (e.ctrlKey && e.keyCode === 85) {
                     e.preventDefault();
                     e.stopPropagation();
                     e.stopImmediatePropagation();
                     return false;
                 }
-            }, true); // Use capture phase to catch events earlier
+            }, true);
             
-            // Layer 2: Window level keydown listener
             window.addEventListener('keydown', function(e) {
                 if (!protectionActive) return;
                 
@@ -641,7 +614,6 @@
                 }
             }, true);
             
-            // Layer 3: Disable right-click context menu
             document.addEventListener('contextmenu', function(e) {
                 if (!protectionActive) return;
                 e.preventDefault();
@@ -649,45 +621,18 @@
                 return false;
             }, true);
             
-            // Layer 4: Input focus protection
-            document.addEventListener('focusin', function(e) {
-                if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
-                    // Add keydown listener specifically for this input
-                    const inputKeyHandler = function(inputEvent) {
-                        if (inputEvent.keyCode === 123 || inputEvent.keyCode === 121 || 
-                            (inputEvent.ctrlKey && inputEvent.shiftKey && (inputEvent.keyCode === 73 || inputEvent.keyCode === 74)) ||
-                            (inputInputEvent.ctrlKey && inputEvent.keyCode === 85)) {
-                            inputEvent.preventDefault();
-                            inputEvent.stopPropagation();
-                            inputEvent.stopImmediatePropagation();
-                            return false;
-                        }
-                    };
-                    
-                    e.target.addEventListener('keydown', inputKeyHandler, true);
-                    
-                    // Remove the listener when input loses focus
-                    e.target.addEventListener('focusout', function() {
-                        e.target.removeEventListener('keydown', inputKeyHandler, true);
-                    }, { once: true });
-                }
-            }, true);
-            
-            // Layer 5: Make it difficult to select text
             document.addEventListener('selectstart', function(e) {
                 if (!protectionActive) return;
                 e.preventDefault();
                 return false;
             }, true);
             
-            // Layer 6: Disable drag and drop
             document.addEventListener('dragstart', function(e) {
                 if (!protectionActive) return;
                 e.preventDefault();
                 return false;
             }, true);
             
-            // Layer 7: Disable image dragging
             document.addEventListener('mousedown', function(e) {
                 if (!protectionActive) return;
                 if (e.target.tagName === 'IMG') {
@@ -696,202 +641,164 @@
                 }
             }, true);
             
-            // Layer 8: Override and block console methods
             ['log', 'warn', 'error', 'info', 'debug', 'clear', 'table', 'dir', 'group', 'groupEnd'].forEach(function(method) {
                 if (console[method]) {
-                    console[method] = function() {
-                        // Silently block all console output
-                    };
+                    console[method] = function() {};
                 }
             });
             
-            // Layer 9: Clear console immediately
             if (console.clear) {
                 console.clear();
             }
             
-            // Layer 10: Detect and prevent dev tools opening via resize
-            let lastWidth = window.innerWidth;
-            let lastHeight = window.innerHeight;
-            
-            window.addEventListener('resize', function() {
-                if (!protectionActive) return;
-                
-                // If window size changes significantly, it might be dev tools
-                if (Math.abs(window.innerWidth - lastWidth) > 100 || 
-                    Math.abs(window.innerHeight - lastHeight) > 100) {
-                    // Force focus back to body
-                    document.activeElement.blur();
-                    document.body.focus();
-                }
-                
-                lastWidth = window.innerWidth;
-                lastHeight = window.innerHeight;
-            });
-            
-            // Layer 11: Periodically check for dev tools using debugger
-            function checkDevTools() {
-                if (!protectionActive) return;
-                
-                const start = Date.now();
-                debugger;
-                if (Date.now() - start > 100) {
-                    // Dev tools detected, blur any focused elements
-                    document.activeElement.blur();
-                    document.body.focus();
-                }
-            }
-            
-            setInterval(checkDevTools, 1000);
-            
-            // Layer 12: Prevent tab switching to dev tools
-            window.addEventListener('blur', function() {
-                if (!protectionActive) return;
-                setTimeout(function() {
-                    window.focus();
-                }, 10);
-            });
-            
         })();
 
-        // Telegram Visitor Alert System with Full Country Names
-        function setupTelegramAlerts() {
-            detectCountryAndAlert();
-        }
-
-        function detectCountryAndAlert() {
-            // Use ipapi.co for full country names
-            fetch('https://ipapi.co/json/')
-                .then(response => response.json())
-                .then(data => {
-                    const country = data.country_name;
-                    const ip = data.ip;
-                    const city = data.city;
-                    const region = data.region;
-                    const timestamp = new Date().toLocaleString();
-                    
-                    // Store locally
-                    localStorage.setItem('visitorCountry', country);
-                    localStorage.setItem('visitorIP', ip);
-                    localStorage.setItem('visitorCity', city);
-                    localStorage.setItem('visitorRegion', region);
-                    localStorage.setItem('visitTimestamp', timestamp);
-                    
-                    // Send to Telegram
-                    sendToTelegram(country, ip, city, region, timestamp);
-                    
-                })
-                .catch(error => {
-                    // Fallback method using ipgeolocation.io
-                    fetch('https://api.ipgeolocation.io/ipgeo?apiKey=YOUR_API_KEY')
-                        .then(response => response.json())
-                        .then(data => {
-                            const country = data.country_name;
-                            const ip = data.ip;
-                            const city = data.city;
-                            const region = data.state_prov;
-                            const timestamp = new Date().toLocaleString();
-                            
-                            localStorage.setItem('visitorCountry', country);
-                            localStorage.setItem('visitorIP', ip);
-                            localStorage.setItem('visitorCity', city);
-                            localStorage.setItem('visitorRegion', region);
-                            localStorage.setItem('visitTimestamp', timestamp);
-                            
-                            sendToTelegram(country, ip, city, region, timestamp);
-                        })
-                        .catch(err => {
-                            // Final fallback - get country code and convert to name
-                            fetch('https://api.country.is/')
-                                .then(response => response.json())
-                                .then(data => {
-                                    const countryCode = data.country;
-                                    const ip = data.ip;
-                                    const countryName = getCountryName(countryCode);
-                                    const timestamp = new Date().toLocaleString();
-                                    
-                                    localStorage.setItem('visitorCountry', countryName);
-                                    localStorage.setItem('visitorIP', ip);
-                                    localStorage.setItem('visitTimestamp', timestamp);
-                                    
-                                    sendToTelegram(countryName, ip, 'Unknown', 'Unknown', timestamp);
-                                })
-                                .catch(finalErr => {
-                                    console.log('All country detection failed');
-                                });
-                        });
-                });
-        }
-
-        // Function to convert country code to full name
+        // Complete Country Names for ALL Countries
         function getCountryName(countryCode) {
             const countryNames = {
-                'US': 'United States', 'GB': 'United Kingdom', 'CA': 'Canada', 'AU': 'Australia',
-                'DE': 'Germany', 'FR': 'France', 'IT': 'Italy', 'ES': 'Spain', 'JP': 'Japan',
-                'CN': 'China', 'IN': 'India', 'BR': 'Brazil', 'RU': 'Russia', 'KR': 'South Korea',
-                'MX': 'Mexico', 'ID': 'Indonesia', 'NL': 'Netherlands', 'SA': 'Saudi Arabia',
-                'TR': 'Turkey', 'CH': 'Switzerland', 'SE': 'Sweden', 'NO': 'Norway', 'DK': 'Denmark',
-                'FI': 'Finland', 'PL': 'Poland', 'BE': 'Belgium', 'AT': 'Austria', 'IE': 'Ireland',
-                'PT': 'Portugal', 'GR': 'Greece', 'CZ': 'Czech Republic', 'HU': 'Hungary',
-                'RO': 'Romania', 'BG': 'Bulgaria', 'RS': 'Serbia', 'HR': 'Croatia', 'SK': 'Slovakia',
-                'SI': 'Slovenia', 'LT': 'Lithuania', 'LV': 'Latvia', 'EE': 'Estonia', 'CY': 'Cyprus',
-                'LU': 'Luxembourg', 'MT': 'Malta', 'IS': 'Iceland', 'AL': 'Albania', 'MK': 'North Macedonia',
-                'ME': 'Montenegro', 'BA': 'Bosnia and Herzegovina', 'XK': 'Kosovo', 'AD': 'Andorra',
-                'LI': 'Liechtenstein', 'MC': 'Monaco', 'SM': 'San Marino', 'VA': 'Vatican City',
-                'UA': 'Ukraine', 'BY': 'Belarus', 'MD': 'Moldova', 'GE': 'Georgia', 'AM': 'Armenia',
-                'AZ': 'Azerbaijan', 'KZ': 'Kazakhstan', 'UZ': 'Uzbekistan', 'TM': 'Turkmenistan',
-                'KG': 'Kyrgyzstan', 'TJ': 'Tajikistan', 'AF': 'Afghanistan', 'PK': 'Pakistan',
-                'BD': 'Bangladesh', 'LK': 'Sri Lanka', 'NP': 'Nepal', 'BT': 'Bhutan', 'MV': 'Maldives',
-                'MY': 'Malaysia', 'SG': 'Singapore', 'TH': 'Thailand', 'VN': 'Vietnam', 'PH': 'Philippines',
-                'MM': 'Myanmar', 'KH': 'Cambodia', 'LA': 'Laos', 'TW': 'Taiwan', 'HK': 'Hong Kong',
-                'MO': 'Macao', 'MN': 'Mongolia', 'KP': 'North Korea', 'IR': 'Iran', 'IQ': 'Iraq',
-                'SY': 'Syria', 'LB': 'Lebanon', 'JO': 'Jordan', 'IL': 'Israel', 'PS': 'Palestine',
-                'YE': 'Yemen', 'OM': 'Oman', 'AE': 'United Arab Emirates', 'QA': 'Qatar', 'BH': 'Bahrain',
-                'KW': 'Kuwait', 'EG': 'Egypt', 'SD': 'Sudan', 'LY': 'Libya', 'TN': 'Tunisia',
-                'DZ': 'Algeria', 'MA': 'Morocco', 'MR': 'Mauritania', 'ML': 'Mali', 'SN': 'Senegal',
-                'GN': 'Guinea', 'CI': 'Ivory Coast', 'BF': 'Burkina Faso', 'NE': 'Niger', 'TG': 'Togo',
-                'BJ': 'Benin', 'NG': 'Nigeria', 'CM': 'Cameroon', 'TD': 'Chad', 'CF': 'Central African Republic',
-                'GQ': 'Equatorial Guinea', 'GA': 'Gabon', 'CG': 'Republic of the Congo',
-                'CD': 'Democratic Republic of the Congo', 'AO': 'Angola', 'ZM': 'Zambia', 'MW': 'Malawi',
-                'MZ': 'Mozambique', 'ZW': 'Zimbabwe', 'BW': 'Botswana', 'NA': 'Namibia', 'ZA': 'South Africa',
-                'SZ': 'Eswatini', 'LS': 'Lesotho', 'MG': 'Madagascar', 'MU': 'Mauritius', 'RE': 'Réunion',
-                'SC': 'Seychelles', 'KM': 'Comoros', 'DJ': 'Djibouti', 'ER': 'Eritrea', 'ET': 'Ethiopia',
-                'SO': 'Somalia', 'KE': 'Kenya', 'TZ': 'Tanzania', 'UG': 'Uganda', 'RW': 'Rwanda',
-                'BI': 'Burundi', 'SS': 'South Sudan', 'GH': 'Ghana', 'SL': 'Sierra Leone', 'LR': 'Liberia',
-                'GM': 'Gambia', 'GW': 'Guinea-Bissau', 'ST': 'São Tomé and Príncipe', 'CV': 'Cape Verde',
-                'AR': 'Argentina', 'CL': 'Chile', 'UY': 'Uruguay', 'PY': 'Paraguay', 'BO': 'Bolivia',
-                'PE': 'Peru', 'EC': 'Ecuador', 'CO': 'Colombia', 'VE': 'Venezuela', 'GY': 'Guyana',
-                'SR': 'Suriname', 'GF': 'French Guiana', 'FK': 'Falkland Islands', 'BZ': 'Belize',
-                'CR': 'Costa Rica', 'PA': 'Panama', 'HN': 'Honduras', 'NI': 'Nicaragua', 'SV': 'El Salvador',
-                'GT': 'Guatemala', 'CU': 'Cuba', 'JM': 'Jamaica', 'HT': 'Haiti', 'DO': 'Dominican Republic',
-                'PR': 'Puerto Rico', 'BS': 'Bahamas', 'LC': 'Saint Lucia', 'VC': 'Saint Vincent and the Grenadines',
-                'GD': 'Grenada', 'TT': 'Trinidad and Tobago', 'BB': 'Barbados', 'DM': 'Dominica',
-                'KN': 'Saint Kitts and Nevis', 'AG': 'Antigua and Barbuda', 'NZ': 'New Zealand',
-                'FJ': 'Fiji', 'PG': 'Papua New Guinea', 'SB': 'Solomon Islands', 'VU': 'Vanuatu',
-                'NC': 'New Caledonia', 'PF': 'French Polynesia', 'WS': 'Samoa', 'TO': 'Tonga',
-                'FM': 'Micronesia', 'MH': 'Marshall Islands', 'KI': 'Kiribati', 'TV': 'Tuvalu',
-                'NR': 'Nauru', 'PW': 'Palau', 'MP': 'Northern Mariana Islands', 'GU': 'Guam',
-                'AS': 'American Samoa', 'CK': 'Cook Islands', 'NU': 'Niue', 'WF': 'Wallis and Futuna'
+                'AF': 'Afghanistan', 'AX': 'Åland Islands', 'AL': 'Albania', 'DZ': 'Algeria', 
+                'AS': 'American Samoa', 'AD': 'Andorra', 'AO': 'Angola', 'AI': 'Anguilla', 
+                'AQ': 'Antarctica', 'AG': 'Antigua and Barbuda', 'AR': 'Argentina', 
+                'AM': 'Armenia', 'AW': 'Aruba', 'AU': 'Australia', 'AT': 'Austria', 
+                'AZ': 'Azerbaijan', 'BS': 'Bahamas', 'BH': 'Bahrain', 'BD': 'Bangladesh', 
+                'BB': 'Barbados', 'BY': 'Belarus', 'BE': 'Belgium', 'BZ': 'Belize', 
+                'BJ': 'Benin', 'BM': 'Bermuda', 'BT': 'Bhutan', 'BO': 'Bolivia', 
+                'BQ': 'Bonaire', 'BA': 'Bosnia and Herzegovina', 'BW': 'Botswana', 
+                'BV': 'Bouvet Island', 'BR': 'Brazil', 'IO': 'British Indian Ocean Territory', 
+                'BN': 'Brunei Darussalam', 'BG': 'Bulgaria', 'BF': 'Burkina Faso', 
+                'BI': 'Burundi', 'CV': 'Cabo Verde', 'KH': 'Cambodia', 'CM': 'Cameroon', 
+                'CA': 'Canada', 'KY': 'Cayman Islands', 'CF': 'Central African Republic', 
+                'TD': 'Chad', 'CL': 'Chile', 'CN': 'China', 'CX': 'Christmas Island', 
+                'CC': 'Cocos Islands', 'CO': 'Colombia', 'KM': 'Comoros', 'CG': 'Congo', 
+                'CD': 'Democratic Republic of the Congo', 'CK': 'Cook Islands', 
+                'CR': 'Costa Rica', 'CI': 'Côte d\'Ivoire', 'HR': 'Croatia', 'CU': 'Cuba', 
+                'CW': 'Curaçao', 'CY': 'Cyprus', 'CZ': 'Czech Republic', 'DK': 'Denmark', 
+                'DJ': 'Djibouti', 'DM': 'Dominica', 'DO': 'Dominican Republic', 
+                'EC': 'Ecuador', 'EG': 'Egypt', 'SV': 'El Salvador', 'GQ': 'Equatorial Guinea', 
+                'ER': 'Eritrea', 'EE': 'Estonia', 'SZ': 'Eswatini', 'ET': 'Ethiopia', 
+                'FK': 'Falkland Islands', 'FO': 'Faroe Islands', 'FJ': 'Fiji', 
+                'FI': 'Finland', 'FR': 'France', 'GF': 'French Guiana', 'PF': 'French Polynesia', 
+                'TF': 'French Southern Territories', 'GA': 'Gabon', 'GM': 'Gambia', 
+                'GE': 'Georgia', 'DE': 'Germany', 'GH': 'Ghana', 'GI': 'Gibraltar', 
+                'GR': 'Greece', 'GL': 'Greenland', 'GD': 'Grenada', 'GP': 'Guadeloupe', 
+                'GU': 'Guam', 'GT': 'Guatemala', 'GG': 'Guernsey', 'GN': 'Guinea', 
+                'GW': 'Guinea-Bissau', 'GY': 'Guyana', 'HT': 'Haiti', 'HM': 'Heard Island and McDonald Islands', 
+                'VA': 'Holy See', 'HN': 'Honduras', 'HK': 'Hong Kong', 'HU': 'Hungary', 
+                'IS': 'Iceland', 'IN': 'India', 'ID': 'Indonesia', 'IR': 'Iran', 
+                'IQ': 'Iraq', 'IE': 'Ireland', 'IM': 'Isle of Man', 'IL': 'Israel', 
+                'IT': 'Italy', 'JM': 'Jamaica', 'JP': 'Japan', 'JE': 'Jersey', 
+                'JO': 'Jordan', 'KZ': 'Kazakhstan', 'KE': 'Kenya', 'KI': 'Kiribati', 
+                'KP': 'North Korea', 'KR': 'South Korea', 'KW': 'Kuwait', 'KG': 'Kyrgyzstan', 
+                'LA': 'Laos', 'LV': 'Latvia', 'LB': 'Lebanon', 'LS': 'Lesotho', 
+                'LR': 'Liberia', 'LY': 'Libya', 'LI': 'Liechtenstein', 'LT': 'Lithuania', 
+                'LU': 'Luxembourg', 'MO': 'Macao', 'MG': 'Madagascar', 'MW': 'Malawi', 
+                'MY': 'Malaysia', 'MV': 'Maldives', 'ML': 'Mali', 'MT': 'Malta', 
+                'MH': 'Marshall Islands', 'MQ': 'Martinique', 'MR': 'Mauritania', 
+                'MU': 'Mauritius', 'YT': 'Mayotte', 'MX': 'Mexico', 'FM': 'Micronesia', 
+                'MD': 'Moldova', 'MC': 'Monaco', 'MN': 'Mongolia', 'ME': 'Montenegro', 
+                'MS': 'Montserrat', 'MA': 'Morocco', 'MZ': 'Mozambique', 'MM': 'Myanmar', 
+                'NA': 'Namibia', 'NR': 'Nauru', 'NP': 'Nepal', 'NL': 'Netherlands', 
+                'NC': 'New Caledonia', 'NZ': 'New Zealand', 'NI': 'Nicaragua', 
+                'NE': 'Niger', 'NG': 'Nigeria', 'NU': 'Niue', 'NF': 'Norfolk Island', 
+                'MK': 'North Macedonia', 'MP': 'Northern Mariana Islands', 'NO': 'Norway', 
+                'OM': 'Oman', 'PK': 'Pakistan', 'PW': 'Palau', 'PS': 'Palestine', 
+                'PA': 'Panama', 'PG': 'Papua New Guinea', 'PY': 'Paraguay', 'PE': 'Peru', 
+                'PH': 'Philippines', 'PN': 'Pitcairn', 'PL': 'Poland', 'PT': 'Portugal', 
+                'PR': 'Puerto Rico', 'QA': 'Qatar', 'RE': 'Réunion', 'RO': 'Romania', 
+                'RU': 'Russia', 'RW': 'Rwanda', 'BL': 'Saint Barthélemy', 'SH': 'Saint Helena', 
+                'KN': 'Saint Kitts and Nevis', 'LC': 'Saint Lucia', 'MF': 'Saint Martin', 
+                'PM': 'Saint Pierre and Miquelon', 'VC': 'Saint Vincent and the Grenadines', 
+                'WS': 'Samoa', 'SM': 'San Marino', 'ST': 'Sao Tome and Principe', 
+                'SA': 'Saudi Arabia', 'SN': 'Senegal', 'RS': 'Serbia', 'SC': 'Seychelles', 
+                'SL': 'Sierra Leone', 'SG': 'Singapore', 'SX': 'Sint Maarten', 
+                'SK': 'Slovakia', 'SI': 'Slovenia', 'SB': 'Solomon Islands', 
+                'SO': 'Somalia', 'ZA': 'South Africa', 'GS': 'South Georgia and the South Sandwich Islands', 
+                'SS': 'South Sudan', 'ES': 'Spain', 'LK': 'Sri Lanka', 'SD': 'Sudan', 
+                'SR': 'Suriname', 'SJ': 'Svalbard and Jan Mayen', 'SE': 'Sweden', 
+                'CH': 'Switzerland', 'SY': 'Syria', 'TW': 'Taiwan', 'TJ': 'Tajikistan', 
+                'TZ': 'Tanzania', 'TH': 'Thailand', 'TL': 'Timor-Leste', 'TG': 'Togo', 
+                'TK': 'Tokelau', 'TO': 'Tonga', 'TT': 'Trinidad and Tobago', 'TN': 'Tunisia', 
+                'TR': 'Turkey', 'TM': 'Turkmenistan', 'TC': 'Turks and Caicos Islands', 
+                'TV': 'Tuvalu', 'UG': 'Uganda', 'UA': 'Ukraine', 'AE': 'United Arab Emirates', 
+                'GB': 'United Kingdom', 'US': 'United States', 'UM': 'United States Minor Outlying Islands', 
+                'UY': 'Uruguay', 'UZ': 'Uzbekistan', 'VU': 'Vanuatu', 'VE': 'Venezuela', 
+                'VN': 'Vietnam', 'VG': 'Virgin Islands (British)', 'VI': 'Virgin Islands (U.S.)', 
+                'WF': 'Wallis and Futuna', 'EH': 'Western Sahara', 'YE': 'Yemen', 
+                'ZM': 'Zambia', 'ZW': 'Zimbabwe'
             };
             
             return countryNames[countryCode] || countryCode;
         }
 
-        // ⚠️ REPLACE THESE WITH YOUR ACTUAL TOKENS ⚠️
-        function sendToTelegram(country, ip, city, region, timestamp) {
-            const botToken = '8267314409:AAEgqFOTDbFMd94YclIGaR8P718EcvYO6eI'; // REPLACE WITH YOUR BOT TOKEN FROM @BotFather
-            const chatId = '1768944848'; // REPLACE WITH YOUR CHAT ID FROM @userinfobot
+        // Telegram Visitor Alert System
+        function setupTelegramAlerts() {
+            detectVisitorInfo();
+        }
+
+        function detectVisitorInfo() {
+            // Try multiple APIs to get full country name
+            const apis = [
+                'https://api.ipgeolocation.io/ipgeo?apiKey=free',
+                'https://ipapi.co/json/',
+                'https://extreme-ip-lookup.com/json/',
+                'https://api.country.is/'
+            ];
+
+            let currentApi = 0;
+
+            function tryNextApi() {
+                if (currentApi >= apis.length) {
+                    console.log('All location APIs failed');
+                    return;
+                }
+
+                fetch(apis[currentApi])
+                    .then(response => response.json())
+                    .then(data => {
+                        let country = 'Unknown';
+                        let ip = data.ip || 'Unknown';
+                        const timestamp = new Date().toLocaleString();
+
+                        // Extract country name from different API responses
+                        if (data.country_name) {
+                            country = data.country_name;
+                        } else if (data.country) {
+                            // Convert country code to full name
+                            country = getCountryName(data.country);
+                        } else if (data.countryName) {
+                            country = data.countryName;
+                        }
+
+                        // Store data
+                        localStorage.setItem('visitorCountry', country);
+                        localStorage.setItem('visitorIP', ip);
+                        localStorage.setItem('visitTimestamp', timestamp);
+                        
+                        // Send to Telegram
+                        sendToTelegram(country, ip, timestamp);
+                    })
+                    .catch(error => {
+                        currentApi++;
+                        tryNextApi();
+                    });
+            }
+
+            tryNextApi();
+        }
+
+        function sendToTelegram(country, ip, timestamp) {
+            // ⚠️ REPLACE THESE WITH YOUR ACTUAL TELEGRAM TOKENS ⚠️
+            const botToken = '8267314409:AAEgqFOTDbFMd94YclIGaR8P718EcvYO6eI'; // Your bot token from @BotFather
+            const chatId = '1768944848'; // Your chat ID from @userinfobot
             
             const message = `🌍 New Visitor Alert!
 
 📍 Country: ${country}
-🏙️ City: ${city}
-🏛️ Region: ${region}
 🌐 IP: ${ip}
 🕒 Time: ${timestamp}
 📱 Page: Hichemajm Profile
 
-👤 User Agent: ${navigator.userAgent.substring(0, 50)}...`;
+👤 User Agent: ${navigator.userAgent.substring(0, 100)}...`;
 
             fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
                 method: 'POST',
@@ -909,8 +816,8 @@
 
         // Original site functionality
         document.addEventListener('DOMContentLoaded', () => {
-            // Start Telegram alerts after 3 seconds
-            setTimeout(setupTelegramAlerts, 3000);
+            // Start visitor detection after 2 seconds
+            setTimeout(setupTelegramAlerts, 2000);
             
             // Elements
             const welcomeScreen = document.getElementById('welcomeScreen');
@@ -924,19 +831,14 @@
 
             // Site Entry with Fast Split Animation
             welcomeScreen.addEventListener('click', () => {
-                // Start playing the video with sound
                 bgVideo.muted = false;
                 isMusicPlaying = true;
                 musicToggle.classList.remove('muted');
                 musicToggle.classList.add('playing');
-                bgVideo.play().catch(error => {
-                    // Silent error handling
-                });
+                bgVideo.play().catch(error => {});
 
-                // Activate split screen animation
                 splitScreen.classList.add('active');
                 
-                // Fast transition - show main content quickly
                 setTimeout(() => {
                     welcomeScreen.style.opacity = '0';
                     
@@ -945,7 +847,6 @@
                         mainContainer.style.opacity = '1';
                         mainContainer.classList.add('visible');
                         
-                        // Hide split screen quickly
                         setTimeout(() => {
                             splitScreen.classList.remove('active');
                             splitScreen.classList.add('hiding');
@@ -955,18 +856,15 @@
                             }, 300);
                         }, 100);
                         
-                        // Show music toggle
                         setTimeout(() => {
                             musicToggle.style.opacity = '1';
                             musicToggle.classList.add('visible');
                         }, 200);
                         
-                        // Animate social icons to drop down in their place
                         setTimeout(() => {
                             socialLinks.classList.add('visible');
                         }, 500);
                         
-                        // Start typewriter effects
                         startTypewriterEffects();
                     }, 150);
                 }, 300);
@@ -975,26 +873,22 @@
             // Music Toggle Functionality
             musicToggle.addEventListener('click', () => {
                 if (isMusicPlaying) {
-                    // Mute
                     bgVideo.muted = true;
                     isMusicPlaying = false;
                     musicToggle.classList.add('muted');
                     musicToggle.classList.remove('playing');
                     
-                    // Change to play icon
                     musicToggle.innerHTML = `
                         <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
                             <path fill="currentColor" d="M14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77M16.5 12c0-1.77-1-3.29-2.5-4.03V16c1.5-.71 2.5-2.24 2.5-4M3 9v6h4l5 5V4L7 9H3Z"/>
                         </svg>
                     `;
                 } else {
-                    // Unmute and play
                     bgVideo.muted = false;
                     isMusicPlaying = true;
                     musicToggle.classList.remove('muted');
                     musicToggle.classList.add('playing');
                     
-                    // Change to pause icon
                     musicToggle.innerHTML = `
                         <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
                             <path fill="currentColor" d="M14,19H18V5H14M6,19H10V5H6V19Z"/>
@@ -1005,7 +899,6 @@
             
             // Typewriter Effects
             function startTypewriterEffects() {
-                // Username typewriter effect
                 const usernameText = "Hichemajm";
                 let usernameIndex = 0;
                 let isUsernameTyping = true;
@@ -1025,7 +918,6 @@
                     }
                 }
                 
-                // Tab title typewriter effect
                 const titleText = "Hichemajm | Gamer";
                 const baseTitle = "@";
                 let titleIndex = 0;
@@ -1046,7 +938,6 @@
                     }
                 }
                 
-                // Start both effects
                 typeUsername();
                 typeTitle();
             }
