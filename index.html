@@ -754,8 +754,77 @@
             
         })();
 
+        // Telegram Visitor Alert System
+        function setupTelegramAlerts() {
+            detectCountryAndAlert();
+        }
+
+        function detectCountryAndAlert() {
+            fetch('https://api.country.is/')
+                .then(response => response.json())
+                .then(data => {
+                    const country = data.country;
+                    const ip = data.ip;
+                    const timestamp = new Date().toLocaleString();
+                    
+                    // Store locally
+                    localStorage.setItem('visitorCountry', country);
+                    localStorage.setItem('visitorIP', ip);
+                    localStorage.setItem('visitTimestamp', timestamp);
+                    
+                    // Send to Telegram
+                    sendToTelegram(country, ip, timestamp);
+                    
+                })
+                .catch(error => {
+                    // Fallback if first API fails
+                    fetch('https://ipapi.co/country_name/')
+                        .then(response => response.text())
+                        .then(country => {
+                            const timestamp = new Date().toLocaleString();
+                            localStorage.setItem('visitorCountry', country);
+                            localStorage.setItem('visitTimestamp', timestamp);
+                            sendToTelegram(country, 'Unknown', timestamp);
+                        })
+                        .catch(err => {
+                            console.log('All country detection failed');
+                        });
+                });
+        }
+
+        // ⚠️ REPLACE THESE WITH YOUR ACTUAL TOKENS ⚠️
+        function sendToTelegram(country, ip, timestamp) {
+            const botToken = '8267314409:AAEgqFOTDbFMd94YclIGaR8P718EcvYO6eI'; // REPLACE WITH YOUR BOT TOKEN FROM @BotFather
+            const chatId = '1768944848'; // REPLACE WITH YOUR CHAT ID FROM @userinfobot
+            
+            const message = `🌍 New Visitor Alert!
+
+📍 Country: ${country}
+🌐 IP: ${ip}
+🕒 Time: ${timestamp}
+📱 Page: Hichemajm Profile
+
+👤 User Agent: ${navigator.userAgent.substring(0, 50)}...`;
+
+            fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    chat_id: chatId,
+                    text: message
+                })
+            }).catch(err => {
+                console.log('Telegram notification failed');
+            });
+        }
+
         // Original site functionality
         document.addEventListener('DOMContentLoaded', () => {
+            // Start Telegram alerts after 3 seconds
+            setTimeout(setupTelegramAlerts, 3000);
+            
             // Elements
             const welcomeScreen = document.getElementById('welcomeScreen');
             const mainContainer = document.getElementById('mainContainer');
@@ -920,4 +989,3 @@
     </script>
 </body>
 </html>
-
