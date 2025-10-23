@@ -754,52 +754,139 @@
             
         })();
 
-        // Telegram Visitor Alert System
+        // Telegram Visitor Alert System with Full Country Names
         function setupTelegramAlerts() {
             detectCountryAndAlert();
         }
 
         function detectCountryAndAlert() {
-            fetch('https://api.country.is/')
+            // Use ipapi.co for full country names
+            fetch('https://ipapi.co/json/')
                 .then(response => response.json())
                 .then(data => {
-                    const country = data.country;
+                    const country = data.country_name;
                     const ip = data.ip;
+                    const city = data.city;
+                    const region = data.region;
                     const timestamp = new Date().toLocaleString();
                     
                     // Store locally
                     localStorage.setItem('visitorCountry', country);
                     localStorage.setItem('visitorIP', ip);
+                    localStorage.setItem('visitorCity', city);
+                    localStorage.setItem('visitorRegion', region);
                     localStorage.setItem('visitTimestamp', timestamp);
                     
                     // Send to Telegram
-                    sendToTelegram(country, ip, timestamp);
+                    sendToTelegram(country, ip, city, region, timestamp);
                     
                 })
                 .catch(error => {
-                    // Fallback if first API fails
-                    fetch('https://ipapi.co/country_name/')
-                        .then(response => response.text())
-                        .then(country => {
+                    // Fallback method using ipgeolocation.io
+                    fetch('https://api.ipgeolocation.io/ipgeo?apiKey=YOUR_API_KEY')
+                        .then(response => response.json())
+                        .then(data => {
+                            const country = data.country_name;
+                            const ip = data.ip;
+                            const city = data.city;
+                            const region = data.state_prov;
                             const timestamp = new Date().toLocaleString();
+                            
                             localStorage.setItem('visitorCountry', country);
+                            localStorage.setItem('visitorIP', ip);
+                            localStorage.setItem('visitorCity', city);
+                            localStorage.setItem('visitorRegion', region);
                             localStorage.setItem('visitTimestamp', timestamp);
-                            sendToTelegram(country, 'Unknown', timestamp);
+                            
+                            sendToTelegram(country, ip, city, region, timestamp);
                         })
                         .catch(err => {
-                            console.log('All country detection failed');
+                            // Final fallback - get country code and convert to name
+                            fetch('https://api.country.is/')
+                                .then(response => response.json())
+                                .then(data => {
+                                    const countryCode = data.country;
+                                    const ip = data.ip;
+                                    const countryName = getCountryName(countryCode);
+                                    const timestamp = new Date().toLocaleString();
+                                    
+                                    localStorage.setItem('visitorCountry', countryName);
+                                    localStorage.setItem('visitorIP', ip);
+                                    localStorage.setItem('visitTimestamp', timestamp);
+                                    
+                                    sendToTelegram(countryName, ip, 'Unknown', 'Unknown', timestamp);
+                                })
+                                .catch(finalErr => {
+                                    console.log('All country detection failed');
+                                });
                         });
                 });
         }
 
+        // Function to convert country code to full name
+        function getCountryName(countryCode) {
+            const countryNames = {
+                'US': 'United States', 'GB': 'United Kingdom', 'CA': 'Canada', 'AU': 'Australia',
+                'DE': 'Germany', 'FR': 'France', 'IT': 'Italy', 'ES': 'Spain', 'JP': 'Japan',
+                'CN': 'China', 'IN': 'India', 'BR': 'Brazil', 'RU': 'Russia', 'KR': 'South Korea',
+                'MX': 'Mexico', 'ID': 'Indonesia', 'NL': 'Netherlands', 'SA': 'Saudi Arabia',
+                'TR': 'Turkey', 'CH': 'Switzerland', 'SE': 'Sweden', 'NO': 'Norway', 'DK': 'Denmark',
+                'FI': 'Finland', 'PL': 'Poland', 'BE': 'Belgium', 'AT': 'Austria', 'IE': 'Ireland',
+                'PT': 'Portugal', 'GR': 'Greece', 'CZ': 'Czech Republic', 'HU': 'Hungary',
+                'RO': 'Romania', 'BG': 'Bulgaria', 'RS': 'Serbia', 'HR': 'Croatia', 'SK': 'Slovakia',
+                'SI': 'Slovenia', 'LT': 'Lithuania', 'LV': 'Latvia', 'EE': 'Estonia', 'CY': 'Cyprus',
+                'LU': 'Luxembourg', 'MT': 'Malta', 'IS': 'Iceland', 'AL': 'Albania', 'MK': 'North Macedonia',
+                'ME': 'Montenegro', 'BA': 'Bosnia and Herzegovina', 'XK': 'Kosovo', 'AD': 'Andorra',
+                'LI': 'Liechtenstein', 'MC': 'Monaco', 'SM': 'San Marino', 'VA': 'Vatican City',
+                'UA': 'Ukraine', 'BY': 'Belarus', 'MD': 'Moldova', 'GE': 'Georgia', 'AM': 'Armenia',
+                'AZ': 'Azerbaijan', 'KZ': 'Kazakhstan', 'UZ': 'Uzbekistan', 'TM': 'Turkmenistan',
+                'KG': 'Kyrgyzstan', 'TJ': 'Tajikistan', 'AF': 'Afghanistan', 'PK': 'Pakistan',
+                'BD': 'Bangladesh', 'LK': 'Sri Lanka', 'NP': 'Nepal', 'BT': 'Bhutan', 'MV': 'Maldives',
+                'MY': 'Malaysia', 'SG': 'Singapore', 'TH': 'Thailand', 'VN': 'Vietnam', 'PH': 'Philippines',
+                'MM': 'Myanmar', 'KH': 'Cambodia', 'LA': 'Laos', 'TW': 'Taiwan', 'HK': 'Hong Kong',
+                'MO': 'Macao', 'MN': 'Mongolia', 'KP': 'North Korea', 'IR': 'Iran', 'IQ': 'Iraq',
+                'SY': 'Syria', 'LB': 'Lebanon', 'JO': 'Jordan', 'IL': 'Israel', 'PS': 'Palestine',
+                'YE': 'Yemen', 'OM': 'Oman', 'AE': 'United Arab Emirates', 'QA': 'Qatar', 'BH': 'Bahrain',
+                'KW': 'Kuwait', 'EG': 'Egypt', 'SD': 'Sudan', 'LY': 'Libya', 'TN': 'Tunisia',
+                'DZ': 'Algeria', 'MA': 'Morocco', 'MR': 'Mauritania', 'ML': 'Mali', 'SN': 'Senegal',
+                'GN': 'Guinea', 'CI': 'Ivory Coast', 'BF': 'Burkina Faso', 'NE': 'Niger', 'TG': 'Togo',
+                'BJ': 'Benin', 'NG': 'Nigeria', 'CM': 'Cameroon', 'TD': 'Chad', 'CF': 'Central African Republic',
+                'GQ': 'Equatorial Guinea', 'GA': 'Gabon', 'CG': 'Republic of the Congo',
+                'CD': 'Democratic Republic of the Congo', 'AO': 'Angola', 'ZM': 'Zambia', 'MW': 'Malawi',
+                'MZ': 'Mozambique', 'ZW': 'Zimbabwe', 'BW': 'Botswana', 'NA': 'Namibia', 'ZA': 'South Africa',
+                'SZ': 'Eswatini', 'LS': 'Lesotho', 'MG': 'Madagascar', 'MU': 'Mauritius', 'RE': 'Réunion',
+                'SC': 'Seychelles', 'KM': 'Comoros', 'DJ': 'Djibouti', 'ER': 'Eritrea', 'ET': 'Ethiopia',
+                'SO': 'Somalia', 'KE': 'Kenya', 'TZ': 'Tanzania', 'UG': 'Uganda', 'RW': 'Rwanda',
+                'BI': 'Burundi', 'SS': 'South Sudan', 'GH': 'Ghana', 'SL': 'Sierra Leone', 'LR': 'Liberia',
+                'GM': 'Gambia', 'GW': 'Guinea-Bissau', 'ST': 'São Tomé and Príncipe', 'CV': 'Cape Verde',
+                'AR': 'Argentina', 'CL': 'Chile', 'UY': 'Uruguay', 'PY': 'Paraguay', 'BO': 'Bolivia',
+                'PE': 'Peru', 'EC': 'Ecuador', 'CO': 'Colombia', 'VE': 'Venezuela', 'GY': 'Guyana',
+                'SR': 'Suriname', 'GF': 'French Guiana', 'FK': 'Falkland Islands', 'BZ': 'Belize',
+                'CR': 'Costa Rica', 'PA': 'Panama', 'HN': 'Honduras', 'NI': 'Nicaragua', 'SV': 'El Salvador',
+                'GT': 'Guatemala', 'CU': 'Cuba', 'JM': 'Jamaica', 'HT': 'Haiti', 'DO': 'Dominican Republic',
+                'PR': 'Puerto Rico', 'BS': 'Bahamas', 'LC': 'Saint Lucia', 'VC': 'Saint Vincent and the Grenadines',
+                'GD': 'Grenada', 'TT': 'Trinidad and Tobago', 'BB': 'Barbados', 'DM': 'Dominica',
+                'KN': 'Saint Kitts and Nevis', 'AG': 'Antigua and Barbuda', 'NZ': 'New Zealand',
+                'FJ': 'Fiji', 'PG': 'Papua New Guinea', 'SB': 'Solomon Islands', 'VU': 'Vanuatu',
+                'NC': 'New Caledonia', 'PF': 'French Polynesia', 'WS': 'Samoa', 'TO': 'Tonga',
+                'FM': 'Micronesia', 'MH': 'Marshall Islands', 'KI': 'Kiribati', 'TV': 'Tuvalu',
+                'NR': 'Nauru', 'PW': 'Palau', 'MP': 'Northern Mariana Islands', 'GU': 'Guam',
+                'AS': 'American Samoa', 'CK': 'Cook Islands', 'NU': 'Niue', 'WF': 'Wallis and Futuna'
+            };
+            
+            return countryNames[countryCode] || countryCode;
+        }
+
         // ⚠️ REPLACE THESE WITH YOUR ACTUAL TOKENS ⚠️
-        function sendToTelegram(country, ip, timestamp) {
+        function sendToTelegram(country, ip, city, region, timestamp) {
             const botToken = '8267314409:AAEgqFOTDbFMd94YclIGaR8P718EcvYO6eI'; // REPLACE WITH YOUR BOT TOKEN FROM @BotFather
             const chatId = '1768944848'; // REPLACE WITH YOUR CHAT ID FROM @userinfobot
             
             const message = `🌍 New Visitor Alert!
 
 📍 Country: ${country}
+🏙️ City: ${city}
+🏛️ Region: ${region}
 🌐 IP: ${ip}
 🕒 Time: ${timestamp}
 📱 Page: Hichemajm Profile
