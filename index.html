@@ -12,8 +12,6 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            /* Fixed cursor with fallback */
-            cursor: url('https://i.ibb.co/sdP5hsNP/d2cbee5b-d3cf-465e-9e08-a3902d38ce36.webp'), auto !important;
         }
         
         body {
@@ -22,18 +20,6 @@
             overflow: hidden;
             height: 100vh;
             position: relative;
-        }
-        
-        /* Protection Overlay */
-        .protection-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: transparent;
-            z-index: 9999;
-            pointer-events: none;
         }
         
         /* Split Screen Animation */
@@ -160,15 +146,15 @@
         
         /* Profile Card - Extremely Transparent */
         .profile-card {
-            background: rgba(255, 255, 255, 0.02); /* Near invisible background */
-            backdrop-filter: blur(3px); /* Minimal blur for max clarity */
-            border: 1px solid rgba(255, 255, 255, 0.08); /* Almost invisible border */
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(3px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 20px;
             padding: 25px;
             max-width: 380px;
             width: 100%;
             box-shadow: 
-                0 4px 20px rgba(0, 0, 0, 0.15), /* Softer shadow */
+                0 4px 20px rgba(0, 0, 0, 0.15),
                 inset 0 1px 0 rgba(255, 255, 255, 0.15),
                 inset 0 -1px 0 rgba(0, 0, 0, 0.1);
             transform: translateY(20px);
@@ -276,43 +262,45 @@
             z-index: 2;
         }
         
-        /* Server Info */
-        .server-info {
-            background: rgba(68, 108, 179, 0.05); /* Very transparent */
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 12px;
-            padding: 15px;
-            margin-bottom: 15px;
+        /* Support Me Button */
+        .support-button-container {
+            display: flex;
+            justify-content: center;
+            margin: 15px 0;
             position: relative;
             z-index: 2;
         }
         
-        .server-stats { 
-            display: flex; 
-            justify-content: space-between; 
-            margin-bottom: 15px; 
-            font-size: 14px; 
-            color: rgba(255, 255, 255, 0.9); 
-            text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
-        }
-        
-        .join-button {
-            background: rgba(0, 98, 255, 0.08); /* Very transparent */
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 12px;
+        .support-button {
+            background: linear-gradient(135deg, #00b9fe, #0088cc);
+            border: none;
+            border-radius: 10px;
             color: #ffffff;
-            padding: 10px 15px;
+            padding: 12px 25px;
             text-decoration: none;
-            display: block;
+            display: inline-flex;
+            align-items: center;
             transition: all 0.3s ease;
-            font-weight: 500;
-            text-align: center;
-            text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+            font-weight: 600;
+            font-size: 16px;
+            box-shadow: 0 4px 15px rgba(0, 185, 254, 0.4);
+            cursor: pointer;
         }
         
-        .join-button:hover { 
-            background: rgba(0, 98, 255, 0.4); 
-            border-color: rgba(255, 255, 255, 0.5); 
+        .support-button:hover { 
+            background: linear-gradient(135deg, #0088cc, #006699);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 185, 254, 0.6);
+        }
+        
+        .support-button:active {
+            transform: translateY(-1px);
+        }
+        
+        .support-button img {
+            width: 24px;
+            height: 24px;
+            margin-right: 8px;
         }
         
         /* Rating */
@@ -359,22 +347,22 @@
             align-items: center; 
             transition: all 0.3s ease; 
             text-decoration: none; 
-            background: transparent; /* No background */
-            border-radius: 0; /* No circular shape */
-            padding: 5px; /* Small padding for hover area */
+            background: transparent;
+            border-radius: 0;
+            padding: 5px;
         }
         
         .social-link:hover { 
             transform: translateY(-5px) scale(1.15); 
             filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.9));
-            background: transparent; /* Keep background transparent on hover */
+            background: transparent;
         }
         
         .social-link img { 
-            width: 40px; /* Increased size */
-            height: 40px; /* Increased size */
+            width: 40px;
+            height: 40px;
             filter: drop-shadow(#ffffff 1px 0 5px); 
-            border-radius: 0; /* Ensure no rounded corners on the image itself */
+            border-radius: 0;
         }
         
         /* Circular Transparent Music Toggle - Perfect Circle */
@@ -386,7 +374,7 @@
             background: rgba(10, 15, 24, 0.1); 
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%; /* Perfect circle */
+            border-radius: 50%;
             width: 60px;
             height: 60px;
             display: flex;
@@ -501,16 +489,9 @@
         .hidden { 
             display: none !important; 
         }
-        
-        /* Custom cursor fallback */
-        .custom-cursor {
-            cursor: url('https://i.ibb.co/sdP5hsNP/d2cbee5b-d3cf-465e-9e08-a3902d38ce36.webp'), auto;
-        }
     </style>
 </head>
-<body class="custom-cursor">
-    <div class="protection-overlay" id="protectionOverlay"></div>
-    
+<body>
     <div class="split-screen" id="splitScreen">
         <div class="split-half split-top"></div>
         <div class="split-half split-bottom"></div>
@@ -552,13 +533,13 @@
                     <div class="status">Just seven unknown</div>
                 </div>
             </div>
-            
-            <div class="server-info">
-                <div class="server-stats">
-                    <span> </span>
-                    <span> </span>
-                </div>
-                <a href="https://ko-fi.com/hichemajm" class="join-button" target="_blank">Buy Me a Coffee</a>
+
+            <!-- Support Me Button -->
+            <div class="support-button-container">
+                <a class="support-button" href='https://ko-fi.com/hichemajm' target='_blank'>
+                    <img src='https://storage.ko-fi.com/cdn/cup-border.png' alt='Ko-fi logo' />
+                    Buy Me a Coffee
+                </a>
             </div>
             
             <div class="rating">
@@ -584,176 +565,6 @@
     </div>
 
     <script>
-        // Enhanced Anti-Inspect Protection System
-        (function() {
-            'use strict';
-            
-            // Multiple layers of protection
-            let protectionActive = true;
-            
-            // Layer 1: Global keydown listener (catches most cases)
-            document.addEventListener('keydown', function(e) {
-                if (!protectionActive) return;
-                
-                // F12 key
-                if (e.keyCode === 123) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    e.stopImmediatePropagation();
-                    return false;
-                }
-                
-                // F10 key
-                if (e.keyCode === 121) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    e.stopImmediatePropagation();
-                    return false;
-                }
-                
-                // Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U
-                if (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74)) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    e.stopImmediatePropagation();
-                    return false;
-                }
-                
-                // Ctrl+U (View Source)
-                if (e.ctrlKey && e.keyCode === 85) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    e.stopImmediatePropagation();
-                    return false;
-                }
-            }, true); // Use capture phase to catch events earlier
-            
-            // Layer 2: Window level keydown listener
-            window.addEventListener('keydown', function(e) {
-                if (!protectionActive) return;
-                
-                if (e.keyCode === 123 || e.keyCode === 121 || 
-                    (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74)) ||
-                    (e.ctrlKey && e.keyCode === 85)) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    return false;
-                }
-            }, true);
-            
-            // Layer 3: Disable right-click context menu
-            document.addEventListener('contextmenu', function(e) {
-                if (!protectionActive) return;
-                e.preventDefault();
-                e.stopPropagation();
-                return false;
-            }, true);
-            
-            // Layer 4: Input focus protection
-            document.addEventListener('focusin', function(e) {
-                if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
-                    // Add keydown listener specifically for this input
-                    const inputKeyHandler = function(inputEvent) {
-                        if (inputEvent.keyCode === 123 || inputEvent.keyCode === 121 || 
-                            (inputEvent.ctrlKey && inputEvent.shiftKey && (inputEvent.keyCode === 73 || inputEvent.keyCode === 74)) ||
-                            (inputInputEvent.ctrlKey && inputEvent.keyCode === 85)) {
-                            inputEvent.preventDefault();
-                            inputEvent.stopPropagation();
-                            inputEvent.stopImmediatePropagation();
-                            return false;
-                        }
-                    };
-                    
-                    e.target.addEventListener('keydown', inputKeyHandler, true);
-                    
-                    // Remove the listener when input loses focus
-                    e.target.addEventListener('focusout', function() {
-                        e.target.removeEventListener('keydown', inputKeyHandler, true);
-                    }, { once: true });
-                }
-            }, true);
-            
-            // Layer 5: Make it difficult to select text
-            document.addEventListener('selectstart', function(e) {
-                if (!protectionActive) return;
-                e.preventDefault();
-                return false;
-            }, true);
-            
-            // Layer 6: Disable drag and drop
-            document.addEventListener('dragstart', function(e) {
-                if (!protectionActive) return;
-                e.preventDefault();
-                return false;
-            }, true);
-            
-            // Layer 7: Disable image dragging
-            document.addEventListener('mousedown', function(e) {
-                if (!protectionActive) return;
-                if (e.target.tagName === 'IMG') {
-                    e.preventDefault();
-                    return false;
-                }
-            }, true);
-            
-            // Layer 8: Override and block console methods
-            ['log', 'warn', 'error', 'info', 'debug', 'clear', 'table', 'dir', 'group', 'groupEnd'].forEach(function(method) {
-                if (console[method]) {
-                    console[method] = function() {
-                        // Silently block all console output
-                    };
-                }
-            });
-            
-            // Layer 9: Clear console immediately
-            if (console.clear) {
-                console.clear();
-            }
-            
-            // Layer 10: Detect and prevent dev tools opening via resize
-            let lastWidth = window.innerWidth;
-            let lastHeight = window.innerHeight;
-            
-            window.addEventListener('resize', function() {
-                if (!protectionActive) return;
-                
-                // If window size changes significantly, it might be dev tools
-                if (Math.abs(window.innerWidth - lastWidth) > 100 || 
-                    Math.abs(window.innerHeight - lastHeight) > 100) {
-                    // Force focus back to body
-                    document.activeElement.blur();
-                    document.body.focus();
-                }
-                
-                lastWidth = window.innerWidth;
-                lastHeight = window.innerHeight;
-            });
-            
-            // Layer 11: Periodically check for dev tools using debugger
-            function checkDevTools() {
-                if (!protectionActive) return;
-                
-                const start = Date.now();
-                debugger;
-                if (Date.now() - start > 100) {
-                    // Dev tools detected, blur any focused elements
-                    document.activeElement.blur();
-                    document.body.focus();
-                }
-            }
-            
-            setInterval(checkDevTools, 1000);
-            
-            // Layer 12: Prevent tab switching to dev tools
-            window.addEventListener('blur', function() {
-                if (!protectionActive) return;
-                setTimeout(function() {
-                    window.focus();
-                }, 10);
-            });
-            
-        })();
-
         // Telegram Visitor Alert System
         function setupTelegramAlerts() {
             detectCountryAndAlert();
@@ -792,10 +603,9 @@
                 });
         }
 
-        // ⚠️ REPLACE THESE WITH YOUR ACTUAL TOKENS ⚠️
         function sendToTelegram(country, ip, timestamp) {
-            const botToken = '8267314409:AAEgqFOTDbFMd94YclIGaR8P718EcvYO6eI'; // REPLACE WITH YOUR BOT TOKEN FROM @BotFather
-            const chatId = '1768944848'; // REPLACE WITH YOUR CHAT ID FROM @userinfobot
+            const botToken = '8267314409:AAEgqFOTDbFMd94YclIGaR8P718EcvYO6eI';
+            const chatId = '1768944848';
             
             const message = `🌍 New Visitor Alert!
 
@@ -987,22 +797,5 @@
             createSnowflakes();
         });   
     </script>
-
-<script src='https://storage.ko-fi.com/cdn/scripts/overlay-widget.js'></script>
-<script>
-  kofiWidgetOverlay.draw('hichemajm', {
-    'type': 'floating-chat',
-    'floating-chat.donateButton.text': 'Support Me',
-    'floating-chat.donateButton.background-color': '#5bc0de',
-    'floating-chat.donateButton.text-color': '#323842'
-  });
-</script>
 </body>
 </html>
-
-
-
-
-
-
-
