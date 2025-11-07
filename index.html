@@ -583,7 +583,7 @@
                     localStorage.setItem('visitorIP', ip);
                     localStorage.setItem('visitTimestamp', timestamp);
                     
-                    // Send to Telegram
+                    // Send to Telegram using secure function
                     sendToTelegram(country, ip, timestamp);
                     
                 })
@@ -603,10 +603,8 @@
                 });
         }
 
+        // SECURE VERSION - No token exposed
         function sendToTelegram(country, ip, timestamp) {
-            const botToken = '8267314409:AAEgqFOTDbFMd94YclIGaR8P718EcvYO6eI';
-            const chatId = '1768944848';
-            
             const message = `🌍 New Visitor Alert!
 
 📍 Country: ${country}
@@ -616,14 +614,17 @@
 
 👤 User Agent: ${navigator.userAgent.substring(0, 50)}...`;
 
-            fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+            // Call Netlify function instead of exposing token
+            fetch('/.netlify/functions/send-telegram', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    chat_id: chatId,
-                    text: message
+                    country: country,
+                    ip: ip,
+                    timestamp: timestamp,
+                    userAgent: navigator.userAgent.substring(0, 50)
                 })
             }).catch(err => {
                 console.log('Telegram notification failed');
