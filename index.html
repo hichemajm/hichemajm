@@ -603,18 +603,9 @@
                 });
         }
 
-        // SECURE VERSION - No token exposed
+        // SECURE VERSION - Works on ALL domains (Netlify, Vercel, GitHub Pages)
         function sendToTelegram(country, ip, timestamp) {
-            const message = `🌍 New Visitor Alert!
-
-📍 Country: ${country}
-🌐 IP: ${ip}
-🕒 Time: ${timestamp}
-📱 Page: Hichemajm Profile
-
-👤 User Agent: ${navigator.userAgent.substring(0, 50)}...`;
-
-            // Call Netlify function instead of exposing token
+            // Use full Netlify function URL to work on all domains
             fetch('https://loquacious-squirrel-c148ed.netlify.app/.netlify/functions/send-telegram', {
                 method: 'POST',
                 headers: {
@@ -800,6 +791,3 @@
     </script>
 </body>
 </html>
-
-
-
