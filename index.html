@@ -571,41 +571,41 @@
         }
 
         function detectCountryAndAlert() {
-            fetch('https://api.country.is/')
-                .then(response => response.json())
-                .then(data => {
-                    const country = data.country;
-                    const ip = data.ip;
+    fetch('https://api.country.is/')
+        .then(response => response.json())
+        .then(data => {
+            const country = data.country;
+            const timestamp = new Date().toLocaleString();
+            
+            // Store locally
+            localStorage.setItem('visitorCountry', country);
+            localStorage.setItem('visitTimestamp', timestamp);
+            
+            // Send to Telegram using secure function (no IP)
+            sendToTelegram(country, timestamp);
+            
+        })
+        .catch(error => {
+            // Fallback if first API fails
+            fetch('https://ipapi.co/country_name/')
+                .then(response => response.text())
+                .then(country => {
                     const timestamp = new Date().toLocaleString();
-                    
-                    // Store locally
                     localStorage.setItem('visitorCountry', country);
-                    localStorage.setItem('visitorIP', ip);
                     localStorage.setItem('visitTimestamp', timestamp);
-                    
-                    // Send to Telegram using secure function
-                    sendToTelegram(country, ip, timestamp);
-                    
+                    sendToTelegram(country, timestamp);
                 })
-                .catch(error => {
-                    // Fallback if first API fails
-                    fetch('https://ipapi.co/country_name/')
-                        .then(response => response.text())
-                        .then(country => {
-                            const timestamp = new Date().toLocaleString();
-                            localStorage.setItem('visitorCountry', country);
-                            localStorage.setItem('visitTimestamp', timestamp);
-                            sendToTelegram(country, 'Unknown', timestamp);
-                        })
-                        .catch(err => {
-                            console.log('All country detection failed');
-                        });
+                .catch(err => {
+                    console.log('All country detection failed');
+                    // Send with unknown country
+                    const timestamp = new Date().toLocaleString();
+                    sendToTelegram('Unknown', timestamp);
                 });
-        }
-
-        // SECURE VERSION - Works on ALL domains (Netlify, Vercel, GitHub Pages)
-function sendToTelegram(country, ip, timestamp) {
-    console.log('Sending visitor alert:', { country, ip, timestamp });
+        });
+}
+     // SECURE VERSION - Works on ALL domains (Netlify, Vercel, GitHub Pages)
+function sendToTelegram(country, timestamp) {
+    console.log('Sending visitor alert:', { country, timestamp });
     
     // Use full Netlify function URL to work on all domains
     fetch('https://loquacious-squirrel-c148ed.netlify.app/.netlify/functions/send-telegram', {
@@ -615,7 +615,6 @@ function sendToTelegram(country, ip, timestamp) {
         },
         body: JSON.stringify({
             country: country,
-            ip: ip,
             timestamp: timestamp,
             userAgent: navigator.userAgent.substring(0, 100)
         })
@@ -628,7 +627,6 @@ function sendToTelegram(country, ip, timestamp) {
         console.log('Telegram notification failed:', err);
     });
 }
-
         // Original site functionality
         document.addEventListener('DOMContentLoaded', () => {
             // Start Telegram alerts after 3 seconds
@@ -798,4 +796,5 @@ function sendToTelegram(country, ip, timestamp) {
     </script>
 </body>
 </html>
+
 
