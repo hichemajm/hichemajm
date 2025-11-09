@@ -42,7 +42,7 @@ exports.handler = async function(event, context) {
       };
     }
     
-    const message = `🌍 New Visitor Alert!\n\n📍 Country: ${country}\n🕒 Time: ${timestamp}\n📱 Platform: ${userAgent || 'Unknown'}`;
+    const message = `🌍 New Visitor Alert!\n\n\n📍 Country: ${country}\n\n🕒 Time: ${timestamp}\n\n📱 Platform: ${userAgent || 'Unknown'}`;
     
     console.log('Sending to Telegram:', { country, timestamp });
     
