@@ -604,23 +604,30 @@
         }
 
         // SECURE VERSION - Works on ALL domains (Netlify, Vercel, GitHub Pages)
-        function sendToTelegram(country, ip, timestamp) {
-            // Use full Netlify function URL to work on all domains
-            fetch('https://loquacious-squirrel-c148ed.netlify.app/.netlify/functions/send-telegram', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    country: country,
-                    ip: ip,
-                    timestamp: timestamp,
-                    userAgent: navigator.userAgent.substring(0, 50)
-                })
-            }).catch(err => {
-                console.log('Telegram notification failed');
-            });
-        }
+function sendToTelegram(country, ip, timestamp) {
+    console.log('Sending visitor alert:', { country, ip, timestamp });
+    
+    // Use full Netlify function URL to work on all domains
+    fetch('https://loquacious-squirrel-c148ed.netlify.app/.netlify/functions/send-telegram', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            country: country,
+            ip: ip,
+            timestamp: timestamp,
+            userAgent: navigator.userAgent.substring(0, 100)
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Telegram notification response:', data);
+    })
+    .catch(err => {
+        console.log('Telegram notification failed:', err);
+    });
+}
 
         // Original site functionality
         document.addEventListener('DOMContentLoaded', () => {
@@ -791,3 +798,4 @@
     </script>
 </body>
 </html>
+
