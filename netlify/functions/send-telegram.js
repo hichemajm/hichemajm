@@ -27,7 +27,7 @@ exports.handler = async function(event, context) {
   }
   
   try {
-    const { country, ip, timestamp, userAgent } = JSON.parse(event.body);
+    const { country, timestamp, userAgent } = JSON.parse(event.body);
     
     // Get tokens from environment variables
     const botToken = process.env.TELEGRAM_BOT_TOKEN;
@@ -42,9 +42,9 @@ exports.handler = async function(event, context) {
       };
     }
     
-    const message = `🌍 New Visitor Alert!\n\n📍 Country: ${country}\n🌐 IP: ${ip}\n🕒 Time: ${timestamp}\n📱 User Agent: ${userAgent || 'Unknown'}`;
+    const message = `🌍 New Visitor Alert!\n\n📍 Country: ${country}\n🕒 Time: ${timestamp}\n📱 Platform: ${userAgent || 'Unknown'}`;
     
-    console.log('Sending to Telegram:', { country, ip, timestamp });
+    console.log('Sending to Telegram:', { country, timestamp });
     
     const telegramResponse = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
       method: 'POST',
