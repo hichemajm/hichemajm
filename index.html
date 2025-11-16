@@ -493,6 +493,43 @@
         .hidden { 
             display: none !important; 
         }
+
+        /* Profile Views Counter */
+        .profile-views {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            padding: 8px 12px;
+            font-size: 12px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            z-index: 3;
+            transition: all 0.3s ease;
+        }
+
+        .profile-views:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .profile-views-icon {
+            width: 14px;
+            height: 14px;
+            filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.7));
+        }
+
+        .profile-views-count {
+            color: #fff;
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+        }
     </style>
 </head>
 <body>
@@ -523,6 +560,14 @@
     
     <div class="main-container" id="mainContainer">
         <div class="profile-card">
+            <!-- Profile Views Counter -->
+            <div class="profile-views" id="profileViews">
+                <svg class="profile-views-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                </svg>
+                <span class="profile-views-count" id="viewsCount">0</span>
+            </div>
+            
             <div class="profile-header">
                 <div class="avatar-container">
                     <img alt="Avatar Decoration" class="avatar-decoration" src="https://cdn.discordapp.com/avatar-decoration-presets/a_1005898c6acf56a9ac5010baf444f6fd.png">
@@ -569,189 +614,251 @@
     </div>
 
     <script>
+        // Profile Views Counter System
+        function setupProfileViewsCounter() {
+            // Check if this is a new visitor
+            const visitorId = generateVisitorId();
+            const hasVisited = localStorage.getItem(`visited_${visitorId}`);
+            
+            if (!hasVisited) {
+                // This is a new visitor, increment the count
+                incrementProfileViews();
+                localStorage.setItem(`visited_${visitorId}`, 'true');
+            }
+            
+            // Display the current count
+            updateProfileViewsDisplay();
+        }
+        
+        function generateVisitorId() {
+            // Create a unique identifier for this visitor
+            // Using a combination of user agent and screen resolution
+            const userAgent = navigator.userAgent;
+            const screenResolution = `${screen.width}x${screen.height}`;
+            const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+            
+            // Create a hash of these values
+            return btoa(`${userAgent}-${screenResolution}-${timezone}`).substring(0, 20);
+        }
+        
+        function incrementProfileViews() {
+            // Get current count from localStorage
+            let currentCount = parseInt(localStorage.getItem('profileViewsCount') || '0');
+            
+            // Increment the count
+            currentCount++;
+            
+            // Save the updated count
+            localStorage.setItem('profileViewsCount', currentCount.toString());
+            
+            // Also update the display
+            updateProfileViewsDisplay();
+            
+            // Send to server for persistence (optional)
+            sendProfileViewToServer(currentCount);
+        }
+        
+        function updateProfileViewsDisplay() {
+            const count = localStorage.getItem('profileViewsCount') || '0';
+            const viewsCountElement = document.getElementById('viewsCount');
+            
+            if (viewsCountElement) {
+                // Format the number with commas for thousands
+                const formattedCount = parseInt(count).toLocaleString();
+                viewsCountElement.textContent = formattedCount;
+            }
+        }
+        
+        function sendProfileViewToServer(count) {
+            // Optional: Send the count to a server for persistence across devices
+            // This would require a backend service
+            console.log(`Profile views: ${count}`);
+            
+            // Example of sending to a server endpoint (uncomment and modify if you have a backend)
+            /*
+            fetch('/api/profile-views', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    count: count,
+                    timestamp: new Date().toISOString()
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Profile view count updated on server');
+            })
+            .catch(err => {
+                console.log('Failed to update profile view count on server');
+            });
+            */
+        }
+
         // Telegram Visitor Alert System
-function setupTelegramAlerts() {
-    detectCountryAndAlert();
-}
+        function setupTelegramAlerts() {
+            detectCountryAndAlert();
+        }
 
-function detectCountryAndAlert() {
-    // Complete mapping of all 195 country codes to full names
-    function getCountryName(countryCode) {
-        const countryNames = {
-            'AF': 'Afghanistan', 'AX': 'Åland Islands', 'AL': 'Albania', 'DZ': 'Algeria',
-            'AS': 'American Samoa', 'AD': 'Andorra', 'AO': 'Angola', 'AI': 'Anguilla',
-            'AQ': 'Antarctica', 'AG': 'Antigua and Barbuda', 'AR': 'Argentina',
-            'AM': 'Armenia', 'AW': 'Aruba', 'AU': 'Australia', 'AT': 'Austria',
-            'AZ': 'Azerbaijan', 'BS': 'Bahamas', 'BH': 'Bahrain', 'BD': 'Bangladesh',
-            'BB': 'Barbados', 'BY': 'Belarus', 'BE': 'Belgium', 'BZ': 'Belize',
-            'BJ': 'Benin', 'BM': 'Bermuda', 'BT': 'Bhutan', 'BO': 'Bolivia',
-            'BQ': 'Bonaire, Sint Eustatius and Saba', 'BA': 'Bosnia and Herzegovina',
-            'BW': 'Botswana', 'BV': 'Bouvet Island', 'BR': 'Brazil',
-            'IO': 'British Indian Ocean Territory', 'BN': 'Brunei Darussalam',
-            'BG': 'Bulgaria', 'BF': 'Burkina Faso', 'BI': 'Burundi', 'CV': 'Cabo Verde',
-            'KH': 'Cambodia', 'CM': 'Cameroon', 'CA': 'Canada', 'KY': 'Cayman Islands',
-            'CF': 'Central African Republic', 'TD': 'Chad', 'CL': 'Chile', 'CN': 'China',
-            'CX': 'Christmas Island', 'CC': 'Cocos (Keeling) Islands', 'CO': 'Colombia',
-            'KM': 'Comoros', 'CG': 'Congo', 'CD': 'Congo, Democratic Republic of the',
-            'CK': 'Cook Islands', 'CR': 'Costa Rica', 'CI': 'Côte d\'Ivoire',
-            'HR': 'Croatia', 'CU': 'Cuba', 'CW': 'Curaçao', 'CY': 'Cyprus',
-            'CZ': 'Czech Republic', 'DK': 'Denmark', 'DJ': 'Djibouti', 'DM': 'Dominica',
-            'DO': 'Dominican Republic', 'EC': 'Ecuador', 'EG': 'Egypt', 'SV': 'El Salvador',
-            'GQ': 'Equatorial Guinea', 'ER': 'Eritrea', 'EE': 'Estonia', 'SZ': 'Eswatini',
-            'ET': 'Ethiopia', 'FK': 'Falkland Islands (Malvinas)', 'FO': 'Faroe Islands',
-            'FJ': 'Fiji', 'FI': 'Finland', 'FR': 'France', 'GF': 'French Guiana',
-            'PF': 'French Polynesia', 'TF': 'French Southern Territories', 'GA': 'Gabon',
-            'GM': 'Gambia', 'GE': 'Georgia', 'DE': 'Germany', 'GH': 'Ghana',
-            'GI': 'Gibraltar', 'GR': 'Greece', 'GL': 'Greenland', 'GD': 'Grenada',
-            'GP': 'Guadeloupe', 'GU': 'Guam', 'GT': 'Guatemala', 'GG': 'Guernsey',
-            'GN': 'Guinea', 'GW': 'Guinea-Bissau', 'GY': 'Guyana', 'HT': 'Haiti',
-            'HM': 'Heard Island and McDonald Islands', 'VA': 'Holy See', 'HN': 'Honduras',
-            'HK': 'Hong Kong', 'HU': 'Hungary', 'IS': 'Iceland', 'IN': 'India',
-            'ID': 'Indonesia', 'IR': 'Iran', 'IQ': 'Iraq', 'IE': 'Ireland',
-            'IM': 'Isle of Man', 'IL': 'Israel', 'IT': 'Italy', 'JM': 'Jamaica',
-            'JP': 'Japan', 'JE': 'Jersey', 'JO': 'Jordan', 'KZ': 'Kazakhstan',
-            'KE': 'Kenya', 'KI': 'Kiribati', 'KP': 'North Korea', 'KR': 'South Korea',
-            'KW': 'Kuwait', 'KG': 'Kyrgyzstan', 'LA': 'Laos', 'LV': 'Latvia',
-            'LB': 'Lebanon', 'LS': 'Lesotho', 'LR': 'Liberia', 'LY': 'Libya',
-            'LI': 'Liechtenstein', 'LT': 'Lithuania', 'LU': 'Luxembourg', 'MO': 'Macao',
-            'MG': 'Madagascar', 'MW': 'Malawi', 'MY': 'Malaysia', 'MV': 'Maldives',
-            'ML': 'Mali', 'MT': 'Malta', 'MH': 'Marshall Islands', 'MQ': 'Martinique',
-            'MR': 'Mauritania', 'MU': 'Mauritius', 'YT': 'Mayotte', 'MX': 'Mexico',
-            'FM': 'Micronesia', 'MD': 'Moldova', 'MC': 'Monaco', 'MN': 'Mongolia',
-            'ME': 'Montenegro', 'MS': 'Montserrat', 'MA': 'Morocco', 'MZ': 'Mozambique',
-            'MM': 'Myanmar', 'NA': 'Namibia', 'NR': 'Nauru', 'NP': 'Nepal',
-            'NL': 'Netherlands', 'NC': 'New Caledonia', 'NZ': 'New Zealand',
-            'NI': 'Nicaragua', 'NE': 'Niger', 'NG': 'Nigeria', 'NU': 'Niue',
-            'NF': 'Norfolk Island', 'MK': 'North Macedonia', 'MP': 'Northern Mariana Islands',
-            'NO': 'Norway', 'OM': 'Oman', 'PK': 'Pakistan', 'PW': 'Palau',
-            'PS': 'Palestine, State of', 'PA': 'Panama', 'PG': 'Papua New Guinea',
-            'PY': 'Paraguay', 'PE': 'Peru', 'PH': 'Philippines', 'PN': 'Pitcairn',
-            'PL': 'Poland', 'PT': 'Portugal', 'PR': 'Puerto Rico', 'QA': 'Qatar',
-            'RE': 'Réunion', 'RO': 'Romania', 'RU': 'Russia', 'RW': 'Rwanda',
-            'BL': 'Saint Barthélemy', 'SH': 'Saint Helena, Ascension and Tristan da Cunha',
-            'KN': 'Saint Kitts and Nevis', 'LC': 'Saint Lucia', 'MF': 'Saint Martin (French part)',
-            'PM': 'Saint Pierre and Miquelon', 'VC': 'Saint Vincent and the Grenadines',
-            'WS': 'Samoa', 'SM': 'San Marino', 'ST': 'Sao Tome and Principe',
-            'SA': 'Saudi Arabia', 'SN': 'Senegal', 'RS': 'Serbia', 'SC': 'Seychelles',
-            'SL': 'Sierra Leone', 'SG': 'Singapore', 'SX': 'Sint Maarten (Dutch part)',
-            'SK': 'Slovakia', 'SI': 'Slovenia', 'SB': 'Solomon Islands', 'SO': 'Somalia',
-            'ZA': 'South Africa', 'GS': 'South Georgia and the South Sandwich Islands',
-            'SS': 'South Sudan', 'ES': 'Spain', 'LK': 'Sri Lanka', 'SD': 'Sudan',
-            'SR': 'Suriname', 'SJ': 'Svalbard and Jan Mayen', 'SE': 'Sweden',
-            'CH': 'Switzerland', 'SY': 'Syria', 'TW': 'Taiwan', 'TJ': 'Tajikistan',
-            'TZ': 'Tanzania', 'TH': 'Thailand', 'TL': 'Timor-Leste', 'TG': 'Togo',
-            'TK': 'Tokelau', 'TO': 'Tonga', 'TT': 'Trinidad and Tobago', 'TN': 'Tunisia',
-            'TR': 'Turkey', 'TM': 'Turkmenistan', 'TC': 'Turks and Caicos Islands',
-            'TV': 'Tuvalu', 'UG': 'Uganda', 'UA': 'Ukraine', 'AE': 'United Arab Emirates',
-            'GB': 'United Kingdom', 'US': 'United States', 'UM': 'United States Minor Outlying Islands',
-            'UY': 'Uruguay', 'UZ': 'Uzbekistan', 'VU': 'Vanuatu', 'VE': 'Venezuela',
-            'VN': 'Vietnam', 'VG': 'Virgin Islands (British)', 'VI': 'Virgin Islands (U.S.)',
-            'WF': 'Wallis and Futuna', 'EH': 'Western Sahara', 'YE': 'Yemen',
-            'ZM': 'Zambia', 'ZW': 'Zimbabwe'
-        };
-        return countryNames[countryCode] || countryCode;
-    }
+        function detectCountryAndAlert() {
+            // Complete mapping of all 195 country codes to full names
+            function getCountryName(countryCode) {
+                const countryNames = {
+                    'AF': 'Afghanistan', 'AX': 'Åland Islands', 'AL': 'Albania', 'DZ': 'Algeria',
+                    'AS': 'American Samoa', 'AD': 'Andorra', 'AO': 'Angola', 'AI': 'Anguilla',
+                    'AQ': 'Antarctica', 'AG': 'Antigua and Barbuda', 'AR': 'Argentina',
+                    'AM': 'Armenia', 'AW': 'Aruba', 'AU': 'Australia', 'AT': 'Austria',
+                    'AZ': 'Azerbaijan', 'BS': 'Bahamas', 'BH': 'Bahrain', 'BD': 'Bangladesh',
+                    'BB': 'Barbados', 'BY': 'Belarus', 'BE': 'Belgium', 'BZ': 'Belize',
+                    'BJ': 'Benin', 'BM': 'Bermuda', 'BT': 'Bhutan', 'BO': 'Bolivia',
+                    'BQ': 'Bonaire, Sint Eustatius and Saba', 'BA': 'Bosnia and Herzegovina',
+                    'BW': 'Botswana', 'BV': 'Bouvet Island', 'BR': 'Brazil',
+                    'IO': 'British Indian Ocean Territory', 'BN': 'Brunei Darussalam',
+                    'BG': 'Bulgaria', 'BF': 'Burkina Faso', 'BI': 'Burundi', 'CV': 'Cabo Verde',
+                    'KH': 'Cambodia', 'CM': 'Cameroon', 'CA': 'Canada', 'KY': 'Cayman Islands',
+                    'CF': 'Central African Republic', 'TD': 'Chad', 'CL': 'Chile', 'CN': 'China',
+                    'CX': 'Christmas Island', 'CC': 'Cocos (Keeling) Islands', 'CO': 'Colombia',
+                    'KM': 'Comoros', 'CG': 'Congo', 'CD': 'Congo, Democratic Republic of the',
+                    'CK': 'Cook Islands', 'CR': 'Costa Rica', 'CI': 'Côte d\'Ivoire',
+                    'HR': 'Croatia', 'CU': 'Cuba', 'CW': 'Curaçao', 'CY': 'Cyprus',
+                    'CZ': 'Czech Republic', 'DK': 'Denmark', 'DJ': 'Djibouti', 'DM': 'Dominica',
+                    'DO': 'Dominican Republic', 'EC': 'Ecuador', 'EG': 'Egypt', 'SV': 'El Salvador',
+                    'GQ': 'Equatorial Guinea', 'ER': 'Eritrea', 'EE': 'Estonia', 'SZ': 'Eswatini',
+                    'ET': 'Ethiopia', 'FK': 'Falkland Islands (Malvinas)', 'FO': 'Faroe Islands',
+                    'FJ': 'Fiji', 'FI': 'Finland', 'FR': 'France', 'GF': 'French Guiana',
+                    'PF': 'French Polynesia', 'TF': 'French Southern Territories', 'GA': 'Gabon',
+                    'GM': 'Gambia', 'GE': 'Georgia', 'DE': 'Germany', 'GH': 'Ghana',
+                    'GI': 'Gibraltar', 'GR': 'Greece', 'GL': 'Greenland', 'GD': 'Grenada',
+                    'GP': 'Guadeloupe', 'GU': 'Guam', 'GT': 'Guatemala', 'GG': 'Guernsey',
+                    'GN': 'Guinea', 'GW': 'Guinea-Bissau', 'GY': 'Guyana', 'HT': 'Haiti',
+                    'HM': 'Heard Island and McDonald Islands', 'VA': 'Holy See', 'HN': 'Honduras',
+                    'HK': 'Hong Kong', 'HU': 'Hungary', 'IS': 'Iceland', 'IN': 'India',
+                    'ID': 'Indonesia', 'IR': 'Iran', 'IQ': 'Iraq', 'IE': 'Ireland',
+                    'IM': 'Isle of Man', 'IL': 'Israel', 'IT': 'Italy', 'JM': 'Jamaica',
+                    'JP': 'Japan', 'JE': 'Jersey', 'JO': 'Jordan', 'KZ': 'Kazakhstan',
+                    'KE': 'Kenya', 'KI': 'Kiribati', 'KP': 'North Korea', 'KR': 'South Korea',
+                    'KW': 'Kuwait', 'KG': 'Kyrgyzstan', 'LA': 'Laos', 'LV': 'Latvia',
+                    'LB': 'Lebanon', 'LS': 'Lesotho', 'LR': 'Liberia', 'LY': 'Libya',
+                    'LI': 'Liechtenstein', 'LT': 'Lithuania', 'LU': 'Luxembourg', 'MO': 'Macao',
+                    'MG': 'Madagascar', 'MW': 'Malawi', 'MY': 'Malaysia', 'MV': 'Maldives',
+                    'ML': 'Mali', 'MT': 'Malta', 'MH': 'Marshall Islands', 'MQ': 'Martinique',
+                    'MR': 'Mauritania', 'MU': 'Mauritius', 'YT': 'Mayotte', 'MX': 'Mexico',
+                    'FM': 'Micronesia', 'MD': 'Moldova', 'MC': 'Monaco', 'MN': 'Mongolia',
+                    'ME': 'Montenegro', 'MS': 'Montserrat', 'MA': 'Morocco', 'MZ': 'Mozambique',
+                    'MM': 'Myanmar', 'NA': 'Namibia', 'NR': 'Nauru', 'NP': 'Nepal',
+                    'NL': 'Netherlands', 'NC': 'New Caledonia', 'NZ': 'New Zealand',
+                    'NI': 'Nicaragua', 'NE': 'Niger', 'NG': 'Nigeria', 'NU': 'Niue',
+                    'NF': 'Norfolk Island', 'MK': 'North Macedonia', 'MP': 'Northern Mariana Islands',
+                    'NO': 'Norway', 'OM': 'Oman', 'PK': 'Pakistan', 'PW': 'Palau',
+                    'PS': 'Palestine, State of', 'PA': 'Panama', 'PG': 'Papua New Guinea',
+                    'PY': 'Paraguay', 'PE': 'Peru', 'PH': 'Philippines', 'PN': 'Pitcairn',
+                    'PL': 'Poland', 'PT': 'Portugal', 'PR': 'Puerto Rico', 'QA': 'Qatar',
+                    'RE': 'Réunion', 'RO': 'Romania', 'RU': 'Russia', 'RW': 'Rwanda',
+                    'BL': 'Saint Barthélemy', 'SH': 'Saint Helena, Ascension and Tristan da Cunha',
+                    'KN': 'Saint Kitts and Nevis', 'LC': 'Saint Lucia', 'MF': 'Saint Martin (French part)',
+                    'PM': 'Saint Pierre and Miquelon', 'VC': 'Saint Vincent and the Grenadines',
+                    'WS': 'Samoa', 'SM': 'San Marino', 'ST': 'Sao Tome and Principe',
+                    'SA': 'Saudi Arabia', 'SN': 'Senegal', 'RS': 'Serbia', 'SC': 'Seychelles',
+                    'SL': 'Sierra Leone', 'SG': 'Singapore', 'SX': 'Sint Maarten (Dutch part)',
+                    'SK': 'Slovakia', 'SI': 'Slovenia', 'SB': 'Solomon Islands', 'SO': 'Somalia',
+                    'ZA': 'South Africa', 'GS': 'South Georgia and the South Sandwich Islands',
+                    'SS': 'South Sudan', 'ES': 'Spain', 'LK': 'Sri Lanka', 'SD': 'Sudan',
+                    'SR': 'Suriname', 'SJ': 'Svalbard and Jan Mayen', 'SE': 'Sweden',
+                    'CH': 'Switzerland', 'SY': 'Syria', 'TW': 'Taiwan', 'TJ': 'Tajikistan',
+                    'TZ': 'Tanzania', 'TH': 'Thailand', 'TL': 'Timor-Leste', 'TG': 'Togo',
+                    'TK': 'Tokelau', 'TO': 'Tonga', 'TT': 'Trinidad and Tobago', 'TN': 'Tunisia',
+                    'TR': 'Turkey', 'TM': 'Turkmenistan', 'TC': 'Turks and Caicos Islands',
+                    'TV': 'Tuvalu', 'UG': 'Uganda', 'UA': 'Ukraine', 'AE': 'United Arab Emirates',
+                    'GB': 'United Kingdom', 'US': 'United States', 'UM': 'United States Minor Outlying Islands',
+                    'UY': 'Uruguay', 'UZ': 'Uzbekistan', 'VU': 'Vanuatu', 'VE': 'Venezuela',
+                    'VN': 'Vietnam', 'VG': 'Virgin Islands (British)', 'VI': 'Virgin Islands (U.S.)',
+                    'WF': 'Wallis and Futuna', 'EH': 'Western Sahara', 'YE': 'Yemen',
+                    'ZM': 'Zambia', 'ZW': 'Zimbabwe'
+                };
+                return countryNames[countryCode] || countryCode;
+            }
 
-    // Try first API (ipapi.co - full country name)
-    fetch('https://ipapi.co/json/')
-        .then(response => response.json())
-        .then(data => {
-            let country = data.country_name;
-            const timestamp = new Date().toLocaleString();
-            
-            // Store locally
-            localStorage.setItem('visitorCountry', country);
-            localStorage.setItem('visitTimestamp', timestamp);
-            
-            // Send to Telegram
-            sendToTelegram(country, timestamp);
-        })
-        .catch(error => {
-            console.log('First API failed, trying fallback...');
-            
-            // Fallback to country.is + complete conversion
-            fetch('https://api.country.is/')
+            // Try first API (ipapi.co - full country name)
+            fetch('https://ipapi.co/json/')
                 .then(response => response.json())
                 .then(data => {
-                    const countryCode = data.country;
-                    const countryName = getCountryName(countryCode);
+                    let country = data.country_name;
                     const timestamp = new Date().toLocaleString();
                     
-                    localStorage.setItem('visitorCountry', countryName);
+                    // Store locally
+                    localStorage.setItem('visitorCountry', country);
                     localStorage.setItem('visitTimestamp', timestamp);
-                    sendToTelegram(countryName, timestamp);
-                })
-                .catch(err => {
-                    console.log('Second API failed, trying direct endpoint...');
                     
-                    // Last fallback - direct country name endpoint
-                    fetch('https://ipapi.co/country_name/')
-                        .then(response => response.text())
-                        .then(country => {
+                    // Send to Telegram
+                    sendToTelegram(country, timestamp);
+                })
+                .catch(error => {
+                    console.log('First API failed, trying fallback...');
+                    
+                    // Fallback to country.is + complete conversion
+                    fetch('https://api.country.is/')
+                        .then(response => response.json())
+                        .then(data => {
+                            const countryCode = data.country;
+                            const countryName = getCountryName(countryCode);
                             const timestamp = new Date().toLocaleString();
-                            localStorage.setItem('visitorCountry', country);
+                            
+                            localStorage.setItem('visitorCountry', countryName);
                             localStorage.setItem('visitTimestamp', timestamp);
-                            sendToTelegram(country, timestamp);
+                            sendToTelegram(countryName, timestamp);
                         })
-                        .catch(finalErr => {
-                            console.log('All APIs failed');
-                            const timestamp = new Date().toLocaleString();
-                            sendToTelegram('Unknown Country', timestamp);
+                        .catch(err => {
+                            console.log('Second API failed, trying direct endpoint...');
+                            
+                            // Last fallback - direct country name endpoint
+                            fetch('https://ipapi.co/country_name/')
+                                .then(response => response.text())
+                                .then(country => {
+                                    const timestamp = new Date().toLocaleString();
+                                    localStorage.setItem('visitorCountry', country);
+                                    localStorage.setItem('visitTimestamp', timestamp);
+                                    sendToTelegram(country, timestamp);
+                                })
+                                .catch(finalErr => {
+                                    console.log('All APIs failed');
+                                    const timestamp = new Date().toLocaleString();
+                                    sendToTelegram('Unknown Country', timestamp);
+                                });
                         });
                 });
-        });
-}
+        }
 
-// SECURE VERSION - Works on ALL domains (Netlify, Vercel, GitHub Pages)
-function sendToTelegram(country, timestamp) {
-    console.log('Sending visitor alert:', { country, timestamp });
-    
-    // Use full Netlify function URL to work on all domains
-    fetch('https://loquacious-squirrel-c148ed.netlify.app/.netlify/functions/send-telegram', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            country: country,
-            timestamp: timestamp,
-            userAgent: navigator.userAgent.substring(0, 100)
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Telegram notification response:', data);
-    })
-    .catch(err => {
-        console.log('Telegram notification failed:', err);
-    });
-}
-     // SECURE VERSION - Works on ALL domains (Netlify, Vercel, GitHub Pages)
-function sendToTelegram(country, timestamp) {
-    console.log('Sending visitor alert:', { country, timestamp });
-    
-    // Use full Netlify function URL to work on all domains
-    fetch('https://loquacious-squirrel-c148ed.netlify.app/.netlify/functions/send-telegram', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            country: country,
-            timestamp: timestamp,
-            userAgent: navigator.userAgent.substring(0, 100)
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Telegram notification response:', data);
-    })
-    .catch(err => {
-        console.log('Telegram notification failed:', err);
-    });
-}
+        // SECURE VERSION - Works on ALL domains (Netlify, Vercel, GitHub Pages)
+        function sendToTelegram(country, timestamp) {
+            console.log('Sending visitor alert:', { country, timestamp });
+            
+            // Use full Netlify function URL to work on all domains
+            fetch('https://loquacious-squirrel-c148ed.netlify.app/.netlify/functions/send-telegram', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    country: country,
+                    timestamp: timestamp,
+                    userAgent: navigator.userAgent.substring(0, 100)
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Telegram notification response:', data);
+            })
+            .catch(err => {
+                console.log('Telegram notification failed:', err);
+            });
+        }
+        
         // Original site functionality
         document.addEventListener('DOMContentLoaded', () => {
+            // Start Profile Views Counter
+            setupProfileViewsCounter();
+            
             // Start Telegram alerts after 3 seconds
             setTimeout(setupTelegramAlerts, 3000);
             
@@ -919,8 +1026,3 @@ function sendToTelegram(country, timestamp) {
     </script>
 </body>
 </html>
-
-
-
-
-
