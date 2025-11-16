@@ -8,7 +8,7 @@
     <meta name="author" content="Hichemajm">
 
     <link rel="icon" type="image/x-icon" href="https://i.ibb.co/4gw82QDJ/favicon-32x32.png">
-<link rel="icon" type="image/png" href="https://i.ibb.co/4gw82QDJ/favicon-32x32.png">
+    <link rel="icon" type="image/png" href="https://i.ibb.co/4gw82QDJ/favicon-32x32.png">
     
     <style>
         * {
@@ -614,86 +614,90 @@
     </div>
 
     <script>
-        // Profile Views Counter System
+        // Profile Views Counter with Server Storage
         function setupProfileViewsCounter() {
-            // Check if this is a new visitor
+            // Generate a unique visitor ID
             const visitorId = generateVisitorId();
+            
+            // Check if this visitor has been counted before
             const hasVisited = localStorage.getItem(`visited_${visitorId}`);
             
             if (!hasVisited) {
-                // This is a new visitor, increment the count
+                // First time visitor - increment the counter
                 incrementProfileViews();
                 localStorage.setItem(`visited_${visitorId}`, 'true');
+            } else {
+                // Returning visitor - just display the current count
+                updateProfileViewsDisplay();
             }
-            
-            // Display the current count
-            updateProfileViewsDisplay();
         }
         
         function generateVisitorId() {
-            // Create a unique identifier for this visitor
-            // Using a combination of user agent and screen resolution
+            // Create a unique identifier using browser fingerprinting
             const userAgent = navigator.userAgent;
             const screenResolution = `${screen.width}x${screen.height}`;
+            const language = navigator.language;
             const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
             
             // Create a hash of these values
-            return btoa(`${userAgent}-${screenResolution}-${timezone}`).substring(0, 20);
+            return btoa(`${userAgent}-${screenResolution}-${language}-${timezone}`).substring(0, 20);
         }
         
         function incrementProfileViews() {
-            // Get current count from localStorage
-            let currentCount = parseInt(localStorage.getItem('profileViewsCount') || '0');
-            
-            // Increment the count
-            currentCount++;
-            
-            // Save the updated count
-            localStorage.setItem('profileViewsCount', currentCount.toString());
-            
-            // Also update the display
-            updateProfileViewsDisplay();
-            
-            // Send to server for persistence (optional)
-            sendProfileViewToServer(currentCount);
-        }
-        
-        function updateProfileViewsDisplay() {
-            const count = localStorage.getItem('profileViewsCount') || '0';
-            const viewsCountElement = document.getElementById('viewsCount');
-            
-            if (viewsCountElement) {
-                // Format the number with commas for thousands
-                const formattedCount = parseInt(count).toLocaleString();
-                viewsCountElement.textContent = formattedCount;
-            }
-        }
-        
-        function sendProfileViewToServer(count) {
-            // Optional: Send the count to a server for persistence across devices
-            // This would require a backend service
-            console.log(`Profile views: ${count}`);
-            
-            // Example of sending to a server endpoint (uncomment and modify if you have a backend)
-            /*
-            fetch('/api/profile-views', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    count: count,
-                    timestamp: new Date().toISOString()
+            // Use a free counter API service
+            fetch('https://api.countapi.xyz/hit/hichemajm-profile/views')
+                .then(response => response.json())
+                .then(data => {
+                    // Update the display with the new count
+                    updateProfileViewsDisplay(data.value);
+                    
+                    // Also store locally as backup
+                    localStorage.setItem('profileViewsCount', data.value.toString());
                 })
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Profile view count updated on server');
-            })
-            .catch(err => {
-                console.log('Failed to update profile view count on server');
-            });
-            */
+                .catch(error => {
+                    console.log('Counter API failed, using local storage');
+                    // Fallback to local storage if API fails
+                    incrementProfileViewsLocal();
+                });
+        }
+        
+        function incrementProfileViewsLocal() {
+            // Fallback method using local storage only
+            let currentCount = parseInt(localStorage.getItem('profileViewsCount') || '0');
+            currentCount++;
+            localStorage.setItem('profileViewsCount', currentCount.toString());
+            updateProfileViewsDisplay(currentCount);
+        }
+        
+        function updateProfileViewsDisplay(count) {
+            // If no count provided, try to get it from API or local storage
+            if (count === undefined) {
+                // Try to get from API first
+                fetch('https://api.countapi.xyz/get/hichemajm-profile/views')
+                    .then(response => response.json())
+                    .then(data => {
+                        const viewsCountElement = document.getElementById('viewsCount');
+                        if (viewsCountElement) {
+                            const formattedCount = data.value.toLocaleString();
+                            viewsCountElement.textContent = formattedCount;
+                        }
+                    })
+                    .catch(error => {
+                        // Fallback to local storage
+                        const localCount = localStorage.getItem('profileViewsCount') || '1';
+                        const viewsCountElement = document.getElementById('viewsCount');
+                        if (viewsCountElement) {
+                            viewsCountElement.textContent = parseInt(localCount).toLocaleString();
+                        }
+                    });
+            } else {
+                // Use the provided count
+                const viewsCountElement = document.getElementById('viewsCount');
+                if (viewsCountElement) {
+                    const formattedCount = parseInt(count).toLocaleString();
+                    viewsCountElement.textContent = formattedCount;
+                }
+            }
         }
 
         // Telegram Visitor Alert System
@@ -1026,4 +1030,3 @@
     </script>
 </body>
 </html>
-
