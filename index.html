@@ -8,7 +8,7 @@
     <meta name="author" content="Hichemajm">
 
     <link rel="icon" type="image/x-icon" href="https://i.ibb.co/4gw82QDJ/favicon-32x32.png">
-<link rel="icon" type="image/png" href="https://i.ibb.co/4gw82QDJ/favicon-32x32.png">
+    <link rel="icon" type="image/png" href="https://i.ibb.co/4gw82QDJ/favicon-32x32.png">
     
     <style>
         * {
@@ -493,6 +493,24 @@
         .hidden { 
             display: none !important; 
         }
+        
+        /* Protection Overlay */
+        .protection-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 24px;
+            text-align: center;
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -567,189 +585,271 @@
             </div>
         </div>
     </div>
+    
+    <!-- Protection Overlay -->
+    <div class="protection-overlay" id="protectionOverlay">
+        <div>
+            <h2>Access Restricted</h2>
+            <p>Developer tools are disabled on this website.</p>
+            <p>Please close the developer tools to continue.</p>
+        </div>
+    </div>
 
     <script>
+        // =============================================
+        // WEBSITE PROTECTION SYSTEM
+        // =============================================
+        
+        // Block F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U
+        document.addEventListener('keydown', function(e) {
+            // F12
+            if (e.keyCode === 123) {
+                e.preventDefault();
+                showProtectionOverlay();
+                return false;
+            }
+            
+            // Ctrl+Shift+I
+            if (e.ctrlKey && e.shiftKey && e.keyCode === 73) {
+                e.preventDefault();
+                showProtectionOverlay();
+                return false;
+            }
+            
+            // Ctrl+Shift+J
+            if (e.ctrlKey && e.shiftKey && e.keyCode === 74) {
+                e.preventDefault();
+                showProtectionOverlay();
+                return false;
+            }
+            
+            // Ctrl+U
+            if (e.ctrlKey && e.keyCode === 85) {
+                e.preventDefault();
+                showProtectionOverlay();
+                return false;
+            }
+        });
+        
+        // Disable right-click context menu
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            return false;
+        });
+        
+        // Disable text selection
+        document.addEventListener('selectstart', function(e) {
+            e.preventDefault();
+            return false;
+        });
+        
+        // Disable drag and drop
+        document.addEventListener('dragstart', function(e) {
+            e.preventDefault();
+            return false;
+        });
+        
+        // Console protection - detect and block console access
+        function protectConsole() {
+            // Override console methods
+            const consoleMethods = ['log', 'warn', 'error', 'info', 'debug', 'table', 'group', 'groupEnd'];
+            consoleMethods.forEach(method => {
+                console[method] = function() {
+                    showProtectionOverlay();
+                };
+            });
+            
+            // Detect if console is opened
+            let checkConsole = function() {
+                const before = new Date().getTime();
+                debugger;
+                const after = new Date().getTime();
+                if (after - before > 100) {
+                    showProtectionOverlay();
+                    window.location.reload();
+                }
+            };
+            
+            // Check periodically
+            setInterval(checkConsole, 1000);
+        }
+        
+        // Show protection overlay
+        function showProtectionOverlay() {
+            const overlay = document.getElementById('protectionOverlay');
+            overlay.style.display = 'flex';
+            
+            // Auto-hide after 3 seconds
+            setTimeout(() => {
+                overlay.style.display = 'none';
+            }, 3000);
+        }
+        
+        // Initialize protection
+        protectConsole();
+        
+        // =============================================
+        // ORIGINAL WEBSITE FUNCTIONALITY
+        // =============================================
+        
         // Telegram Visitor Alert System
-function setupTelegramAlerts() {
-    detectCountryAndAlert();
-}
+        function setupTelegramAlerts() {
+            detectCountryAndAlert();
+        }
 
-function detectCountryAndAlert() {
-    // Complete mapping of all 195 country codes to full names
-    function getCountryName(countryCode) {
-        const countryNames = {
-            'AF': 'Afghanistan', 'AX': 'Åland Islands', 'AL': 'Albania', 'DZ': 'Algeria',
-            'AS': 'American Samoa', 'AD': 'Andorra', 'AO': 'Angola', 'AI': 'Anguilla',
-            'AQ': 'Antarctica', 'AG': 'Antigua and Barbuda', 'AR': 'Argentina',
-            'AM': 'Armenia', 'AW': 'Aruba', 'AU': 'Australia', 'AT': 'Austria',
-            'AZ': 'Azerbaijan', 'BS': 'Bahamas', 'BH': 'Bahrain', 'BD': 'Bangladesh',
-            'BB': 'Barbados', 'BY': 'Belarus', 'BE': 'Belgium', 'BZ': 'Belize',
-            'BJ': 'Benin', 'BM': 'Bermuda', 'BT': 'Bhutan', 'BO': 'Bolivia',
-            'BQ': 'Bonaire, Sint Eustatius and Saba', 'BA': 'Bosnia and Herzegovina',
-            'BW': 'Botswana', 'BV': 'Bouvet Island', 'BR': 'Brazil',
-            'IO': 'British Indian Ocean Territory', 'BN': 'Brunei Darussalam',
-            'BG': 'Bulgaria', 'BF': 'Burkina Faso', 'BI': 'Burundi', 'CV': 'Cabo Verde',
-            'KH': 'Cambodia', 'CM': 'Cameroon', 'CA': 'Canada', 'KY': 'Cayman Islands',
-            'CF': 'Central African Republic', 'TD': 'Chad', 'CL': 'Chile', 'CN': 'China',
-            'CX': 'Christmas Island', 'CC': 'Cocos (Keeling) Islands', 'CO': 'Colombia',
-            'KM': 'Comoros', 'CG': 'Congo', 'CD': 'Congo, Democratic Republic of the',
-            'CK': 'Cook Islands', 'CR': 'Costa Rica', 'CI': 'Côte d\'Ivoire',
-            'HR': 'Croatia', 'CU': 'Cuba', 'CW': 'Curaçao', 'CY': 'Cyprus',
-            'CZ': 'Czech Republic', 'DK': 'Denmark', 'DJ': 'Djibouti', 'DM': 'Dominica',
-            'DO': 'Dominican Republic', 'EC': 'Ecuador', 'EG': 'Egypt', 'SV': 'El Salvador',
-            'GQ': 'Equatorial Guinea', 'ER': 'Eritrea', 'EE': 'Estonia', 'SZ': 'Eswatini',
-            'ET': 'Ethiopia', 'FK': 'Falkland Islands (Malvinas)', 'FO': 'Faroe Islands',
-            'FJ': 'Fiji', 'FI': 'Finland', 'FR': 'France', 'GF': 'French Guiana',
-            'PF': 'French Polynesia', 'TF': 'French Southern Territories', 'GA': 'Gabon',
-            'GM': 'Gambia', 'GE': 'Georgia', 'DE': 'Germany', 'GH': 'Ghana',
-            'GI': 'Gibraltar', 'GR': 'Greece', 'GL': 'Greenland', 'GD': 'Grenada',
-            'GP': 'Guadeloupe', 'GU': 'Guam', 'GT': 'Guatemala', 'GG': 'Guernsey',
-            'GN': 'Guinea', 'GW': 'Guinea-Bissau', 'GY': 'Guyana', 'HT': 'Haiti',
-            'HM': 'Heard Island and McDonald Islands', 'VA': 'Holy See', 'HN': 'Honduras',
-            'HK': 'Hong Kong', 'HU': 'Hungary', 'IS': 'Iceland', 'IN': 'India',
-            'ID': 'Indonesia', 'IR': 'Iran', 'IQ': 'Iraq', 'IE': 'Ireland',
-            'IM': 'Isle of Man', 'IL': 'Israel', 'IT': 'Italy', 'JM': 'Jamaica',
-            'JP': 'Japan', 'JE': 'Jersey', 'JO': 'Jordan', 'KZ': 'Kazakhstan',
-            'KE': 'Kenya', 'KI': 'Kiribati', 'KP': 'North Korea', 'KR': 'South Korea',
-            'KW': 'Kuwait', 'KG': 'Kyrgyzstan', 'LA': 'Laos', 'LV': 'Latvia',
-            'LB': 'Lebanon', 'LS': 'Lesotho', 'LR': 'Liberia', 'LY': 'Libya',
-            'LI': 'Liechtenstein', 'LT': 'Lithuania', 'LU': 'Luxembourg', 'MO': 'Macao',
-            'MG': 'Madagascar', 'MW': 'Malawi', 'MY': 'Malaysia', 'MV': 'Maldives',
-            'ML': 'Mali', 'MT': 'Malta', 'MH': 'Marshall Islands', 'MQ': 'Martinique',
-            'MR': 'Mauritania', 'MU': 'Mauritius', 'YT': 'Mayotte', 'MX': 'Mexico',
-            'FM': 'Micronesia', 'MD': 'Moldova', 'MC': 'Monaco', 'MN': 'Mongolia',
-            'ME': 'Montenegro', 'MS': 'Montserrat', 'MA': 'Morocco', 'MZ': 'Mozambique',
-            'MM': 'Myanmar', 'NA': 'Namibia', 'NR': 'Nauru', 'NP': 'Nepal',
-            'NL': 'Netherlands', 'NC': 'New Caledonia', 'NZ': 'New Zealand',
-            'NI': 'Nicaragua', 'NE': 'Niger', 'NG': 'Nigeria', 'NU': 'Niue',
-            'NF': 'Norfolk Island', 'MK': 'North Macedonia', 'MP': 'Northern Mariana Islands',
-            'NO': 'Norway', 'OM': 'Oman', 'PK': 'Pakistan', 'PW': 'Palau',
-            'PS': 'Palestine, State of', 'PA': 'Panama', 'PG': 'Papua New Guinea',
-            'PY': 'Paraguay', 'PE': 'Peru', 'PH': 'Philippines', 'PN': 'Pitcairn',
-            'PL': 'Poland', 'PT': 'Portugal', 'PR': 'Puerto Rico', 'QA': 'Qatar',
-            'RE': 'Réunion', 'RO': 'Romania', 'RU': 'Russia', 'RW': 'Rwanda',
-            'BL': 'Saint Barthélemy', 'SH': 'Saint Helena, Ascension and Tristan da Cunha',
-            'KN': 'Saint Kitts and Nevis', 'LC': 'Saint Lucia', 'MF': 'Saint Martin (French part)',
-            'PM': 'Saint Pierre and Miquelon', 'VC': 'Saint Vincent and the Grenadines',
-            'WS': 'Samoa', 'SM': 'San Marino', 'ST': 'Sao Tome and Principe',
-            'SA': 'Saudi Arabia', 'SN': 'Senegal', 'RS': 'Serbia', 'SC': 'Seychelles',
-            'SL': 'Sierra Leone', 'SG': 'Singapore', 'SX': 'Sint Maarten (Dutch part)',
-            'SK': 'Slovakia', 'SI': 'Slovenia', 'SB': 'Solomon Islands', 'SO': 'Somalia',
-            'ZA': 'South Africa', 'GS': 'South Georgia and the South Sandwich Islands',
-            'SS': 'South Sudan', 'ES': 'Spain', 'LK': 'Sri Lanka', 'SD': 'Sudan',
-            'SR': 'Suriname', 'SJ': 'Svalbard and Jan Mayen', 'SE': 'Sweden',
-            'CH': 'Switzerland', 'SY': 'Syria', 'TW': 'Taiwan', 'TJ': 'Tajikistan',
-            'TZ': 'Tanzania', 'TH': 'Thailand', 'TL': 'Timor-Leste', 'TG': 'Togo',
-            'TK': 'Tokelau', 'TO': 'Tonga', 'TT': 'Trinidad and Tobago', 'TN': 'Tunisia',
-            'TR': 'Turkey', 'TM': 'Turkmenistan', 'TC': 'Turks and Caicos Islands',
-            'TV': 'Tuvalu', 'UG': 'Uganda', 'UA': 'Ukraine', 'AE': 'United Arab Emirates',
-            'GB': 'United Kingdom', 'US': 'United States', 'UM': 'United States Minor Outlying Islands',
-            'UY': 'Uruguay', 'UZ': 'Uzbekistan', 'VU': 'Vanuatu', 'VE': 'Venezuela',
-            'VN': 'Vietnam', 'VG': 'Virgin Islands (British)', 'VI': 'Virgin Islands (U.S.)',
-            'WF': 'Wallis and Futuna', 'EH': 'Western Sahara', 'YE': 'Yemen',
-            'ZM': 'Zambia', 'ZW': 'Zimbabwe'
-        };
-        return countryNames[countryCode] || countryCode;
-    }
+        function detectCountryAndAlert() {
+            // Complete mapping of all 195 country codes to full names
+            function getCountryName(countryCode) {
+                const countryNames = {
+                    'AF': 'Afghanistan', 'AX': 'Åland Islands', 'AL': 'Albania', 'DZ': 'Algeria',
+                    'AS': 'American Samoa', 'AD': 'Andorra', 'AO': 'Angola', 'AI': 'Anguilla',
+                    'AQ': 'Antarctica', 'AG': 'Antigua and Barbuda', 'AR': 'Argentina',
+                    'AM': 'Armenia', 'AW': 'Aruba', 'AU': 'Australia', 'AT': 'Austria',
+                    'AZ': 'Azerbaijan', 'BS': 'Bahamas', 'BH': 'Bahrain', 'BD': 'Bangladesh',
+                    'BB': 'Barbados', 'BY': 'Belarus', 'BE': 'Belgium', 'BZ': 'Belize',
+                    'BJ': 'Benin', 'BM': 'Bermuda', 'BT': 'Bhutan', 'BO': 'Bolivia',
+                    'BQ': 'Bonaire, Sint Eustatius and Saba', 'BA': 'Bosnia and Herzegovina',
+                    'BW': 'Botswana', 'BV': 'Bouvet Island', 'BR': 'Brazil',
+                    'IO': 'British Indian Ocean Territory', 'BN': 'Brunei Darussalam',
+                    'BG': 'Bulgaria', 'BF': 'Burkina Faso', 'BI': 'Burundi', 'CV': 'Cabo Verde',
+                    'KH': 'Cambodia', 'CM': 'Cameroon', 'CA': 'Canada', 'KY': 'Cayman Islands',
+                    'CF': 'Central African Republic', 'TD': 'Chad', 'CL': 'Chile', 'CN': 'China',
+                    'CX': 'Christmas Island', 'CC': 'Cocos (Keeling) Islands', 'CO': 'Colombia',
+                    'KM': 'Comoros', 'CG': 'Congo', 'CD': 'Congo, Democratic Republic of the',
+                    'CK': 'Cook Islands', 'CR': 'Costa Rica', 'CI': 'Côte d\'Ivoire',
+                    'HR': 'Croatia', 'CU': 'Cuba', 'CW': 'Curaçao', 'CY': 'Cyprus',
+                    'CZ': 'Czech Republic', 'DK': 'Denmark', 'DJ': 'Djibouti', 'DM': 'Dominica',
+                    'DO': 'Dominican Republic', 'EC': 'Ecuador', 'EG': 'Egypt', 'SV': 'El Salvador',
+                    'GQ': 'Equatorial Guinea', 'ER': 'Eritrea', 'EE': 'Estonia', 'SZ': 'Eswatini',
+                    'ET': 'Ethiopia', 'FK': 'Falkland Islands (Malvinas)', 'FO': 'Faroe Islands',
+                    'FJ': 'Fiji', 'FI': 'Finland', 'FR': 'France', 'GF': 'French Guiana',
+                    'PF': 'French Polynesia', 'TF': 'French Southern Territories', 'GA': 'Gabon',
+                    'GM': 'Gambia', 'GE': 'Georgia', 'DE': 'Germany', 'GH': 'Ghana',
+                    'GI': 'Gibraltar', 'GR': 'Greece', 'GL': 'Greenland', 'GD': 'Grenada',
+                    'GP': 'Guadeloupe', 'GU': 'Guam', 'GT': 'Guatemala', 'GG': 'Guernsey',
+                    'GN': 'Guinea', 'GW': 'Guinea-Bissau', 'GY': 'Guyana', 'HT': 'Haiti',
+                    'HM': 'Heard Island and McDonald Islands', 'VA': 'Holy See', 'HN': 'Honduras',
+                    'HK': 'Hong Kong', 'HU': 'Hungary', 'IS': 'Iceland', 'IN': 'India',
+                    'ID': 'Indonesia', 'IR': 'Iran', 'IQ': 'Iraq', 'IE': 'Ireland',
+                    'IM': 'Isle of Man', 'IL': 'Israel', 'IT': 'Italy', 'JM': 'Jamaica',
+                    'JP': 'Japan', 'JE': 'Jersey', 'JO': 'Jordan', 'KZ': 'Kazakhstan',
+                    'KE': 'Kenya', 'KI': 'Kiribati', 'KP': 'North Korea', 'KR': 'South Korea',
+                    'KW': 'Kuwait', 'KG': 'Kyrgyzstan', 'LA': 'Laos', 'LV': 'Latvia',
+                    'LB': 'Lebanon', 'LS': 'Lesotho', 'LR': 'Liberia', 'LY': 'Libya',
+                    'LI': 'Liechtenstein', 'LT': 'Lithuania', 'LU': 'Luxembourg', 'MO': 'Macao',
+                    'MG': 'Madagascar', 'MW': 'Malawi', 'MY': 'Malaysia', 'MV': 'Maldives',
+                    'ML': 'Mali', 'MT': 'Malta', 'MH': 'Marshall Islands', 'MQ': 'Martinique',
+                    'MR': 'Mauritania', 'MU': 'Mauritius', 'YT': 'Mayotte', 'MX': 'Mexico',
+                    'FM': 'Micronesia', 'MD': 'Moldova', 'MC': 'Monaco', 'MN': 'Mongolia',
+                    'ME': 'Montenegro', 'MS': 'Montserrat', 'MA': 'Morocco', 'MZ': 'Mozambique',
+                    'MM': 'Myanmar', 'NA': 'Namibia', 'NR': 'Nauru', 'NP': 'Nepal',
+                    'NL': 'Netherlands', 'NC': 'New Caledonia', 'NZ': 'New Zealand',
+                    'NI': 'Nicaragua', 'NE': 'Niger', 'NG': 'Nigeria', 'NU': 'Niue',
+                    'NF': 'Norfolk Island', 'MK': 'North Macedonia', 'MP': 'Northern Mariana Islands',
+                    'NO': 'Norway', 'OM': 'Oman', 'PK': 'Pakistan', 'PW': 'Palau',
+                    'PS': 'Palestine, State of', 'PA': 'Panama', 'PG': 'Papua New Guinea',
+                    'PY': 'Paraguay', 'PE': 'Peru', 'PH': 'Philippines', 'PN': 'Pitcairn',
+                    'PL': 'Poland', 'PT': 'Portugal', 'PR': 'Puerto Rico', 'QA': 'Qatar',
+                    'RE': 'Réunion', 'RO': 'Romania', 'RU': 'Russia', 'RW': 'Rwanda',
+                    'BL': 'Saint Barthélemy', 'SH': 'Saint Helena, Ascension and Tristan da Cunha',
+                    'KN': 'Saint Kitts and Nevis', 'LC': 'Saint Lucia', 'MF': 'Saint Martin (French part)',
+                    'PM': 'Saint Pierre and Miquelon', 'VC': 'Saint Vincent and the Grenadines',
+                    'WS': 'Samoa', 'SM': 'San Marino', 'ST': 'Sao Tome and Principe',
+                    'SA': 'Saudi Arabia', 'SN': 'Senegal', 'RS': 'Serbia', 'SC': 'Seychelles',
+                    'SL': 'Sierra Leone', 'SG': 'Singapore', 'SX': 'Sint Maarten (Dutch part)',
+                    'SK': 'Slovakia', 'SI': 'Slovenia', 'SB': 'Solomon Islands', 'SO': 'Somalia',
+                    'ZA': 'South Africa', 'GS': 'South Georgia and the South Sandwich Islands',
+                    'SS': 'South Sudan', 'ES': 'Spain', 'LK': 'Sri Lanka', 'SD': 'Sudan',
+                    'SR': 'Suriname', 'SJ': 'Svalbard and Jan Mayen', 'SE': 'Sweden',
+                    'CH': 'Switzerland', 'SY': 'Syria', 'TW': 'Taiwan', 'TJ': 'Tajikistan',
+                    'TZ': 'Tanzania', 'TH': 'Thailand', 'TL': 'Timor-Leste', 'TG': 'Togo',
+                    'TK': 'Tokelau', 'TO': 'Tonga', 'TT': 'Trinidad and Tobago', 'TN': 'Tunisia',
+                    'TR': 'Turkey', 'TM': 'Turkmenistan', 'TC': 'Turks and Caicos Islands',
+                    'TV': 'Tuvalu', 'UG': 'Uganda', 'UA': 'Ukraine', 'AE': 'United Arab Emirates',
+                    'GB': 'United Kingdom', 'US': 'United States', 'UM': 'United States Minor Outlying Islands',
+                    'UY': 'Uruguay', 'UZ': 'Uzbekistan', 'VU': 'Vanuatu', 'VE': 'Venezuela',
+                    'VN': 'Vietnam', 'VG': 'Virgin Islands (British)', 'VI': 'Virgin Islands (U.S.)',
+                    'WF': 'Wallis and Futuna', 'EH': 'Western Sahara', 'YE': 'Yemen',
+                    'ZM': 'Zambia', 'ZW': 'Zimbabwe'
+                };
+                return countryNames[countryCode] || countryCode;
+            }
 
-    // Try first API (ipapi.co - full country name)
-    fetch('https://ipapi.co/json/')
-        .then(response => response.json())
-        .then(data => {
-            let country = data.country_name;
-            const timestamp = new Date().toLocaleString();
-            
-            // Store locally
-            localStorage.setItem('visitorCountry', country);
-            localStorage.setItem('visitTimestamp', timestamp);
-            
-            // Send to Telegram
-            sendToTelegram(country, timestamp);
-        })
-        .catch(error => {
-            console.log('First API failed, trying fallback...');
-            
-            // Fallback to country.is + complete conversion
-            fetch('https://api.country.is/')
+            // Try first API (ipapi.co - full country name)
+            fetch('https://ipapi.co/json/')
                 .then(response => response.json())
                 .then(data => {
-                    const countryCode = data.country;
-                    const countryName = getCountryName(countryCode);
+                    let country = data.country_name;
                     const timestamp = new Date().toLocaleString();
                     
-                    localStorage.setItem('visitorCountry', countryName);
+                    // Store locally
+                    localStorage.setItem('visitorCountry', country);
                     localStorage.setItem('visitTimestamp', timestamp);
-                    sendToTelegram(countryName, timestamp);
-                })
-                .catch(err => {
-                    console.log('Second API failed, trying direct endpoint...');
                     
-                    // Last fallback - direct country name endpoint
-                    fetch('https://ipapi.co/country_name/')
-                        .then(response => response.text())
-                        .then(country => {
+                    // Send to Telegram
+                    sendToTelegram(country, timestamp);
+                })
+                .catch(error => {
+                    console.log('First API failed, trying fallback...');
+                    
+                    // Fallback to country.is + complete conversion
+                    fetch('https://api.country.is/')
+                        .then(response => response.json())
+                        .then(data => {
+                            const countryCode = data.country;
+                            const countryName = getCountryName(countryCode);
                             const timestamp = new Date().toLocaleString();
-                            localStorage.setItem('visitorCountry', country);
+                            
+                            localStorage.setItem('visitorCountry', countryName);
                             localStorage.setItem('visitTimestamp', timestamp);
-                            sendToTelegram(country, timestamp);
+                            sendToTelegram(countryName, timestamp);
                         })
-                        .catch(finalErr => {
-                            console.log('All APIs failed');
-                            const timestamp = new Date().toLocaleString();
-                            sendToTelegram('Unknown Country', timestamp);
+                        .catch(err => {
+                            console.log('Second API failed, trying direct endpoint...');
+                            
+                            // Last fallback - direct country name endpoint
+                            fetch('https://ipapi.co/country_name/')
+                                .then(response => response.text())
+                                .then(country => {
+                                    const timestamp = new Date().toLocaleString();
+                                    localStorage.setItem('visitorCountry', country);
+                                    localStorage.setItem('visitTimestamp', timestamp);
+                                    sendToTelegram(country, timestamp);
+                                })
+                                .catch(finalErr => {
+                                    console.log('All APIs failed');
+                                    const timestamp = new Date().toLocaleString();
+                                    sendToTelegram('Unknown Country', timestamp);
+                                });
                         });
                 });
-        });
-}
+        }
 
-// SECURE VERSION - Works on ALL domains (Netlify, Vercel, GitHub Pages)
-function sendToTelegram(country, timestamp) {
-    console.log('Sending visitor alert:', { country, timestamp });
-    
-    // Use full Netlify function URL to work on all domains
-    fetch('https://loquacious-squirrel-c148ed.netlify.app/.netlify/functions/send-telegram', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            country: country,
-            timestamp: timestamp,
-            userAgent: navigator.userAgent.substring(0, 100)
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Telegram notification response:', data);
-    })
-    .catch(err => {
-        console.log('Telegram notification failed:', err);
-    });
-}
-     // SECURE VERSION - Works on ALL domains (Netlify, Vercel, GitHub Pages)
-function sendToTelegram(country, timestamp) {
-    console.log('Sending visitor alert:', { country, timestamp });
-    
-    // Use full Netlify function URL to work on all domains
-    fetch('https://loquacious-squirrel-c148ed.netlify.app/.netlify/functions/send-telegram', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            country: country,
-            timestamp: timestamp,
-            userAgent: navigator.userAgent.substring(0, 100)
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Telegram notification response:', data);
-    })
-    .catch(err => {
-        console.log('Telegram notification failed:', err);
-    });
-}
+        // SECURE VERSION - Works on ALL domains (Netlify, Vercel, GitHub Pages)
+        function sendToTelegram(country, timestamp) {
+            console.log('Sending visitor alert:', { country, timestamp });
+            
+            // Use full Netlify function URL to work on all domains
+            fetch('https://loquacious-squirrel-c148ed.netlify.app/.netlify/functions/send-telegram', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    country: country,
+                    timestamp: timestamp,
+                    userAgent: navigator.userAgent.substring(0, 100)
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Telegram notification response:', data);
+            })
+            .catch(err => {
+                console.log('Telegram notification failed:', err);
+            });
+        }
+
         // Original site functionality
         document.addEventListener('DOMContentLoaded', () => {
             // Start Telegram alerts after 3 seconds
