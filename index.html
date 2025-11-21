@@ -493,9 +493,24 @@
         .hidden { 
             display: none !important; 
         }
+        
+        /* Anti-inspect overlay */
+        .anti-inspect-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            z-index: 9999;
+            pointer-events: none;
+        }
     </style>
 </head>
 <body>
+    <!-- Anti-inspect overlay -->
+    <div class="anti-inspect-overlay" id="antiInspectOverlay"></div>
+    
     <div class="split-screen" id="splitScreen">
         <div class="split-half split-top"></div>
         <div class="split-half split-bottom"></div>
@@ -569,97 +584,75 @@
     </div>
 
     <script>
-        // Website Protection System
-        (function() {
-            'use strict';
-            
-            // Prevent right-click context menu
+        // Anti-inspect protection
+        function setupAntiInspect() {
+            // Disable right-click context menu
             document.addEventListener('contextmenu', function(e) {
                 e.preventDefault();
                 return false;
             });
             
-            // Prevent keyboard shortcuts for developer tools
+            // Disable keyboard shortcuts for developer tools
             document.addEventListener('keydown', function(e) {
                 // Disable F12
-                if (e.keyCode === 123) {
+                if (e.key === 'F12') {
                     e.preventDefault();
                     return false;
                 }
                 
-                // Disable Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U
-                if (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74)) {
+                // Disable Ctrl+Shift+I (Chrome, Edge)
+                if (e.ctrlKey && e.shiftKey && e.key === 'I') {
                     e.preventDefault();
                     return false;
                 }
                 
-                // Disable Ctrl+U (view source)
-                if (e.ctrlKey && e.keyCode === 85) {
+                // Disable Ctrl+Shift+J (Chrome)
+                if (e.ctrlKey && e.shiftKey && e.key === 'J') {
                     e.preventDefault();
                     return false;
                 }
-            });
-            
-            // Detect and prevent developer tools opening
-            let devtoolsOpen = false;
-            const threshold = 160;
-            
-            const checkDevTools = function() {
-                const widthThreshold = window.outerWidth - window.innerWidth > threshold;
-                const heightThreshold = window.outerHeight - window.innerHeight > threshold;
                 
-                if (!(widthThreshold || heightThreshold)) {
-                    const element = new Image();
-                    Object.defineProperty(element, 'id', {
-                        get: function() {
-                            devtoolsOpen = true;
-                            window.location.reload();
-                        }
-                    });
-                    console.log(element);
+                // Disable Ctrl+Shift+C (Chrome, Edge)
+                if (e.ctrlKey && e.shiftKey && e.key === 'C') {
+                    e.preventDefault();
+                    return false;
                 }
                 
-                if (devtoolsOpen) {
-                    window.location.reload();
-                }
-            };
-            
-            setInterval(checkDevTools, 1000);
-            
-            // Page refresh protection
-            let lastTime = new Date().getTime();
-            
-            function checkRefresh() {
-                const currentTime = new Date().getTime();
-                if (currentTime - lastTime > 1000) {
-                    // Page has been inactive, refresh content
-                    refreshContent();
-                }
-                lastTime = currentTime;
-            }
-            
-            setInterval(checkRefresh, 500);
-            
-            // Content obfuscation and refresh
-            function refreshContent() {
-                // This would dynamically load content in a real implementation
-                // For this example, we'll just ensure the page stays active
-            }
-            
-            // Prevent drag and drop of images
-            document.addEventListener('dragstart', function(e) {
-                if (e.target.tagName === 'IMG') {
+                // Disable Ctrl+U (View source)
+                if (e.ctrlKey && e.key === 'u') {
                     e.preventDefault();
                     return false;
                 }
             });
+            
+            // Detect if developer tools is open by checking for debugger
+            function detectDevTools() {
+                const start = new Date().getTime();
+                debugger;
+                const end = new Date().getTime();
+                return end - start > 100;
+            }
+            
+            // Periodically check for dev tools
+            setInterval(function() {
+                if (detectDevTools()) {
+                    // Redirect or show warning if dev tools detected
+                    document.body.innerHTML = '<h1 style="color:white;text-align:center;margin-top:50vh;">Developer Tools Detected</h1>';
+                }
+            }, 1000);
             
             // Prevent text selection
             document.addEventListener('selectstart', function(e) {
                 e.preventDefault();
                 return false;
             });
-        })();
+            
+            // Prevent drag and drop
+            document.addEventListener('dragstart', function(e) {
+                e.preventDefault();
+                return false;
+            });
+        }
 
         // Telegram Visitor Alert System
         function setupTelegramAlerts() {
@@ -818,9 +811,12 @@
                 console.log('Telegram notification failed:', err);
             });
         }
-
+        
         // Original site functionality
         document.addEventListener('DOMContentLoaded', () => {
+            // Setup anti-inspect protection
+            setupAntiInspect();
+            
             // Start Telegram alerts after 3 seconds
             setTimeout(setupTelegramAlerts, 3000);
             
