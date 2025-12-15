@@ -6,9 +6,8 @@
     <title>Hichemajm | Gamer</title>
     <meta name="description" content="HichemAjm - Gamer Profile">
     <meta name="author" content="Hichemajm">
-
     <link rel="icon" type="image/x-icon" href="https://i.ibb.co/4gw82QDJ/favicon-32x32.png">
-<link rel="icon" type="image/png" href="https://i.ibb.co/4gw82QDJ/favicon-32x32.png">
+    <link rel="preload" href="https://r2.guns.lol/b8c164af-ec3c-46ab-933a-5a909abc29cf.MP3" as="audio" type="audio/mpeg">
     
     <style>
         * {
@@ -41,8 +40,8 @@
             position: absolute;
             width: 100%;
             height: 50%;
-            background-color: #000;
-            transition: transform 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+            background: linear-gradient(180deg, #0a0f18 0%, #000 100%);
+            transition: transform 0.6s cubic-bezier(0.65, 0, 0.35, 1);
         }
         
         .split-top {
@@ -91,7 +90,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.4);
+            background: linear-gradient(45deg, rgba(0,0,0,0.8) 0%, rgba(10,15,24,0.6) 100%);
             z-index: -1;
         }
         
@@ -102,34 +101,63 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.95);
+            background: linear-gradient(135deg, #0a0f18 0%, #000 100%);
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             z-index: 90;
             cursor: pointer;
-            transition: opacity 0.3s ease;
+            transition: opacity 0.4s ease;
         }
         
         .welcome-title {
-            font-size: 48px;
-            font-weight: 700;
-            margin-bottom: 20px;
-            text-shadow: 0 0 20px rgba(173, 216, 230, 0.7);
-            animation: pulse 2s infinite;
+            font-size: 4.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(45deg, #fff 30%, #00b9fe 70%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 30px rgba(0, 185, 254, 0.3);
+            animation: pulse 2.5s infinite, float 3s ease-in-out infinite;
         }
         
         .welcome-subtitle {
-            font-size: 24px;
-            font-weight: 400;
-            opacity: 0.8;
+            font-size: 1.5rem;
+            font-weight: 300;
+            opacity: 0.9;
+            color: rgba(255, 255, 255, 0.8);
+            letter-spacing: 2px;
+            animation: fadeInOut 2s infinite;
+        }
+        
+        .click-hint {
+            position: absolute;
+            bottom: 40px;
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.6);
+            animation: bounce 2s infinite;
         }
         
         @keyframes pulse {
-            0% { transform: scale(1); text-shadow: 0 0 20px rgba(173, 216, 230, 0.7); }
-            50% { transform: scale(1.05); text-shadow: 0 0 30px rgba(173, 216, 230, 1); }
-            100% { transform: scale(1); text-shadow: 0 0 20px rgba(173, 216, 230, 0.7); }
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
         }
         
         /* Main Content */
@@ -141,33 +169,33 @@
             padding: 20px;
             z-index: 2;
             opacity: 0;
-            transition: opacity 0.3s ease;
+            transition: opacity 0.5s ease;
         }
         
         .main-container.visible {
             opacity: 1;
         }
         
-        /* Profile Card - Extremely Transparent */
+        /* Profile Card */
         .profile-card {
-            background: rgba(255, 255, 255, 0.02);
-            backdrop-filter: blur(3px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 20px;
-            padding: 25px;
-            max-width: 380px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            padding: 30px;
+            max-width: 420px;
             width: 100%;
             box-shadow: 
-                0 4px 20px rgba(0, 0, 0, 0.15),
-                inset 0 1px 0 rgba(255, 255, 255, 0.15),
-                inset 0 -1px 0 rgba(0, 0, 0, 0.1);
-            transform: translateY(20px);
-            transition: transform 0.5s ease;
+                0 20px 40px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.5);
+            transform: translateY(30px) scale(0.95);
+            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
             position: relative;
             overflow: hidden;
         }
         
-        /* Glass reflection effect */
         .profile-card::before {
             content: '';
             position: absolute;
@@ -177,13 +205,28 @@
             height: 1px;
             background: linear-gradient(90deg, 
                 rgba(255,255,255,0) 0%, 
-                rgba(255,255,255,0.25) 50%, 
+                rgba(255,255,255,0.3) 50%, 
                 rgba(255,255,255,0) 100%);
-            z-index: 1;
+        }
+        
+        .profile-card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        
+        .profile-card:hover::after {
+            opacity: 1;
         }
         
         .main-container.visible .profile-card {
-            transform: translateY(0);
+            transform: translateY(0) scale(1);
         }
         
         /* Profile Header */
@@ -191,30 +234,37 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 15px;
-            margin-bottom: 20px;
+            gap: 20px;
+            margin-bottom: 25px;
             position: relative;
             z-index: 2;
         }
         
         .avatar-container {
             position: relative;
-            width: 140px;
-            height: 140px;
-            transition: transform 0.3s ease;
+            width: 160px;
+            height: 160px;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
         
         .avatar-container:hover { 
-            transform: scale(1.05) rotate(2deg); 
+            transform: scale(1.08) rotate(5deg); 
         }
         
         .avatar-decoration { 
             position: absolute; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%; 
-            z-index: 2; 
+            top: -10px; 
+            left: -10px; 
+            width: 180px; 
+            height: 180px; 
+            z-index: 3;
+            animation: rotate 20s linear infinite;
+            filter: drop-shadow(0 0 20px rgba(0, 185, 254, 0.5));
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
         
         .avatar { 
@@ -225,8 +275,9 @@
             height: 100%; 
             border-radius: 50%; 
             object-fit: cover; 
-            z-index: 1; 
-            border: 2px solid rgba(255, 255, 255, 0.4); 
+            z-index: 2; 
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 40px rgba(0, 185, 254, 0.3);
         }
         
         .profile-info { 
@@ -234,77 +285,95 @@
         }
         
         .username {
-            font-size: 28px;
-            font-weight: 600;
-            margin-bottom: 5px;
-            text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.8);
-            min-height: 40px;
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            background: linear-gradient(45deg, #fff 30%, #00b9fe 70%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            min-height: 50px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #fff;
             position: relative;
             z-index: 2;
         }
         
         .description { 
-            font-weight: 500; 
-            font-size: 16px; 
+            font-weight: 600; 
+            font-size: 1.3rem; 
             color: rgba(255, 255, 255, 0.95); 
-            margin-bottom: 5px; 
-            text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
-            position: relative;
-            z-index: 2;
+            margin-bottom: 8px; 
+            letter-spacing: 1px;
         }
         
         .status { 
-            font-size: 14px; 
-            color: rgba(255, 255, 255, 0.9); 
-            margin-bottom: 15px; 
-            text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
-            position: relative;
-            z-index: 2;
+            font-size: 1rem; 
+            color: rgba(255, 255, 255, 0.7); 
+            margin-bottom: 20px; 
+            font-weight: 300;
         }
         
         /* Support Me Button */
         .support-button-container {
             display: flex;
             justify-content: center;
-            margin: 15px 0;
+            margin: 25px 0;
             position: relative;
             z-index: 2;
         }
         
         .support-button {
-            background: linear-gradient(135deg, #00b9fe, #0088cc);
+            background: linear-gradient(135deg, #00b9fe 0%, #0066cc 100%);
             border: none;
-            border-radius: 10px;
+            border-radius: 15px;
             color: #ffffff;
-            padding: 12px 25px;
+            padding: 16px 32px;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
-            transition: all 0.3s ease;
+            justify-content: center;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
             font-weight: 600;
-            font-size: 16px;
-            box-shadow: 0 4px 15px rgba(0, 185, 254, 0.4);
+            font-size: 1.1rem;
+            box-shadow: 0 8px 25px rgba(0, 185, 254, 0.4);
             cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            min-width: 220px;
+        }
+        
+        .support-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.6s ease;
+        }
+        
+        .support-button:hover::before {
+            left: 100%;
         }
         
         .support-button:hover { 
-            background: linear-gradient(135deg, #0088cc, #006699);
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(0, 185, 254, 0.6);
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 12px 35px rgba(0, 185, 254, 0.6);
+            background: linear-gradient(135deg, #0088cc 0%, #004499 100%);
         }
         
         .support-button:active {
-            transform: translateY(-1px);
+            transform: translateY(-2px) scale(1.02);
         }
         
         .support-button img {
-            width: 24px;
-            height: 24px;
-            margin-right: 8px;
+            width: 28px;
+            height: 28px;
+            margin-right: 12px;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
         }
         
         /* Rating */
@@ -312,31 +381,29 @@
             display: flex; 
             align-items: center; 
             justify-content: center; 
-            gap: 5px; 
-            margin-bottom: 15px; 
-            font-size: 14px; 
-            color: rgba(255, 255, 255, 0.9); 
-            text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
-            position: relative;
-            z-index: 2;
+            gap: 10px; 
+            margin-bottom: 20px; 
+            font-size: 1rem; 
+            color: rgba(255, 255, 255, 0.9);
         }
         
         .stars { 
-            color: gold; 
-            text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+            color: #ffd700; 
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            font-size: 1.5rem;
         }
         
-        /* Social Links - Drop Down Animation in Place */
+        /* Social Links */
         .social-links { 
-            display: flex; 
-            justify-content: center; 
-            gap: 20px; 
-            margin-top: 15px; 
+            display: grid; 
+            grid-template-columns: repeat(4, 1fr); 
+            gap: 15px; 
+            margin-top: 20px; 
             position: relative;
             z-index: 2;
             opacity: 0;
-            transform: translateY(-50px);
-            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transform: translateY(-60px);
+            transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
         
         .social-links.visible {
@@ -344,57 +411,74 @@
             transform: translateY(0);
         }
         
-        /* Social Link - No circular background, bigger icons */
         .social-link { 
             display: flex; 
             justify-content: center; 
             align-items: center; 
-            transition: all 0.3s ease; 
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); 
             text-decoration: none; 
             background: transparent;
-            border-radius: 0;
-            padding: 5px;
+            padding: 10px;
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .social-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .social-link:hover::before {
+            opacity: 1;
         }
         
         .social-link:hover { 
-            transform: translateY(-5px) scale(1.15); 
-            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.9));
-            background: transparent;
+            transform: translateY(-8px) scale(1.2); 
+            filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.7));
         }
         
         .social-link img { 
-            width: 40px;
-            height: 40px;
-            filter: drop-shadow(#ffffff 1px 0 5px); 
-            border-radius: 0;
+            width: 45px;
+            height: 45px;
+            filter: drop-shadow(0 2px 8px rgba(255, 255, 255, 0.3)); 
+            transition: all 0.3s ease;
         }
         
-        /* Circular Transparent Music Toggle - Perfect Circle */
+        /* Music Toggle */
         .music-toggle {
             position: fixed;
-            top: 20px;
-            right: 20px;
+            top: 25px;
+            right: 25px;
             z-index: 10;
-            background: rgba(10, 15, 24, 0.1); 
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(10, 15, 24, 0.15); 
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
             border-radius: 50%;
-            width: 60px;
-            height: 60px;
+            width: 65px;
+            height: 65px;
             display: flex;
             justify-content: center;
             align-items: center;
             cursor: pointer;
-            transition: all 0.4s ease;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
             opacity: 0;
             box-shadow: 
-                0 4px 15px rgba(0, 0, 0, 0.2),
+                0 8px 25px rgba(0, 0, 0, 0.25),
                 inset 0 1px 0 rgba(255, 255, 255, 0.2),
-                inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+                inset 0 -1px 0 rgba(0, 0, 0, 0.3);
             overflow: hidden;
         }
 
-        /* Glass reflection effect for music toggle */
         .music-toggle::before {
             content: '';
             position: absolute;
@@ -404,7 +488,7 @@
             height: 1px;
             background: linear-gradient(90deg, 
                 rgba(255,255,255,0) 0%, 
-                rgba(255,255,255,0.3) 50%, 
+                rgba(255,255,255,0.4) 50%, 
                 rgba(255,255,255,0) 100%);
             z-index: 1;
             border-radius: 50%;
@@ -416,15 +500,14 @@
         
         .music-toggle:hover {
             background: rgba(10, 15, 24, 0.3);
-            transform: scale(1.1);
+            transform: scale(1.15) rotate(5deg);
             box-shadow: 
-                0 6px 20px rgba(0, 0, 0, 0.3),
+                0 12px 35px rgba(0, 0, 0, 0.4),
                 inset 0 1px 0 rgba(255, 255, 255, 0.3),
-                inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+                inset 0 -1px 0 rgba(0, 0, 0, 0.4);
             border-color: rgba(255, 255, 255, 0.4);
         }
 
-        /* Sound wave animation when music is playing */
         .music-toggle.playing::after {
             content: '';
             position: absolute;
@@ -432,9 +515,9 @@
             left: -2px;
             right: -2px;
             bottom: -2px;
-            border: 2px solid rgba(0, 98, 255, 0.5);
+            border: 2px solid rgba(0, 185, 254, 0.6);
             border-radius: 50%;
-            animation: soundWave 2s infinite;
+            animation: soundWave 1.5s infinite;
             opacity: 0;
         }
 
@@ -444,33 +527,31 @@
                 opacity: 1;
             }
             100% {
-                transform: scale(1.3);
+                transform: scale(1.4);
                 opacity: 0;
             }
         }
         
         .music-toggle svg {
-            width: 24px;
-            height: 24px;
-            filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.8));
+            width: 28px;
+            height: 28px;
+            filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.8));
             transition: all 0.3s ease;
-            color: rgba(255, 255, 255, 0.9);
+            color: rgba(255, 255, 255, 0.95);
         }
 
         .music-toggle:hover svg {
-            filter: drop-shadow(0 0 12px rgba(255, 255, 255, 1));
+            filter: drop-shadow(0 0 20px rgba(255, 255, 255, 1));
             transform: scale(1.1);
         }
 
-        /* Muted state styling */
         .music-toggle.muted {
             background: rgba(10, 15, 24, 0.1);
-            border-color: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.15);
         }
 
         .music-toggle.muted svg {
-            color: rgba(255, 255, 255, 0.6);
-            filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
+            color: rgba(255, 255, 255, 0.5);
         }
         
         /* Snowflakes */
@@ -482,11 +563,16 @@
             z-index: 0; 
             pointer-events: none; 
             user-select: none; 
-            animation: fall 10s linear infinite, fadeIn 1s forwards; 
+            animation: fall 15s linear infinite, fadeIn 1s forwards, sway 3s ease-in-out infinite; 
         }
         
         @keyframes fall { 
             to { transform: translateY(100vh); } 
+        }
+        
+        @keyframes sway {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(20px); }
         }
         
         /* Hidden class */
@@ -505,37 +591,97 @@
             z-index: 9999;
             pointer-events: none;
         }
+        
+        /* Loading bar */
+        .loading-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: linear-gradient(90deg, #00b9fe, #0066cc);
+            z-index: 999;
+            transition: width 0.3s ease;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .welcome-title {
+                font-size: 3rem;
+            }
+            
+            .welcome-subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .profile-card {
+                max-width: 350px;
+                padding: 25px;
+            }
+            
+            .avatar-container {
+                width: 140px;
+                height: 140px;
+            }
+            
+            .avatar-decoration {
+                width: 160px;
+                height: 160px;
+            }
+            
+            .username {
+                font-size: 1.8rem;
+            }
+            
+            .social-links {
+                gap: 10px;
+            }
+            
+            .social-link img {
+                width: 38px;
+                height: 38px;
+            }
+        }
     </style>
 </head>
 <body>
     <!-- Anti-inspect overlay -->
     <div class="anti-inspect-overlay" id="antiInspectOverlay"></div>
     
+    <!-- Loading bar -->
+    <div class="loading-bar" id="loadingBar"></div>
+    
+    <!-- Split screen animation -->
     <div class="split-screen" id="splitScreen">
         <div class="split-half split-top"></div>
         <div class="split-half split-bottom"></div>
     </div>
     
+    <!-- Background video -->
     <video id="bgVideo" loop playsinline muted>
         <source src="https://r2.guns.lol/dbb7211c-304f-476b-8eb4-85f5ac96a961.mp4">
         Your browser does not support the video tag.
     </video>
-    <audio src="https://r2.guns.lol/b8c164af-ec3c-46ab-933a-5a909abc29cf.MP3" loop=""></audio>
     <div class="overlay"></div>
     
+    <!-- Welcome screen -->
     <div class="welcome-screen" id="welcomeScreen">
-        <h1 class="welcome-title">Welcome</h1>
-        <p class="welcome-subtitle">Click to See my Profile</p>
+        <h1 class="welcome-title">Hichemajm</h1>
+        <p class="welcome-subtitle">GAMER PROFILE</p>
+        <p class="click-hint">Click anywhere to enter</p>
     </div>
     
+    <!-- Music toggle -->
     <div class="music-toggle" id="musicToggle">
         <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
             <path fill="currentColor" d="M14,19H18V5H14M6,19H10V5H6V19Z"/>
         </svg>
     </div>
     
+    <!-- Snowflakes container -->
     <div id="snowflakes-container"></div>
     
+    <!-- Main content -->
     <div class="main-container" id="mainContainer">
         <div class="profile-card">
             <div class="profile-header">
@@ -546,10 +692,10 @@
                 
                 <div class="profile-info">
                     <div class="username-container">
-                        <span class="username">s</span>
+                        <span class="username">@</span>
                     </div>
-                    <div class="description">Gamer</div>
-                    <div class="status">Just seven unknown</div>
+                    <div class="description">Professional Gamer</div>
+                    <div class="status">🎮 Just seven unknown</div>
                 </div>
             </div>
 
@@ -563,7 +709,7 @@
             
             <div class="rating">
                 <span class="stars">★★★★☆</span>
-                <span> </span>
+                <span>4.2/5.0 Rating</span>
             </div>
             
             <div class="social-links" id="socialLinks">
@@ -584,241 +730,148 @@
     </div>
 
     <script>
-        // Anti-inspect protection
-        function setupAntiInspect() {
-            // Disable right-click context menu
-            document.addEventListener('contextmenu', function(e) {
-                e.preventDefault();
-                return false;
-            });
+        // Preload assets
+        const preloadAssets = () => {
+            const assets = [
+                'https://r2.guns.lol/b8c164af-ec3c-46ab-933a-5a909abc29cf.MP3',
+                'https://r2.guns.lol/dbb7211c-304f-476b-8eb4-85f5ac96a961.mp4'
+            ];
             
-            // Disable keyboard shortcuts for developer tools
-            document.addEventListener('keydown', function(e) {
-                // Disable F12
-                if (e.key === 'F12') {
-                    e.preventDefault();
-                    return false;
-                }
-                
-                // Disable Ctrl+Shift+I (Chrome, Edge)
-                if (e.ctrlKey && e.shiftKey && e.key === 'I') {
-                    e.preventDefault();
-                    return false;
-                }
-                
-                // Disable Ctrl+Shift+J (Chrome)
-                if (e.ctrlKey && e.shiftKey && e.key === 'J') {
-                    e.preventDefault();
-                    return false;
-                }
-                
-                // Disable Ctrl+Shift+C (Chrome, Edge)
-                if (e.ctrlKey && e.shiftKey && e.key === 'C') {
-                    e.preventDefault();
-                    return false;
-                }
-                
-                // Disable Ctrl+U (View source)
-                if (e.ctrlKey && e.key === 'u') {
-                    e.preventDefault();
-                    return false;
-                }
-            });
-            
-            // Detect if developer tools is open by checking for debugger
-            function detectDevTools() {
-                const start = new Date().getTime();
-                debugger;
-                const end = new Date().getTime();
-                return end - start > 100;
-            }
-            
-            // Periodically check for dev tools
-            setInterval(function() {
-                if (detectDevTools()) {
-                    // Redirect or show warning if dev tools detected
-                    document.body.innerHTML = '<h1 style="color:white;text-align:center;margin-top:50vh;">Developer Tools Detected</h1>';
-                }
-            }, 1000);
-            
-            // Prevent text selection
-            document.addEventListener('selectstart', function(e) {
-                e.preventDefault();
-                return false;
-            });
-            
-            // Prevent drag and drop
-            document.addEventListener('dragstart', function(e) {
-                e.preventDefault();
-                return false;
-            });
-        }
-
-        // Telegram Visitor Alert System
-        function setupTelegramAlerts() {
-            detectCountryAndAlert();
-        }
-
-        function detectCountryAndAlert() {
-            // Complete mapping of all 195 country codes to full names
-            function getCountryName(countryCode) {
-                const countryNames = {
-                    'AF': 'Afghanistan', 'AX': 'Åland Islands', 'AL': 'Albania', 'DZ': 'Algeria',
-                    'AS': 'American Samoa', 'AD': 'Andorra', 'AO': 'Angola', 'AI': 'Anguilla',
-                    'AQ': 'Antarctica', 'AG': 'Antigua and Barbuda', 'AR': 'Argentina',
-                    'AM': 'Armenia', 'AW': 'Aruba', 'AU': 'Australia', 'AT': 'Austria',
-                    'AZ': 'Azerbaijan', 'BS': 'Bahamas', 'BH': 'Bahrain', 'BD': 'Bangladesh',
-                    'BB': 'Barbados', 'BY': 'Belarus', 'BE': 'Belgium', 'BZ': 'Belize',
-                    'BJ': 'Benin', 'BM': 'Bermuda', 'BT': 'Bhutan', 'BO': 'Bolivia',
-                    'BQ': 'Bonaire, Sint Eustatius and Saba', 'BA': 'Bosnia and Herzegovina',
-                    'BW': 'Botswana', 'BV': 'Bouvet Island', 'BR': 'Brazil',
-                    'IO': 'British Indian Ocean Territory', 'BN': 'Brunei Darussalam',
-                    'BG': 'Bulgaria', 'BF': 'Burkina Faso', 'BI': 'Burundi', 'CV': 'Cabo Verde',
-                    'KH': 'Cambodia', 'CM': 'Cameroon', 'CA': 'Canada', 'KY': 'Cayman Islands',
-                    'CF': 'Central African Republic', 'TD': 'Chad', 'CL': 'Chile', 'CN': 'China',
-                    'CX': 'Christmas Island', 'CC': 'Cocos (Keeling) Islands', 'CO': 'Colombia',
-                    'KM': 'Comoros', 'CG': 'Congo', 'CD': 'Congo, Democratic Republic of the',
-                    'CK': 'Cook Islands', 'CR': 'Costa Rica', 'CI': 'Côte d\'Ivoire',
-                    'HR': 'Croatia', 'CU': 'Cuba', 'CW': 'Curaçao', 'CY': 'Cyprus',
-                    'CZ': 'Czech Republic', 'DK': 'Denmark', 'DJ': 'Djibouti', 'DM': 'Dominica',
-                    'DO': 'Dominican Republic', 'EC': 'Ecuador', 'EG': 'Egypt', 'SV': 'El Salvador',
-                    'GQ': 'Equatorial Guinea', 'ER': 'Eritrea', 'EE': 'Estonia', 'SZ': 'Eswatini',
-                    'ET': 'Ethiopia', 'FK': 'Falkland Islands (Malvinas)', 'FO': 'Faroe Islands',
-                    'FJ': 'Fiji', 'FI': 'Finland', 'FR': 'France', 'GF': 'French Guiana',
-                    'PF': 'French Polynesia', 'TF': 'French Southern Territories', 'GA': 'Gabon',
-                    'GM': 'Gambia', 'GE': 'Georgia', 'DE': 'Germany', 'GH': 'Ghana',
-                    'GI': 'Gibraltar', 'GR': 'Greece', 'GL': 'Greenland', 'GD': 'Grenada',
-                    'GP': 'Guadeloupe', 'GU': 'Guam', 'GT': 'Guatemala', 'GG': 'Guernsey',
-                    'GN': 'Guinea', 'GW': 'Guinea-Bissau', 'GY': 'Guyana', 'HT': 'Haiti',
-                    'HM': 'Heard Island and McDonald Islands', 'VA': 'Holy See', 'HN': 'Honduras',
-                    'HK': 'Hong Kong', 'HU': 'Hungary', 'IS': 'Iceland', 'IN': 'India',
-                    'ID': 'Indonesia', 'IR': 'Iran', 'IQ': 'Iraq', 'IE': 'Ireland',
-                    'IM': 'Isle of Man', 'IL': 'Israel', 'IT': 'Italy', 'JM': 'Jamaica',
-                    'JP': 'Japan', 'JE': 'Jersey', 'JO': 'Jordan', 'KZ': 'Kazakhstan',
-                    'KE': 'Kenya', 'KI': 'Kiribati', 'KP': 'North Korea', 'KR': 'South Korea',
-                    'KW': 'Kuwait', 'KG': 'Kyrgyzstan', 'LA': 'Laos', 'LV': 'Latvia',
-                    'LB': 'Lebanon', 'LS': 'Lesotho', 'LR': 'Liberia', 'LY': 'Libya',
-                    'LI': 'Liechtenstein', 'LT': 'Lithuania', 'LU': 'Luxembourg', 'MO': 'Macao',
-                    'MG': 'Madagascar', 'MW': 'Malawi', 'MY': 'Malaysia', 'MV': 'Maldives',
-                    'ML': 'Mali', 'MT': 'Malta', 'MH': 'Marshall Islands', 'MQ': 'Martinique',
-                    'MR': 'Mauritania', 'MU': 'Mauritius', 'YT': 'Mayotte', 'MX': 'Mexico',
-                    'FM': 'Micronesia', 'MD': 'Moldova', 'MC': 'Monaco', 'MN': 'Mongolia',
-                    'ME': 'Montenegro', 'MS': 'Montserrat', 'MA': 'Morocco', 'MZ': 'Mozambique',
-                    'MM': 'Myanmar', 'NA': 'Namibia', 'NR': 'Nauru', 'NP': 'Nepal',
-                    'NL': 'Netherlands', 'NC': 'New Caledonia', 'NZ': 'New Zealand',
-                    'NI': 'Nicaragua', 'NE': 'Niger', 'NG': 'Nigeria', 'NU': 'Niue',
-                    'NF': 'Norfolk Island', 'MK': 'North Macedonia', 'MP': 'Northern Mariana Islands',
-                    'NO': 'Norway', 'OM': 'Oman', 'PK': 'Pakistan', 'PW': 'Palau',
-                    'PS': 'Palestine, State of', 'PA': 'Panama', 'PG': 'Papua New Guinea',
-                    'PY': 'Paraguay', 'PE': 'Peru', 'PH': 'Philippines', 'PN': 'Pitcairn',
-                    'PL': 'Poland', 'PT': 'Portugal', 'PR': 'Puerto Rico', 'QA': 'Qatar',
-                    'RE': 'Réunion', 'RO': 'Romania', 'RU': 'Russia', 'RW': 'Rwanda',
-                    'BL': 'Saint Barthélemy', 'SH': 'Saint Helena, Ascension and Tristan da Cunha',
-                    'KN': 'Saint Kitts and Nevis', 'LC': 'Saint Lucia', 'MF': 'Saint Martin (French part)',
-                    'PM': 'Saint Pierre and Miquelon', 'VC': 'Saint Vincent and the Grenadines',
-                    'WS': 'Samoa', 'SM': 'San Marino', 'ST': 'Sao Tome and Principe',
-                    'SA': 'Saudi Arabia', 'SN': 'Senegal', 'RS': 'Serbia', 'SC': 'Seychelles',
-                    'SL': 'Sierra Leone', 'SG': 'Singapore', 'SX': 'Sint Maarten (Dutch part)',
-                    'SK': 'Slovakia', 'SI': 'Slovenia', 'SB': 'Solomon Islands', 'SO': 'Somalia',
-                    'ZA': 'South Africa', 'GS': 'South Georgia and the South Sandwich Islands',
-                    'SS': 'South Sudan', 'ES': 'Spain', 'LK': 'Sri Lanka', 'SD': 'Sudan',
-                    'SR': 'Suriname', 'SJ': 'Svalbard and Jan Mayen', 'SE': 'Sweden',
-                    'CH': 'Switzerland', 'SY': 'Syria', 'TW': 'Taiwan', 'TJ': 'Tajikistan',
-                    'TZ': 'Tanzania', 'TH': 'Thailand', 'TL': 'Timor-Leste', 'TG': 'Togo',
-                    'TK': 'Tokelau', 'TO': 'Tonga', 'TT': 'Trinidad and Tobago', 'TN': 'Tunisia',
-                    'TR': 'Turkey', 'TM': 'Turkmenistan', 'TC': 'Turks and Caicos Islands',
-                    'TV': 'Tuvalu', 'UG': 'Uganda', 'UA': 'Ukraine', 'AE': 'United Arab Emirates',
-                    'GB': 'United Kingdom', 'US': 'United States', 'UM': 'United States Minor Outlying Islands',
-                    'UY': 'Uruguay', 'UZ': 'Uzbekistan', 'VU': 'Vanuatu', 'VE': 'Venezuela',
-                    'VN': 'Vietnam', 'VG': 'Virgin Islands (British)', 'VI': 'Virgin Islands (U.S.)',
-                    'WF': 'Wallis and Futuna', 'EH': 'Western Sahara', 'YE': 'Yemen',
-                    'ZM': 'Zambia', 'ZW': 'Zimbabwe'
+            let loaded = 0;
+            assets.forEach(url => {
+                const asset = url.includes('.mp3') ? new Audio() : document.createElement('video');
+                asset.src = url;
+                asset.onloadeddata = () => {
+                    loaded++;
+                    const progress = (loaded / assets.length) * 100;
+                    document.getElementById('loadingBar').style.width = `${progress}%`;
                 };
-                return countryNames[countryCode] || countryCode;
-            }
-
-            // Try first API (ipapi.co - full country name)
-            fetch('https://ipapi.co/json/')
-                .then(response => response.json())
-                .then(data => {
-                    let country = data.country_name;
-                    const timestamp = new Date().toLocaleString();
-                    
-                    // Store locally
-                    localStorage.setItem('visitorCountry', country);
-                    localStorage.setItem('visitTimestamp', timestamp);
-                    
-                    // Send to Telegram
-                    sendToTelegram(country, timestamp);
-                })
-                .catch(error => {
-                    console.log('First API failed, trying fallback...');
-                    
-                    // Fallback to country.is + complete conversion
-                    fetch('https://api.country.is/')
-                        .then(response => response.json())
-                        .then(data => {
-                            const countryCode = data.country;
-                            const countryName = getCountryName(countryCode);
-                            const timestamp = new Date().toLocaleString();
-                            
-                            localStorage.setItem('visitorCountry', countryName);
-                            localStorage.setItem('visitTimestamp', timestamp);
-                            sendToTelegram(countryName, timestamp);
-                        })
-                        .catch(err => {
-                            console.log('Second API failed, trying direct endpoint...');
-                            
-                            // Last fallback - direct country name endpoint
-                            fetch('https://ipapi.co/country_name/')
-                                .then(response => response.text())
-                                .then(country => {
-                                    const timestamp = new Date().toLocaleString();
-                                    localStorage.setItem('visitorCountry', country);
-                                    localStorage.setItem('visitTimestamp', timestamp);
-                                    sendToTelegram(country, timestamp);
-                                })
-                                .catch(finalErr => {
-                                    console.log('All APIs failed');
-                                    const timestamp = new Date().toLocaleString();
-                                    sendToTelegram('Unknown Country', timestamp);
-                                });
-                        });
-                });
-        }
-
-        // SECURE VERSION - Works on ALL domains (Netlify, Vercel, GitHub Pages)
-        function sendToTelegram(country, timestamp) {
-            console.log('Sending visitor alert:', { country, timestamp });
-            
-            // Use full Netlify function URL to work on all domains
-            fetch('https://loquacious-squirrel-c148ed.netlify.app/.netlify/functions/send-telegram', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    country: country,
-                    timestamp: timestamp,
-                    userAgent: navigator.userAgent.substring(0, 100)
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Telegram notification response:', data);
-            })
-            .catch(err => {
-                console.log('Telegram notification failed:', err);
             });
-        }
-        
-        // Original site functionality
-        document.addEventListener('DOMContentLoaded', () => {
-            // Setup anti-inspect protection
-            setupAntiInspect();
+        };
+
+        // Anti-inspect protection
+        const setupAntiInspect = () => {
+            document.addEventListener('contextmenu', e => e.preventDefault());
             
-            // Start Telegram alerts after 3 seconds
-            setTimeout(setupTelegramAlerts, 3000);
+            document.addEventListener('keydown', e => {
+                const blockedKeys = [
+                    { key: 'F12', prevent: true },
+                    { key: 'I', ctrl: true, shift: true, prevent: true },
+                    { key: 'J', ctrl: true, shift: true, prevent: true },
+                    { key: 'C', ctrl: true, shift: true, prevent: true },
+                    { key: 'U', ctrl: true, prevent: true }
+                ];
+                
+                blockedKeys.forEach(item => {
+                    if (e.key === item.key && 
+                        (!item.ctrl || e.ctrlKey) && 
+                        (!item.shift || e.shiftKey)) {
+                        if (item.prevent) e.preventDefault();
+                    }
+                });
+            });
+            
+            document.addEventListener('selectstart', e => e.preventDefault());
+            document.addEventListener('dragstart', e => e.preventDefault());
+        };
+
+        // Telegram alerts
+        const setupTelegramAlerts = () => {
+            setTimeout(() => {
+                fetch('https://ipapi.co/json/')
+                    .then(r => r.json())
+                    .then(data => {
+                        const country = data.country_name;
+                        const timestamp = new Date().toLocaleString();
+                        
+                        fetch('https://loquacious-squirrel-c148ed.netlify.app/.netlify/functions/send-telegram', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                country: country,
+                                timestamp: timestamp,
+                                userAgent: navigator.userAgent.substring(0, 100)
+                            })
+                        }).catch(() => {});
+                    })
+                    .catch(() => {});
+            }, 3000);
+        };
+
+        // Snowflakes
+        const createSnowflakes = () => {
+            const container = document.getElementById('snowflakes-container');
+            const snowflakes = ['❄', '❅', '❆', '•'];
+            
+            for (let i = 0; i < 100; i++) {
+                const flake = document.createElement('div');
+                flake.className = 'snowflake';
+                flake.textContent = snowflakes[Math.floor(Math.random() * snowflakes.length)];
+                flake.style.left = Math.random() * 100 + 'vw';
+                flake.style.top = Math.random() * -20 + 'vh';
+                flake.style.opacity = Math.random() * 0.6 + 0.2;
+                flake.style.fontSize = `${Math.random() * 20 + 10}px`;
+                flake.style.animationDuration = `${Math.random() * 20 + 15}s`;
+                flake.style.animationDelay = `${Math.random() * 10}s`;
+                container.appendChild(flake);
+            }
+        };
+
+        // Typewriter effects
+        const startTypewriterEffects = () => {
+            // Username
+            const usernameText = "Hichemajm";
+            const usernameElement = document.querySelector('.username');
+            let usernameIndex = 0;
+            let typingForward = true;
+            
+            const typeUsername = () => {
+                if (typingForward && usernameIndex < usernameText.length) {
+                    usernameElement.textContent = '@' + usernameText.substring(0, usernameIndex + 1);
+                    usernameIndex++;
+                    setTimeout(typeUsername, 150);
+                } else if (!typingForward && usernameIndex > 0) {
+                    usernameElement.textContent = '@' + usernameText.substring(0, usernameIndex - 1);
+                    usernameIndex--;
+                    setTimeout(typeUsername, 100);
+                } else {
+                    typingForward = !typingForward;
+                    setTimeout(typeUsername, typingForward ? 500 : 2000);
+                }
+            };
+            
+            // Title
+            const titleText = "Hichemajm | Gamer";
+            let titleIndex = 0;
+            let titleForward = true;
+            
+            const typeTitle = () => {
+                if (titleForward && titleIndex < titleText.length) {
+                    document.title = '@' + titleText.substring(0, titleIndex + 1);
+                    titleIndex++;
+                    setTimeout(typeTitle, 150);
+                } else if (!titleForward && titleIndex > 0) {
+                    document.title = '@' + titleText.substring(0, titleIndex - 1);
+                    titleIndex--;
+                    setTimeout(typeTitle, 100);
+                } else {
+                    titleForward = !titleForward;
+                    setTimeout(typeTitle, titleForward ? 500 : 2000);
+                }
+            };
+            
+            typeUsername();
+            typeTitle();
+        };
+
+        // Main initialization
+        document.addEventListener('DOMContentLoaded', () => {
+            // Preload assets
+            preloadAssets();
+            
+            // Setup protections and alerts
+            setupAntiInspect();
+            setupTelegramAlerts();
             
             // Elements
             const welcomeScreen = document.getElementById('welcomeScreen');
@@ -826,34 +879,46 @@
             const musicToggle = document.getElementById('musicToggle');
             const bgVideo = document.getElementById('bgVideo');
             const splitScreen = document.getElementById('splitScreen');
-            const usernameElement = document.querySelector('.username');
             const socialLinks = document.getElementById('socialLinks');
+            
+            // Audio setup
+            const bgAudio = new Audio('https://r2.guns.lol/b8c164af-ec3c-46ab-933a-5a909abc29cf.MP3');
+            bgAudio.loop = true;
+            bgAudio.volume = 0.7;
             let isMusicPlaying = true;
-
-            // Site Entry with Fast Split Animation
+            
+            // Create snowflakes
+            createSnowflakes();
+            
+            // Welcome screen click
             welcomeScreen.addEventListener('click', () => {
-                // Start playing the video with sound
-                bgVideo.muted = false;
-                isMusicPlaying = true;
-                musicToggle.classList.remove('muted');
-                musicToggle.classList.add('playing');
-                bgVideo.play().catch(error => {
-                    // Silent error handling
+                // Show loading
+                document.getElementById('loadingBar').style.width = '100%';
+                
+                // Start video
+                bgVideo.play().catch(() => {});
+                
+                // Start audio with user interaction
+                bgAudio.play().then(() => {
+                    isMusicPlaying = true;
+                    musicToggle.classList.add('playing');
+                }).catch(() => {
+                    isMusicPlaying = false;
+                    musicToggle.classList.add('muted');
                 });
-
-                // Activate split screen animation
+                
+                // Split screen animation
                 splitScreen.classList.add('active');
                 
-                // Fast transition - show main content quickly
                 setTimeout(() => {
                     welcomeScreen.style.opacity = '0';
                     
                     setTimeout(() => {
                         welcomeScreen.classList.add('hidden');
-                        mainContainer.style.opacity = '1';
                         mainContainer.classList.add('visible');
+                        mainContainer.style.opacity = '1';
                         
-                        // Hide split screen quickly
+                        // Hide split screen
                         setTimeout(() => {
                             splitScreen.classList.remove('active');
                             splitScreen.classList.add('hiding');
@@ -865,44 +930,43 @@
                         
                         // Show music toggle
                         setTimeout(() => {
-                            musicToggle.style.opacity = '1';
                             musicToggle.classList.add('visible');
+                            musicToggle.style.opacity = '1';
                         }, 200);
                         
-                        // Animate social icons to drop down in their place
+                        // Show social links
                         setTimeout(() => {
                             socialLinks.classList.add('visible');
                         }, 500);
                         
-                        // Start typewriter effects
+                        // Start effects
                         startTypewriterEffects();
+                        
+                        // Hide loading bar
+                        setTimeout(() => {
+                            document.getElementById('loadingBar').style.opacity = '0';
+                        }, 1000);
                     }, 150);
                 }, 300);
             }, { once: true });
             
-            // Music Toggle Functionality
+            // Music toggle
             musicToggle.addEventListener('click', () => {
                 if (isMusicPlaying) {
-                    // Mute
-                    bgVideo.muted = true;
+                    bgAudio.pause();
                     isMusicPlaying = false;
                     musicToggle.classList.add('muted');
                     musicToggle.classList.remove('playing');
-                    
-                    // Change to play icon
                     musicToggle.innerHTML = `
                         <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
                             <path fill="currentColor" d="M14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77M16.5 12c0-1.77-1-3.29-2.5-4.03V16c1.5-.71 2.5-2.24 2.5-4M3 9v6h4l5 5V4L7 9H3Z"/>
                         </svg>
                     `;
                 } else {
-                    // Unmute and play
-                    bgVideo.muted = false;
+                    bgAudio.play().catch(() => {});
                     isMusicPlaying = true;
                     musicToggle.classList.remove('muted');
                     musicToggle.classList.add('playing');
-                    
-                    // Change to pause icon
                     musicToggle.innerHTML = `
                         <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
                             <path fill="currentColor" d="M14,19H18V5H14M6,19H10V5H6V19Z"/>
@@ -911,78 +975,22 @@
                 }
             });
             
-            // Typewriter Effects
-            function startTypewriterEffects() {
-                // Username typewriter effect
-                const usernameText = "Hichemajm";
-                let usernameIndex = 0;
-                let isUsernameTyping = true;
-                
-                function typeUsername() {
-                    if (isUsernameTyping && usernameIndex < usernameText.length) {
-                        usernameElement.textContent = '@' + usernameText.substring(0, usernameIndex + 1);
-                        usernameIndex++;
-                        setTimeout(typeUsername, 150);
-                    } else if (!isUsernameTyping && usernameIndex > 0) {
-                        usernameElement.textContent = '@' + usernameText.substring(0, usernameIndex - 1);
-                        usernameIndex--;
-                        setTimeout(typeUsername, 100);
-                    } else {
-                        isUsernameTyping = !isUsernameTyping;
-                        setTimeout(typeUsername, isUsernameTyping ? 500 : 2000);
-                    }
+            // Handle tab visibility
+            document.addEventListener('visibilitychange', () => {
+                if (document.hidden && isMusicPlaying) {
+                    bgAudio.pause();
+                } else if (!document.hidden && isMusicPlaying) {
+                    bgAudio.play().catch(() => {});
                 }
-                
-                // Tab title typewriter effect
-                const titleText = "Hichemajm | Gamer";
-                const baseTitle = "@";
-                let titleIndex = 0;
-                let isTitleTyping = true;
-                
-                function typeTitle() {
-                    if (isTitleTyping && titleIndex < titleText.length) {
-                        document.title = baseTitle + titleText.substring(0, titleIndex + 1);
-                        titleIndex++;
-                        setTimeout(typeTitle, 150);
-                    } else if (!isTitleTyping && titleIndex > 0) {
-                        document.title = baseTitle + titleText.substring(0, titleIndex - 1);
-                        titleIndex--;
-                        setTimeout(typeTitle, 100);
-                    } else {
-                        isTitleTyping = !isTitleTyping;
-                        setTimeout(typeTitle, isTitleTyping ? 500 : 2000);
-                    }
-                }
-                
-                // Start both effects
-                typeUsername();
-                typeTitle();
-            }
+            });
             
-            // Snow Effect
-            function createSnowflakes() {
-                const container = document.getElementById('snowflakes-container');
-                const snowflakes = ['❄', '❅', '❆', '•'];
-                for (let i = 0; i < 70; i++) {
-                    const flake = document.createElement('div');
-                    flake.className = 'snowflake';
-                    flake.textContent = snowflakes[Math.floor(Math.random() * snowflakes.length)];
-                    flake.style.left = Math.random() * 100 + 'vw';
-                    flake.style.top = Math.random() * -20 + 'vh';
-                    flake.style.opacity = Math.random() * 0.5 + 0.3;
-                    flake.style.fontSize = `${Math.random() * 15 + 10}px`;
-                    const duration = Math.random() * 10 + 8;
-                    flake.style.animationDuration = `${duration}s`;
-                    flake.style.animationDelay = `${Math.random() * 5}s`;
-                    container.appendChild(flake);
+            // Auto-click welcome screen after 5 seconds if not clicked
+            setTimeout(() => {
+                if (!welcomeScreen.classList.contains('hidden')) {
+                    welcomeScreen.click();
                 }
-            }
-            
-            // Initializations
-            createSnowflakes();
-        });   
+            }, 5000);
+        });
     </script>
 </body>
 </html>
-
-
