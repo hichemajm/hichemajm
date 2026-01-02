@@ -8,7 +8,10 @@
     <meta name="author" content="Hichemajm">
 
     <link rel="icon" type="image/x-icon" href="https://i.ibb.co/4gw82QDJ/favicon-32x32.png">
-<link rel="icon" type="image/png" href="https://i.ibb.co/4gw82QDJ/favicon-32x32.png">
+    <link rel="icon" type="image/png" href="https://i.ibb.co/4gw82QDJ/favicon-32x32.png">
+    
+    <!-- Redbubble Portfolio Script -->
+    <script type="text/javascript" src="https://www.redbubble.com/assets/external_portfolio.js"></script>
     
     <style>
         * {
@@ -354,6 +357,7 @@
             background: transparent;
             border-radius: 0;
             padding: 5px;
+            position: relative;
         }
         
         .social-link:hover { 
@@ -367,6 +371,171 @@
             height: 40px;
             filter: drop-shadow(#ffffff 1px 0 5px); 
             border-radius: 0;
+            transition: all 0.3s ease;
+        }
+        
+        /* Redbubble Store Icon Styling - Updated with consistent sizing */
+        .social-link.redbubble {
+            position: relative;
+        }
+        
+        .redbubble-store-icon {
+            width: 40px;
+            height: 40px;
+            filter: drop-shadow(#ffffff 1px 0 5px);
+            border-radius: 0;
+            transition: all 0.3s ease;
+            object-fit: contain;
+            background: transparent;
+        }
+        
+        /* Redbubble Modal Styling */
+        .redbubble-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .redbubble-modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .redbubble-modal {
+            background: rgba(20, 20, 20, 0.95);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 900px;
+            width: 95%;
+            max-height: 85vh;
+            position: relative;
+            transform: translateY(30px);
+            transition: transform 0.3s ease;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+        
+        .redbubble-modal-overlay.active .redbubble-modal {
+            transform: translateY(0);
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .modal-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .modal-close {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #fff;
+        }
+        
+        .modal-close:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: rotate(90deg);
+        }
+        
+        .redbubble-container {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            overflow: hidden;
+            height: 500px;
+            position: relative;
+        }
+        
+        #redbubble-portfolio {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: transparent;
+        }
+        
+        .redbubble-loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 18px;
+        }
+        
+        /* Store Badge */
+        .store-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #ff4655;
+            color: white;
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-weight: bold;
+            z-index: 3;
+            animation: badgePulse 2s infinite;
+        }
+        
+        @keyframes badgePulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        /* Click Instruction Tooltip */
+        .click-tooltip {
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            pointer-events: none;
+            z-index: 10;
+        }
+        
+        .social-link.redbubble:hover .click-tooltip {
+            opacity: 1;
+            visibility: visible;
+            bottom: -30px;
         }
         
         /* Circular Transparent Music Toggle - Perfect Circle */
@@ -511,6 +680,29 @@
     <!-- Anti-inspect overlay -->
     <div class="anti-inspect-overlay" id="antiInspectOverlay"></div>
     
+    <!-- Redbubble Modal -->
+    <div class="redbubble-modal-overlay" id="redbubbleModal">
+        <div class="redbubble-modal">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" fill="#FF4655"/>
+                    </svg>
+                    My Redbubble Store
+                </div>
+                <div class="modal-close" id="closeRedbubbleModal">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+            </div>
+            <div class="redbubble-container">
+                <div class="redbubble-loading">Loading store...</div>
+                <iframe id="redbubble-portfolio" frameborder="0"></iframe>
+            </div>
+        </div>
+    </div>
+    
     <div class="split-screen" id="splitScreen">
         <div class="split-half split-top"></div>
         <div class="split-half split-bottom"></div>
@@ -547,7 +739,7 @@
                     <div class="username-container">
                         <span class="username">s</span>
                     </div>
-                    <div class="description">Gamer</div>
+                    <div class="description">Gamer & Designer</div>
                     <div class="status">Just seven unknown</div>
                 </div>
             </div>
@@ -562,22 +754,44 @@
             
             <div class="rating">
                 <span class="stars">★★★★☆</span>
-                <span> </span>
+                <span>4.5/5</span>
             </div>
             
             <div class="social-links" id="socialLinks">
+                <!-- Steam -->
                 <a href="https://steamcommunity.com/id/Skynessdz/" class="social-link" target="_blank" title="Steam">
                     <img src="https://i.ibb.co/SDwg8G8F/027e4c15-09f3-468f-bf50-dd60f412188a.webp" alt="Steam">
                 </a>
+                
+                <!-- Instagram -->
                 <a href="https://www.instagram.com/hichemajm22" class="social-link" target="_blank" title="Instagram">
                     <img src="https://i.ibb.co/1t04vT9r/unnamed0.png" alt="Instagram">
                 </a>
+                
+                <!-- YouTube -->
                 <a href="https://www.youtube.com/@hichemajm22" class="social-link" target="_blank" title="YouTube">
                     <img src="https://i.ibb.co/xtfmz8MG/08a5a4de-1664-479f-835b-26203a162a1c-removebg-preview.png" alt="YouTube">
                 </a>
+
+                <!-- Facebook -->
                 <a href="https://www.facebook.com/hichem.adjimi.2025/" class="social-link" target="_blank" title="Facebook">
                     <img src="https://i.ibb.co/Fqn2cZhJ/unnamed-1-1.png" alt="Facebook">
                 </a>
+                
+                
+                <!-- Redbubble Store - NOW WITH DIRECT REDIRECT LINK -->
+                <a href="https://www.redbubble.com/people/hichemajm/shop?utm_campaign=external-portfolio&utm_medium=embedded&utm_source=Hichemajm" 
+                   class="social-link redbubble" 
+                   id="redbubbleLink" 
+                   title="Redbubble Store" 
+                   target="_blank">
+                    <img src="https://i.ibb.co/rGDkx7Gq/bg-f8f8f8-flat-750x-075-f-pad-750x1000-f8f8f8-u8-removebg-preview.png" 
+                         alt="Redbubble Store" 
+                         class="redbubble-store-icon">
+                    <span class="store-badge">NEW</span>
+                    <span class="click-tooltip">Click to visit my store</span>
+                </a>
+                
             </div>
         </div>
     </div>
@@ -624,22 +838,6 @@
                 }
             });
             
-            // Detect if developer tools is open by checking for debugger
-            function detectDevTools() {
-                const start = new Date().getTime();
-                debugger;
-                const end = new Date().getTime();
-                return end - start > 100;
-            }
-            
-            // Periodically check for dev tools
-            setInterval(function() {
-                if (detectDevTools()) {
-                    // Redirect or show warning if dev tools detected
-                    document.body.innerHTML = '<h1 style="color:white;text-align:center;margin-top:50vh;">Developer Tools Detected</h1>';
-                }
-            }, 1000);
-            
             // Prevent text selection
             document.addEventListener('selectstart', function(e) {
                 e.preventDefault();
@@ -650,6 +848,154 @@
             document.addEventListener('dragstart', function(e) {
                 e.preventDefault();
                 return false;
+            });
+        }
+
+        // Redbubble Store Integration - Updated for direct link
+        function setupRedbubbleStore() {
+            const redbubbleLink = document.getElementById('redbubbleLink');
+            const redbubbleModal = document.getElementById('redbubbleModal');
+            const closeModalBtn = document.getElementById('closeRedbubbleModal');
+            
+            // Initialize Redbubble Portfolio
+            let redbubblePortfolio = null;
+            
+            // Function to load Redbubble store
+            function loadRedbubbleStore() {
+                const loadingElement = document.querySelector('.redbubble-loading');
+                const redbubbleIframe = document.getElementById('redbubble-portfolio');
+                
+                // Show loading
+                loadingElement.style.display = 'flex';
+                redbubbleIframe.style.display = 'none';
+                
+                // Initialize Redbubble portfolio
+                redbubblePortfolio = new RBExternalPortfolio('www.redbubble.com', 'hichemajm', 2, 2);
+                
+                // Get the iframe source from Redbubble portfolio
+                const iframeSrc = redbubblePortfolio.generateIframeUrl();
+                
+                // Set iframe source
+                redbubbleIframe.src = iframeSrc;
+                
+                // Hide loading and show iframe when loaded
+                redbubbleIframe.onload = function() {
+                    setTimeout(() => {
+                        loadingElement.style.display = 'none';
+                        redbubbleIframe.style.display = 'block';
+                    }, 500);
+                };
+            }
+            
+            // Function to open modal on right-click
+            function setupContextMenu() {
+                redbubbleLink.addEventListener('contextmenu', function(e) {
+                    e.preventDefault();
+                    
+                    // Load Redbubble store
+                    loadRedbubbleStore();
+                    
+                    // Show modal
+                    redbubbleModal.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                    
+                    // Add keyboard escape listener
+                    document.addEventListener('keydown', handleEscapeKey);
+                    
+                    // Show notification
+                    showNotification('Preview mode activated. Click outside to close.');
+                    
+                    return false;
+                });
+            }
+            
+            // Show notification
+            function showNotification(message) {
+                // Remove existing notification
+                const existingNotification = document.querySelector('.redbubble-notification');
+                if (existingNotification) {
+                    existingNotification.remove();
+                }
+                
+                // Create notification
+                const notification = document.createElement('div');
+                notification.className = 'redbubble-notification';
+                notification.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    background: rgba(255, 69, 85, 0.9);
+                    color: white;
+                    padding: 12px 20px;
+                    border-radius: 10px;
+                    font-size: 14px;
+                    font-weight: 500;
+                    z-index: 1001;
+                    animation: slideDown 0.3s ease;
+                    backdrop-filter: blur(10px);
+                    border: 1px solid rgba(255, 255, 255, 0.2);
+                    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+                `;
+                notification.textContent = message;
+                
+                document.body.appendChild(notification);
+                
+                // Remove notification after 3 seconds
+                setTimeout(() => {
+                    notification.style.animation = 'slideUp 0.3s ease';
+                    setTimeout(() => notification.remove(), 300);
+                }, 3000);
+                
+                // Add animation keyframes
+                if (!document.querySelector('#notification-styles')) {
+                    const style = document.createElement('style');
+                    style.id = 'notification-styles';
+                    style.textContent = `
+                        @keyframes slideDown {
+                            from { transform: translateX(-50%) translateY(-20px); opacity: 0; }
+                            to { transform: translateX(-50%) translateY(0); opacity: 1; }
+                        }
+                        @keyframes slideUp {
+                            from { transform: translateX(-50%) translateY(0); opacity: 1; }
+                            to { transform: translateX(-50%) translateY(-20px); opacity: 0; }
+                        }
+                    `;
+                    document.head.appendChild(style);
+                }
+            }
+            
+            // Close modal
+            function closeModal() {
+                redbubbleModal.classList.remove('active');
+                document.body.style.overflow = '';
+                document.removeEventListener('keydown', handleEscapeKey);
+            }
+            
+            // Close modal handlers
+            closeModalBtn.addEventListener('click', closeModal);
+            redbubbleModal.addEventListener('click', function(e) {
+                if (e.target === redbubbleModal) {
+                    closeModal();
+                }
+            });
+            
+            // Escape key handler
+            function handleEscapeKey(e) {
+                if (e.key === 'Escape') {
+                    closeModal();
+                }
+            }
+            
+            // Setup context menu for preview
+            setupContextMenu();
+            
+            // Preload Redbubble script
+            window.addEventListener('load', function() {
+                // Script is already loaded in head, just verify
+                if (typeof RBExternalPortfolio === 'function') {
+                    console.log('Redbubble portfolio script loaded');
+                }
             });
         }
 
@@ -815,6 +1161,9 @@
         document.addEventListener('DOMContentLoaded', () => {
             // Setup anti-inspect protection
             setupAntiInspect();
+            
+            // Setup Redbubble store
+            setupRedbubbleStore();
             
             // Start Telegram alerts after 3 seconds
             setTimeout(setupTelegramAlerts, 3000);
@@ -999,9 +1348,3 @@
     </script>
 </body>
 </html>
-
-
-
-
-
-
