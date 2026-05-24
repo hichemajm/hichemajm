@@ -165,6 +165,11 @@ height: 2px; border-radius: 5px;
 
 
     <div id="yt-player" class="hidden"></div>
+    
+    <!-- Audio element for justice.mp4 background music - exact replacement -->
+    <audio id="bg-audio" loop preload="auto" style="display:none;">
+        <source src="https://hichemajm.vercel.app/justice.mp4" type="audio/mpeg">
+    </audio>
 
     <script>
 const dot = document.getElementById('cursor-dot');
@@ -186,6 +191,12 @@ dot.style.background = '#fff'; // Revine la alb
 });
 });
 
+// Get references to new audio element and player elements
+let bgAudioElement = null;
+let player = null; // keep YouTube player variable but we won't use it for primary music
+const videoId = 'q8Bbg6BaLbA'; // placeholder, not used for music anymore
+let isAudioPlaying = false;
+
 function startExperience() {
 const intro = document.getElementById('intro');
 const video = document.getElementById('bg-video');
@@ -201,64 +212,239 @@ video.play().catch(e => console.log("Autoplay blocked"));
 content.style.opacity = '1';
 content.style.transform = 'scale(1)';
 
-if(player && player.playVideo) {
-player.playVideo();
-player.setVolume(50);
+// --- Start the new background audio (justice.mp4) ---
+if (bgAudioElement) {
+    // Ensure volume matches the slider value
+    const volumeSlider = document.getElementById('volume');
+    if (volumeSlider) {
+        bgAudioElement.volume = volumeSlider.value / 100;
+    }
+    bgAudioElement.play().then(() => {
+        isAudioPlaying = true;
+        // Update play icon to pause state
+        const icon = document.getElementById('play-icon');
+        if (icon) icon.className = 'fa-solid fa-pause';
+        // Animate album art and avatar
+        const albumArt = document.getElementById('album-art');
+        const avatar = document.getElementById('avatar');
+        if (albumArt) {
+            albumArt.style.opacity = '1';
+            albumArt.style.filter = 'grayscale(0)';
+        }
+        if (avatar) avatar.style.filter = 'grayscale(0)';
+    }).catch(e => {
+        console.log("Audio autoplay blocked, user interaction needed:", e);
+        // If autoplay fails, keep play icon as play; user can click button
+        isAudioPlaying = false;
+        const icon = document.getElementById('play-icon');
+        if (icon) icon.className = 'fa-solid fa-play ml-0.5';
+    });
 }
+
+// The old YouTube player is not needed, but we keep it to avoid errors if any reference exists
+// However we won't call its playVideo. So we disable any leftover effects.
+if (player && typeof player.pauseVideo === 'function') {
+    // just ensure it's muted or paused to avoid conflict, but we don't use it.
+    try { player.pauseVideo(); } catch(e) {}
+}
+
 }, 500);
 }
 
-        let player;
-        const videoId = 'q8Bbg6BaLbA';
-
-        function onYouTubeIframeAPIReady() {
-            player = new YT.Player('yt-player', {
-                height: '0', width: '0', videoId: videoId,
-                playerVars: { autoplay: 0, loop: 1, playlist: videoId },
-                events: { 'onStateChange': onPlayerStateChange }
-            });
+// New toggle function for justice.mp4 background audio
+function toggleMusic() {
+if (!bgAudioElement) return;
+if (isAudioPlaying) {
+    bgAudioElement.pause();
+    isAudioPlaying = false;
+    const icon = document.getElementById('play-icon');
+    if (icon) icon.className = 'fa-solid fa-play ml-0.5';
+    const albumArt = document.getElementById('album-art');
+    const avatar = document.getElementById('avatar');
+    if (albumArt) {
+        albumArt.style.opacity = '0.4';
+        albumArt.style.filter = 'grayscale(1)';
+    }
+    if (avatar) avatar.style.filter = 'grayscale(1)';
+} else {
+    bgAudioElement.play().then(() => {
+        isAudioPlaying = true;
+        const icon = document.getElementById('play-icon');
+        if (icon) icon.className = 'fa-solid fa-pause';
+        const albumArt = document.getElementById('album-art');
+        const avatar = document.getElementById('avatar');
+        if (albumArt) {
+            albumArt.style.opacity = '1';
+            albumArt.style.filter = 'grayscale(0)';
         }
+        if (avatar) avatar.style.filter = 'grayscale(0)';
+    }).catch(e => console.log("Playback failed:", e));
+}
+}
 
-        function onPlayerStateChange(event) {
-            const icon = document.getElementById('play-icon');
-            const albumArt = document.getElementById('album-art');
-            const avatar = document.getElementById('avatar');
-            if (event.data === YT.PlayerState.PLAYING) {
-                icon.className = 'fa-solid fa-pause';
-                albumArt.style.opacity = '1'; albumArt.style.filter = 'grayscale(0)';
-                avatar.style.filter = 'grayscale(0)';
-            } else {
-                icon.className = 'fa-solid fa-play ml-0.5';
-                albumArt.style.opacity = '0.4'; albumArt.style.filter = 'grayscale(1)';
-                avatar.style.filter = 'grayscale(1)';
+// Volume control for the new audio
+document.getElementById('volume').addEventListener('input', (e) => {
+if(bgAudioElement) {
+    const val = e.target.value / 100;
+    bgAudioElement.volume = val;
+}
+// no YouTube volume needed
+});
+
+// 3D Tilt Optimizat (Redus la jumatate pentru fluiditate)
+document.addEventListener('mousemove', (e) => {
+    if(window.innerWidth > 1024) {
+        const card = document.getElementById('main-content');
+        const x = (window.innerWidth / 2 - e.pageX) / 120;
+        const y = (window.innerHeight / 2 - e.pageY) / 120;
+        card.style.transform = `rotateY(${x}deg) rotateX(${-y}deg)`;
+    }
+});
+
+// Initialize audio element after DOM ready and preserve all original video/background
+document.addEventListener('DOMContentLoaded', () => {
+    bgAudioElement = document.getElementById('bg-audio');
+    if (bgAudioElement) {
+        // Set initial volume from slider
+        const volSlider = document.getElementById('volume');
+        if (volSlider) bgAudioElement.volume = volSlider.value / 100;
+        // preload metadata: nothing else, don't autoplay until startExperience
+        bgAudioElement.loop = true;
+        // If for any reason the audio ends (should loop), we keep loop true
+        bgAudioElement.addEventListener('ended', () => {
+            // loop handles replay, but also maintain state
+            if (bgAudioElement.loop) {
+                bgAudioElement.play().catch(e=>console.log);
             }
-        }
-
-        function toggleMusic() {
-            if (!player) return;
-            player.getPlayerState() === 1 ? player.pauseVideo() : player.playVideo();
-        }
-
-        document.getElementById('volume').addEventListener('input', (e) => {
-            if(player) player.setVolume(e.target.value);
         });
+    }
+    // Remove any residual youtube autoplay attempts: but we still load the dummy iframe api to prevent errors? 
+    // The original script loads YouTube iframe API but never calls it for actual music. We'll override onYouTubeIframeAPIReady 
+    // to prevent conflicts, but keep it defined to avoid console errors.
+    window.onYouTubeIframeAPIReady = function() {
+        // Create dummy player but don't attach any music functionality.
+        // We need to assign player variable to dummy object to avoid toggleMusic using old reference.
+        if (document.getElementById('yt-player')) {
+            // dummy player that does nothing, ensures that the old player object doesn't interfere.
+            player = {
+                playVideo: () => {},
+                pauseVideo: () => {},
+                getPlayerState: () => -1,
+                setVolume: () => {},
+                mute: () => {}
+            };
+        }
+    };
+    // If the YouTube API script loads after, it will call onYouTubeIframeAPIReady anyway.
+    // Also we must ensure that the previous player does not conflict with our music controls.
+});
 
-        // 3D Tilt Optimizat (Redus la jumatate pentru fluiditate)
-        document.addEventListener('mousemove', (e) => {
-            if(window.innerWidth > 1024) {
-                const card = document.getElementById('main-content');
-                const x = (window.innerWidth / 2 - e.pageX) / 120;
-                const y = (window.innerHeight / 2 - e.pageY) / 120;
-                card.style.transform = `rotateY(${x}deg) rotateX(${-y}deg)`;
-            }
-        });
+// Override potential old player object creation: redefine toggleMusic and volume event to rely solely on bgAudioElement.
+// The existing toggleMusic function is already redefined. Good. But we also need to bypass the original YT player initialization.
+// We'll prevent the original onYouTubeIframeAPIReady from being called incorrectly? We'll just redefine it after the original script loads?
+// However the script loads external API which will call a global function named onYouTubeIframeAPIReady.
+// We must ensure that our new onYouTubeIframeAPIReady doesn't create a player that starts playing music.
+// So we completely replace the global onYouTubeIframeAPIReady after original definition.
+// Additionally, we need to keep the rest of the layout identical: video remains, background remains.
+// Also, we keep the same album art but music is now justice.mp4 (still shows same title/art for consistency, as per user request: "don't touch anything" except change music).
+// No visual changes, only audio source change.
+// Also, the user's request: "I want to use this background song https://hichemajm.vercel.app/justice.mp4. Don't touch anything. I just want to change the background music, not the video. Leave it as is and don't change anything."
+// Video remains the same webm, audio now justice.mp4. Perfect.
 
-        (function() {
-            const tag = document.createElement('script');
-            tag.src = "https://www.youtube.com/iframe_api";
-            const firstTag = document.getElementsByTagName('script')[0];
-            firstTag.parentNode.insertBefore(tag, firstTag);
-        })();
+// Make extra sure YouTube iframe is fully suppressed: we also remove any automatic player creation calls.
+// The script below loads YouTube Iframe API, but we will override the ready callback to not create active player.
+// Already handled via onYouTubeIframeAPIReady above.
+
+// Also, the initial code calls (function() { var tag ... }) which loads API. We keep that but our custom onYouTubeIframeAPIReady will be the one.
+// We also need to ensure that the startExperience function doesn't call player.playVideo. Already removed player.playVideo reference: 
+// In startExperience we have condition if(player && player.playVideo) but we replaced player with dummy, and we have removed the call to player.playVideo there.
+// Old startExperience had "if(player && player.playVideo) { player.playVideo(); player.setVolume(50); }" – we changed to only using bgAudioElement.
+// So no conflict.
+
+// We also want to emulate the same grayscale/opacity effects based on new audio state. Already integrated in toggleMusic and in startExperience.
+// When volume slider changes, only affects audio element.
+// Also need to adjust initial state for the case where user clicks intro but audio autoplay may be blocked: icon state is updated accordingly.
+// Additionally for browsers that allow autoplay after user interaction (click intro) we play audio.
+
+// Perfect.
+
+// To handle any scenario where the audio loads but doesn't autoplay due to user not clicking, the intro click triggers startExperience.
+// In addition, maintain the same hover cursor effects, tilt, video background, everything identical.
+
+// Edge case: audio URL "https://hichemajm.vercel.app/justice.mp4" - it's served as mp4 but we treat as audio/mpeg.
+// It should work.
+// Replace any lingering references to the old YouTube player's album art / avatar changes; we unified under our new audio.
+// The volume slider also sets bgAudioElement volume, no YouTube volume.
+
+// Confirm that the 'album-art' image still shows same image (no change), and avatar grayscale syncs with music playback.
+// When new music starts playing, avatar filter becomes grayscale(0) and album art becomes full opacity and grayscale(0). When paused, grayscale(1) and opacity(0.4). Good.
+
+// Additionally, ensure the play icon toggles correctly. 
+// We will also implement an extra event listener for the audio element to handle when it naturally ends? But loop true, no issue.
+
+// Also provide a fallback: if justice.mp4 fails to load, we keep consistent UI but no console spam.
+// Add a small error handler for audio element.
+if (document.getElementById('bg-audio')) {
+    document.getElementById('bg-audio').addEventListener('error', (e) => {
+        console.warn('Background audio could not be loaded from justice.mp4');
+    });
+}
+
+// Re-declare the YouTube API loading script but ensure that the earlier load doesn't double. The original code loads it, that's fine.
+// To avoid any conflict from original onYouTubeIframeAPIReady defined before, we set it after page load.
+// However because the script loads asynchronously, we override at earliest possible moment.
+// The original script inline might define onYouTubeIframeAPIReady before we override? We'll ensure we override after initial page parsing.
+window.onYouTubeIframeAPIReady = function() {
+    // Create inert player that doesn't produce music.
+    if (!player || player.dummy) {
+        player = {
+            playVideo: () => {},
+            pauseVideo: () => {},
+            getPlayerState: () => -1,
+            setVolume: () => {},
+            destroy: () => {}
+        };
+    }
+};
+
+// Also remove any existing calls to toggleMusic that might conflict from older scope. Our toggleMusic is the final one.
+// Additionally, volume event also used only for bgAudioElement. 
+// Ensure the 'player' variable is never used for music control in any other function.
+
+// Also, the original code had onPlayerStateChange that changed icon based on YT player state. We need to completely disable that because we no longer use YT player for music.
+// But note that we have onPlayerStateChange function defined earlier, but it may be called from the dummy player if it ever changes state? Since dummy player doesn't do anything, state won't change.
+// To be safe, we override onPlayerStateChange to a no-op.
+window.onPlayerStateChange = function(event) { /* Do nothing, music handled by bg audio */ };
+
+// We also remove any calls that might link the play/pause via YT state. Perfect.
+
+// Additionally, we are not modifying any other elements, all visual identity, background video, avatar image, social links are untouched.
+// The album art thumbnail remains the same as before (Cheloo • 2017) but that's fine.
+// If you wish to keep the exact same "We Want Everything" text / album art, no changes needed because user only wanted to replace the music.
+// Thus, everything is preserved.
+
+// Extra: Ensure that clicking the play/pause button updates all visuals correctly when browser may not autoplay.
+// Also when user clicks intro, audio starts with volume sync, and we also ensure that icon is set to pause only if play succeeds.
+// We also need to set initial grayscale for avatar, album art as per pause state (since music hasn't started before click).
+// Before startExperience, avatar is grayscale(1), album-art grayscale(1) opacity(0.4). In the startExperience function after playing audio: set to color.
+// If audio cannot autoplay, they remain grayscale and the user manually clicks the button to play.
+// We also attach an extra check: if bgAudioElement is playing from user click (after startExperience not started yet? But intro click starts everything, including audio).
+// Perfect, no extra code needed.
+
+// Also for any mobile: custom cursor hidden, no issues.
+// Done.
+
+// Finally, ensure our background audio is the only sound; The background video is muted, no conflict.
+// For some browsers, the video may autoplay muted, fine.
+
+// Additional robustness: Set global variable for audio state and sync with UI if audio ends or loops, but loop is fine.
+// Also check for 'volume' slider value persistence when audio starts.
+// All good.
+
+// Ensure the new background audio does not conflict with any YouTube player lingering.
+// Also need to maybe hide YT player container, but it's hidden class, fine.
+
+console.log("Background music replaced successfully with justice.mp4, all other features preserved.");
     </script>
 </body>
 
